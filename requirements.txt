@@ -1,0 +1,5 @@
+scipy
+matplotlib
+fdint
+numpy
+pandas
