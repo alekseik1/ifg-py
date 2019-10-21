@@ -136,3 +136,10 @@ dmypy.json
 [Ss]cripts
 pyvenv.cfg
 pip-selfcheck.json
+
+# Idea files
+.idea
+# Any images
+*.png
+# Any notebooks
+*.ipynb
