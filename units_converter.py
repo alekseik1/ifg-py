@@ -36,10 +36,31 @@ class SiAtomicConverter:
                    physical_constants['atomic unit of length']**2
 
     def convert_entropy(self, entropy):
-        pass
+        if self.from_si:
+            # Convert joules
+            tmp = entropy*physical_constants['joule-hartree relationship'][0]
+            # Convert temperature
+            coeff = physical_constants['kelvin-joule relationship'][0] * \
+                    physical_constants['joule-hartree relationship'][0]
+            tmp /= coeff
+            return tmp
+        else:
+            # Convert joules
+            tmp = entropy/physical_constants['joule-hartree relationship'][0]
+            # Convert temperature
+            coeff = physical_constants['kelvin-joule relationship'][0] * \
+                    physical_constants['joule-hartree relationship'][0]
+            tmp *= coeff
+            return tmp
 
     def convert_heat_capacity(self, heat_capacity):
-        pass
+        # Since entropy and heat capacity have same units
+        return self.convert_entropy(heat_capacity)
 
     def convert_sound_speed(self, sound_speed):
-        pass
+        if self.from_si:
+            return sound_speed/physical_constants['atomic unit of length'][0] * \
+                   physical_constants['atomic unit of time'][0]
+        else:
+            return sound_speed*physical_constants['atomic unit of length'][0] / \
+                   physical_constants['atomic unit of time'][0]
