@@ -1,6 +1,5 @@
 from fdint import fdk, ifd1h
 import numpy as np
-from scipy.special import gamma
 
 
 def get_chemical_potential(specific_volume, temperature):
