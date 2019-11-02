@@ -30,10 +30,10 @@ class SiAtomicConverter:
     def convert_pressure(self, pressure):
         if self.from_si:
             return pressure/physical_constants['atomic unit of force'][0] * \
-                   physical_constants['atomic unit of length']**2
+                   physical_constants['atomic unit of length'][0]**2
         else:
             return pressure*physical_constants['atomic unit of force'][0] / \
-                   physical_constants['atomic unit of length']**2
+                   physical_constants['atomic unit of length'][0]**2
 
     def convert_entropy(self, entropy):
         if self.from_si:
