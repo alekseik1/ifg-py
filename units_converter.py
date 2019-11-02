@@ -64,3 +64,17 @@ class SiAtomicConverter:
         else:
             return sound_speed*physical_constants['atomic unit of length'][0] / \
                    physical_constants['atomic unit of time'][0]
+
+    # TODO: ignores `from_si` parameter
+    def convert_density(self, density_sgs, molar_mass_sgs):
+        """
+
+        :param density_sgs: g/cm^3
+        :param molar_mass_sgs: g/mol
+        :return: specific volume in SI
+        """
+        # Per one mol
+        v_si = molar_mass_sgs/density_sgs / 10**6
+        # Per one particle
+        v_si /= physical_constants['Avogadro constant'][0]
+        return v_si
