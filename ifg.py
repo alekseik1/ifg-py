@@ -126,11 +126,12 @@ def plot_values(x_values, y_values, x_label=None, y_label=None, title=None, plot
     plt.clf()
 
 
-def describe_gas(specific_volume, T_range, plot_dir='plots'):
+def describe_gas(specific_volume, temperature_range, plot_dir='plots'):
     """
     Fully describes a gas and plots graphs
     :param specific_volume: in atomic units
-    :param T_range: in atomic units
+    :param temperature_range: in atomic units
+    :param plot_dir: directory to save plots to
     :return:
     """
     ##################################################
@@ -139,18 +140,18 @@ def describe_gas(specific_volume, T_range, plot_dir='plots'):
     # Calculate mu
     mu_range = get_chemical_potential(
         specific_volume,
-        T_range
+        temperature_range
     )
     plot_values(
-        x_values=T_range,
-        y_values=mu_range/T_range,
+        x_values=temperature_range,
+        y_values=mu_range / temperature_range,
         x_label=r'T, $E_h$',
         y_label=r'$\mu/T$',
         title=r'Chemical potential divided by temperature',
         plot_dir=plot_dir
     )
     plot_values(
-        x_values=T_range,
+        x_values=temperature_range,
         y_values=mu_range,
         x_label=r'T, $E_h$',
         y_label=r'$\mu$',
@@ -162,11 +163,11 @@ def describe_gas(specific_volume, T_range, plot_dir='plots'):
     ##################################################
     # Calculate pressure
     p_range = get_pressure(
-        temperature=T_range,
+        temperature=temperature_range,
         chemical_potential=mu_range
     )
     plot_values(
-        x_values=T_range,
+        x_values=temperature_range,
         y_values=p_range,
         x_label=r'T, $E_h$',
         y_label=r'$p$, atomic units',
@@ -178,11 +179,11 @@ def describe_gas(specific_volume, T_range, plot_dir='plots'):
     ##################################################
     S_range = get_entropy(
         specific_volume=specific_volume,
-        temperature=T_range,
+        temperature=temperature_range,
         chemical_potential=mu_range
     )
     plot_values(
-        x_values=T_range,
+        x_values=temperature_range,
         y_values=S_range,
         x_label=r'T, $E_h$',
         y_label=r'$S$',
@@ -194,11 +195,11 @@ def describe_gas(specific_volume, T_range, plot_dir='plots'):
     ##################################################
     C_V_range = get_heat_capacity_volume(
         specific_volume=specific_volume,
-        temperature=T_range,
+        temperature=temperature_range,
         chemical_potential=mu_range
     )
     plot_values(
-        x_values=T_range,
+        x_values=temperature_range,
         y_values=C_V_range,
         x_label=r'T, $E_h$',
         y_label=r'$C_V$',
@@ -210,11 +211,11 @@ def describe_gas(specific_volume, T_range, plot_dir='plots'):
     ##################################################
     C_P_range = get_heat_capacity_pressure(
         specific_volume=specific_volume,
-        temperature=T_range,
+        temperature=temperature_range,
         chemical_potential=mu_range
     )
     plot_values(
-        x_values=T_range,
+        x_values=temperature_range,
         y_values=C_P_range,
         x_label=r'T, $E_h$',
         y_label=r'$C_P$',
@@ -226,11 +227,11 @@ def describe_gas(specific_volume, T_range, plot_dir='plots'):
     ##################################################
     C_T_range = get_sound_speed_temperature(
         specific_volume=specific_volume,
-        temperature=T_range,
+        temperature=temperature_range,
         chemical_potential=mu_range
     )
     plot_values(
-        x_values=T_range,
+        x_values=temperature_range,
         y_values=C_T_range**2,
         x_label=r'T, $E_h$',
         y_label=r'$C_T^2$',
@@ -242,11 +243,11 @@ def describe_gas(specific_volume, T_range, plot_dir='plots'):
     ##################################################
     C_S_range = get_sound_speed_entropy(
         specific_volume=specific_volume,
-        temperature=T_range,
+        temperature=temperature_range,
         chemical_potential=mu_range
     )
     plot_values(
-        x_values=T_range,
+        x_values=temperature_range,
         y_values=C_S_range**2,
         x_label=r'T, $E_h$',
         y_label=r'$C_S^2$',
@@ -267,9 +268,8 @@ if __name__ == '__main__':
     # High temperatures
     T_range = np.arange(10**6, 10**8, 100)
     T_range = converter.convert_temperature(T_range)
-    describe_gas(specific_volume=v_Al, T_range=T_range, plot_dir='T=10^6..10^8')
+    describe_gas(specific_volume=v_Al, temperature_range=T_range, plot_dir='T=10^6..10^8')
     # Lower temperatures
     T_range = np.arange(10**0, 10**4, 100)
     T_range = converter.convert_temperature(T_range)
-    describe_gas(specific_volume=v_Al, T_range=T_range, plot_dir='T=10^0..10^4')
-
+    describe_gas(specific_volume=v_Al, temperature_range=T_range, plot_dir='T=10^0..10^4')
