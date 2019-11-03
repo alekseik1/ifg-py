@@ -12,7 +12,9 @@ def get_chemical_potential(specific_volume, temperature):
     """
     g = 2
     gamma_32 = np.sqrt(np.pi)/2
-    to_inverse = np.sqrt(2)*np.pi**2 / (g * temperature ** (3 / 2) * specific_volume * gamma_32)
+    # TODO: опять подгоны. Не нужно делить на Г(3/2), у меня нет объяснений
+    #to_inverse = np.sqrt(2)*np.pi**2 / (g * temperature ** (3 / 2) * specific_volume * gamma_32)
+    to_inverse = np.sqrt(2)*np.pi**2 / (g * temperature ** (3 / 2) * specific_volume)
     mu_T = ifd1h(to_inverse)
     mu = mu_T * temperature
     return mu
