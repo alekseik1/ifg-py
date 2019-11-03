@@ -118,7 +118,7 @@ if __name__ == '__main__':
     v_Al = converter.convert_density(density_sgs=2.70, molar_mass_sgs=26.98)
     # Since Aluminium has 3 electrons on valence shell
     v_Al /= 3
-    T_range = np.arange(10**2, 10**6, 100)
+    T_range = np.arange(10**6, 10**8, 100)
     # Convert to atomic units
     v_Al = converter.convert_volume(v_Al)
     T_range = converter.convert_temperature(T_range)
