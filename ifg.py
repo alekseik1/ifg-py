@@ -131,7 +131,7 @@ if __name__ == '__main__':
         v_Al,
         T_range
     )
-    plt.plot(T_range, mu_range)
+    plt.plot(T_range, mu_range/T_range)
     plt.title(r'$\mu (v, T)$')
     plt.xlabel('T, atomic units')
     plt.ylabel(r'$\mu, [E_h]$')
@@ -215,7 +215,7 @@ if __name__ == '__main__':
         temperature=T_range,
         chemical_potential=mu_range
     )
-    plt.plot(T_range, C_S_range)
+    plt.plot(T_range, C_S_range**2)
     plt.title(r'$C_S (v, T)$')
     plt.xlabel('T, atomic units')
     plt.ylabel(r'$C_S$, [atomic units]')
