@@ -123,7 +123,7 @@ def plot_values(x_values, y_values, x_label=None, y_label=None, title=None, plot
     plt.ylabel(y_label)
     plt.grid()
     plt.savefig(os.path.join(plot_dir, f'{title}.pdf'))
-    plt.show()
+    plt.clf()
 
 
 def describe_gas(specific_volume, T_range, plot_dir='plots'):
