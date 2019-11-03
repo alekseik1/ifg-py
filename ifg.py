@@ -135,6 +135,7 @@ if __name__ == '__main__':
     plt.title(r'$\mu (v, T)$')
     plt.xlabel('T, atomic units')
     plt.ylabel(r'$\mu, [E_h]$')
+    plt.grid()
     plt.show()
     ##################################################
     # For pressure
@@ -148,6 +149,7 @@ if __name__ == '__main__':
     plt.title(r'$p (v, T)$')
     plt.xlabel('T, atomic units')
     plt.ylabel(r'$p$, [atomic units]')
+    plt.grid()
     plt.show()
     ##################################################
     # For entropy
@@ -161,6 +163,7 @@ if __name__ == '__main__':
     plt.title(r'$S (v, T)$')
     plt.xlabel('T, atomic units')
     plt.ylabel(r'$S$')
+    plt.grid()
     plt.show()
     ##################################################
     # For C_V
@@ -174,6 +177,7 @@ if __name__ == '__main__':
     plt.title(r'$C_V (v, T)$')
     plt.xlabel('T, atomic units')
     plt.ylabel(r'$C_V$')
+    plt.grid()
     plt.show()
     ##################################################
     # For C_P
@@ -187,6 +191,7 @@ if __name__ == '__main__':
     plt.title(r'$C_P (v, T)$')
     plt.xlabel('T, atomic units')
     plt.ylabel(r'$C_P$')
+    plt.grid()
     plt.show()
     ##################################################
     # For C_T
@@ -200,6 +205,7 @@ if __name__ == '__main__':
     plt.title(r'$C_T (v, T)$')
     plt.xlabel('T, atomic units')
     plt.ylabel(r'$C_T$, [atomic units]')
+    plt.grid()
     plt.show()
     ##################################################
     # For C_S
@@ -213,4 +219,5 @@ if __name__ == '__main__':
     plt.title(r'$C_S (v, T)$')
     plt.xlabel('T, atomic units')
     plt.ylabel(r'$C_S$, [atomic units]')
+    plt.grid()
     plt.show()
