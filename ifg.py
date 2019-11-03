@@ -149,6 +149,14 @@ def describe_gas(specific_volume, T_range, plot_dir='plots'):
         title=r'Chemical potential divided by temperature',
         plot_dir=plot_dir
     )
+    plot_values(
+        x_values=T_range,
+        y_values=mu_range,
+        x_label=r'T, $E_h$',
+        y_label=r'$\mu$',
+        title=r'Chemical potential',
+        plot_dir=plot_dir
+    )
     ##################################################
     # For pressure
     ##################################################
