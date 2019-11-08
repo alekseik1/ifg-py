@@ -1,6 +1,6 @@
 from fdint import fdk, ifd1h
 import numpy as np
-from units_converter import SiAtomicConverter
+from ifg import SiAtomicConverter
 
 
 def get_chemical_potential(specific_volume, temperature):
