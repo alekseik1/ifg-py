@@ -25,6 +25,10 @@ author = 'Aleksei Kozharin'
 release = '0.0.2'
 
 
+# Master file
+master_doc = 'index'
+
+
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
