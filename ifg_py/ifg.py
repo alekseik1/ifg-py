@@ -2,12 +2,12 @@ from fdint import fdk, ifd1h
 import numpy as np
 
 
-def get_chemical_potential(specific_volume, temperature):
+def get_chemical_potential(specific_volume: float, temperature: float):
     """
     Get IFG chemical potential mu in atomic units
 
-    :param specific_volume: Specific volume in atomic units
-    :param temperature: Temperature in atomic units
+    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
+    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
     :return: chemical potential in atomic units
     """
     g = 2
@@ -20,13 +20,13 @@ def get_chemical_potential(specific_volume, temperature):
     return mu
 
 
-def get_F_potential(specific_volume, temperature, chemical_potential):
+def get_F_potential(specific_volume: float, temperature, chemical_potential):
     """
     Get IFG Helmholtz potential F in atomic units
 
-    :param specific_volume: Specific volume in atomic units
-    :param temperature: Temperature in atomic units
-    :param chemical_potential: Chemical potential in atomic units
+    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
+    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
+    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
     :return: Helmholtz free energy in atomic units
     """
     y = chemical_potential/temperature
@@ -38,8 +38,8 @@ def get_pressure(temperature, chemical_potential):
     """
     Get IFG pressure P in atomic units
 
-    :param temperature: Temperature in atomic units
-    :param chemical_potential: Chemical potential in atomic units
+    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
+    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
     :return: Pressure in atomic units
     """
     y = chemical_potential/temperature
@@ -51,9 +51,9 @@ def get_entropy(specific_volume, temperature, chemical_potential):
     """
     Get IFG entropy S in atomic units
 
-    :param specific_volume: Specific volume in atomic units
-    :param temperature: Temperature in atomic units
-    :param chemical_potential: Chemical potential in atomic units
+    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
+    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
+    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
     :return: Entropy in atomic units
     """
     y = chemical_potential/temperature
@@ -65,9 +65,9 @@ def get_heat_capacity_volume(specific_volume, temperature, chemical_potential):
     """
     Get IFG heat capacity C_V in atomic units
 
-    :param specific_volume: Specific volume in atomic units
-    :param temperature: Temperature in atomic units
-    :param chemical_potential: Chemical potential in atomic units
+    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
+    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
+    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
     :return: C_V in atomic units
     """
     y = chemical_potential/temperature
@@ -80,9 +80,9 @@ def get_heat_capacity_pressure(specific_volume, temperature, chemical_potential)
     """
     Get IFG heat capacity C_P in atomic units
 
-    :param specific_volume: Specific volume in atomic units
-    :param temperature: Temperature in atomic units
-    :param chemical_potential: Chemical potential in atomic units
+    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
+    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
+    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
     :return: C_P in atomic units
     """
     y = chemical_potential/temperature
@@ -95,9 +95,9 @@ def get_sound_speed_temperature(specific_volume, temperature, chemical_potential
     """
     Get IFG sound speed C_T in atomic units
 
-    :param specific_volume: Specific volume in atomic units
-    :param temperature: Temperature in atomic units
-    :param chemical_potential: Chemical potential in atomic units
+    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
+    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
+    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
     :return: C_T in atomic units
     """
     y = chemical_potential/temperature
@@ -109,9 +109,9 @@ def get_sound_speed_entropy(specific_volume, temperature, chemical_potential):
     """
     Get IFG sound speed C_S in atomic units
 
-    :param specific_volume: Specific volume in atomic units
-    :param temperature: Temperature in atomic units
-    :param chemical_potential: Chemical potential in atomic units
+    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
+    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
+    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
     :return: C_S in atomic units
     """
     y = chemical_potential/temperature
