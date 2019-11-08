@@ -1,11 +1,12 @@
 import setuptools
+from ifg_py import __version__
 
 with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name='ifg_py',
-    version='0.0.1',
+    version=__version__,
     author='Aleksei Kozharin',
     author_email='1alekseik1@gmail.com',
     description='Package for numerical calculations of ideal Fermi gas',
