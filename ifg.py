@@ -5,6 +5,7 @@ from units_converter import SiAtomicConverter
 
 def get_chemical_potential(specific_volume, temperature):
     """
+    Get IFG chemical potential mu in atomic units
 
     :param specific_volume: Specific volume in atomic units
     :param temperature: Temperature in atomic units
@@ -22,6 +23,7 @@ def get_chemical_potential(specific_volume, temperature):
 
 def get_F_potential(specific_volume, temperature, chemical_potential):
     """
+    Get IFG Helmholtz potential F in atomic units
 
     :param specific_volume: Specific volume in atomic units
     :param temperature: Temperature in atomic units
@@ -35,6 +37,7 @@ def get_F_potential(specific_volume, temperature, chemical_potential):
 
 def get_pressure(temperature, chemical_potential):
     """
+    Get IFG pressure P in atomic units
 
     :param temperature: Temperature in atomic units
     :param chemical_potential: Chemical potential in atomic units
@@ -47,6 +50,7 @@ def get_pressure(temperature, chemical_potential):
 
 def get_entropy(specific_volume, temperature, chemical_potential):
     """
+    Get IFG entropy S in atomic units
 
     :param specific_volume: Specific volume in atomic units
     :param temperature: Temperature in atomic units
@@ -60,6 +64,7 @@ def get_entropy(specific_volume, temperature, chemical_potential):
 
 def get_heat_capacity_volume(specific_volume, temperature, chemical_potential):
     """
+    Get IFG heat capacity C_V in atomic units
 
     :param specific_volume: Specific volume in atomic units
     :param temperature: Temperature in atomic units
@@ -74,6 +79,7 @@ def get_heat_capacity_volume(specific_volume, temperature, chemical_potential):
 
 def get_heat_capacity_pressure(specific_volume, temperature, chemical_potential):
     """
+    Get IFG heat capacity C_P in atomic units
 
     :param specific_volume: Specific volume in atomic units
     :param temperature: Temperature in atomic units
@@ -88,6 +94,7 @@ def get_heat_capacity_pressure(specific_volume, temperature, chemical_potential)
 
 def get_sound_speed_temperature(specific_volume, temperature, chemical_potential):
     """
+    Get IFG sound speed C_T in atomic units
 
     :param specific_volume: Specific volume in atomic units
     :param temperature: Temperature in atomic units
@@ -101,6 +108,7 @@ def get_sound_speed_temperature(specific_volume, temperature, chemical_potential
 
 def get_sound_speed_entropy(specific_volume, temperature, chemical_potential):
     """
+    Get IFG sound speed C_S in atomic units
 
     :param specific_volume: Specific volume in atomic units
     :param temperature: Temperature in atomic units
@@ -113,6 +121,17 @@ def get_sound_speed_entropy(specific_volume, temperature, chemical_potential):
 
 
 def plot_values(x_values, y_values, x_label=None, y_label=None, title=None, plot_dir='plots'):
+    """
+    Plot graphs
+
+    :param x_values: Values for x axis
+    :param y_values: Values for y axis
+    :param x_label: Label for x axis
+    :param y_label: Label for y axis
+    :param title: Title for graph
+    :param plot_dir: Directory to save graphs to
+    :return:
+    """
     import matplotlib.pyplot as plt
     import os
     plot_dir = os.path.join(os.curdir, plot_dir)
@@ -129,6 +148,7 @@ def plot_values(x_values, y_values, x_label=None, y_label=None, title=None, plot
 def describe_gas(specific_volume, temperature_range, plot_dir='plots'):
     """
     Fully describes a gas and plots graphs
+
     :param specific_volume: in atomic units
     :param temperature_range: in atomic units
     :param plot_dir: directory to save plots to
