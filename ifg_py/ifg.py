@@ -2,6 +2,14 @@ from fdint import fdk, ifd1h
 import numpy as np
 
 
+def _1d_call(func, array, *args, **kwargs):
+    return func(array.reshape(-1), *args, **kwargs).reshape(array.shape)
+
+
+def _fdk(array, k):
+    return fdk(k, array)
+
+
 def get_chemical_potential(specific_volume: np.ndarray, temperature: np.ndarray, *args, **kwargs) -> np.ndarray:
     """
     Get IFG chemical potential mu in atomic units
@@ -16,7 +24,7 @@ def get_chemical_potential(specific_volume: np.ndarray, temperature: np.ndarray,
     # TODO: опять подгоны. Не нужно делить на Г(3/2), у меня нет объяснений
     #to_inverse = np.sqrt(2)*np.pi**2 / (g * temperature ** (3 / 2) * specific_volume * gamma_32)
     to_inverse = np.sqrt(2)*np.pi**2 / (g * tt ** (3 / 2) * vv)
-    mu_T = ifd1h(to_inverse.reshape(-1)).reshape(to_inverse.shape)
+    mu_T = _1d_call(ifd1h, to_inverse)
     # Multiply mu/T and corresponding T (same T[i] for same specific volumes)
     # Test it with: `np.all([mu[i] - mu_T[i]*temperature[i] == 0 for i in range(len(mu))])`
     mu = np.multiply(temperature, mu_T.T).T
@@ -33,8 +41,13 @@ def get_F_potential(specific_volume: np.ndarray, temperature: np.ndarray,
     :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
     :return: Helmholtz free energy in atomic units
     """
-    y = chemical_potential/temperature
-    F = np.sqrt(2)/np.pi**2 * temperature**(5/2)*specific_volume*(y*fdk(1/2, y) - 2/3*fdk(3/2, y))
+    # y = chemical_potential/temperature
+    y = np.multiply(chemical_potential.T, 1/temperature).T
+    vv, tt = np.meshgrid(specific_volume, temperature)
+    # tested with: `np.sum([y[i] - chemical_potential[i]/temperature[i] for i in range(len(temperature))])`
+    # gives e-12 error (due to division)
+    F = np.sqrt(2)/np.pi**2 * tt**(5/2)*vv
+    F *= (y * _1d_call(_fdk, y, k=1 / 2) - 2/3 * _1d_call(_fdk, y, k=3/2))
     return F
 
 
