@@ -32,14 +32,14 @@ def get_chemical_potential(specific_volume: np.ndarray, temperature: np.ndarray,
 
 
 def get_F_potential(specific_volume: np.ndarray, temperature: np.ndarray,
-                    chemical_potential: np.ndarray, *args, **kwargs):
+                    chemical_potential: np.ndarray, *args, **kwargs) -> np.ndarray:
     """
     Get IFG Helmholtz potential F in atomic units
 
-    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
-    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
-    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
-    :return: Helmholtz free energy in atomic units
+    :param specific_volume: Specific volume in atomic units.
+    :param temperature: Temperature in atomic units.
+    :param chemical_potential: Chemical potential in atomic units.
+    :return: F[i][j] - Helmholtz free energy in atomic units. *i*-th index is for temperature, *j*-th one is for volume
     """
     # y = chemical_potential/temperature
     y = np.multiply(chemical_potential.T, 1/temperature).T
@@ -51,16 +51,18 @@ def get_F_potential(specific_volume: np.ndarray, temperature: np.ndarray,
     return F
 
 
-def get_pressure(temperature: np.ndarray, chemical_potential: np.ndarray, *args, **kwargs):
+def get_pressure(temperature: np.ndarray, chemical_potential: np.ndarray, *args, **kwargs) -> np.ndarray:
     """
     Get IFG pressure P in atomic units
 
-    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
-    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
-    :return: Pressure in atomic units
+    :param temperature: Temperature in atomic units.
+    :param chemical_potential: Chemical potential in atomic units.
+    :return: P[i][j] - Pressure in atomic units. *i*-th index is for temperature, *j*-th one is for volume
     """
-    y = chemical_potential/temperature
-    pressure = 2*np.sqrt(2)/(3*np.pi**2) * temperature**(5/2)*fdk(3/2, y)
+    specific_volume = np.empty(1)
+    y = np.multiply(chemical_potential.T, 1/temperature).T
+    vv, tt = np.meshgrid(specific_volume, temperature)
+    pressure = 2*np.sqrt(2)/(3*np.pi**2) * tt**(5/2)*_1d_call(_fdk, y, k=3/2)
     return pressure
 
 
