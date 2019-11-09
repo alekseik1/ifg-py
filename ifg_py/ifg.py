@@ -119,17 +119,18 @@ def get_heat_capacity_pressure(specific_volume: np.ndarray, temperature: np.ndar
 
 
 def get_sound_speed_temperature(specific_volume: np.ndarray, temperature: np.ndarray,
-                                chemical_potential: np.ndarray, *args, **kwargs):
+                                chemical_potential: np.ndarray, *args, **kwargs) -> np.ndarray:
     """
     Get IFG sound speed C_T in atomic units
 
-    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
-    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
-    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
-    :return: C_T in atomic units
+    :param specific_volume: Specific volume in atomic units.
+    :param temperature: Temperature in atomic units.
+    :param chemical_potential: Chemical potential in atomic units.
+    :return: C_T[i][j] - C_T in atomic units. *i*-th index is for temperature, *j*-th one is for volume
     """
-    y = chemical_potential/temperature
-    C_T = 2**(3/4)/np.pi * np.sqrt(specific_volume)*temperature**(5/4)*fdk(1/2, y) / np.sqrt(fdk(-1/2, y))
+    y = np.multiply(chemical_potential.T, 1/temperature).T
+    vv, tt = np.meshgrid(specific_volume, temperature)
+    C_T = 2**(3/4)/np.pi * np.sqrt(vv)*tt**(5/4)*_1d_call(_fdk, y, k=1/2)/np.sqrt(_1d_call(_fdk, y, k=-1/2))
     return C_T
 
 
