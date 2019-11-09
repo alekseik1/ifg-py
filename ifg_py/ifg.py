@@ -101,18 +101,20 @@ def get_heat_capacity_volume(specific_volume: np.ndarray, temperature: np.ndarra
 
 
 def get_heat_capacity_pressure(specific_volume: np.ndarray, temperature: np.ndarray,
-                               chemical_potential: np.ndarray, *args, **kwargs):
+                               chemical_potential: np.ndarray, *args, **kwargs) -> np.ndarray:
     """
     Get IFG heat capacity C_P in atomic units
 
-    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
-    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
-    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
-    :return: C_P in atomic units
+    :param specific_volume: Specific volume in atomic units.
+    :param temperature: Temperature in atomic units.
+    :param chemical_potential: Chemical potential in atomic units.
+    :return: C_P[i][j] - C_P in atomic units. *i*-th index is for temperature, *j*-th one is for volume
     """
-    y = chemical_potential/temperature
-    C_P = 5*np.sqrt(2)/(18*np.pi**2) * temperature**(3/2)*specific_volume * \
-          (5*fdk(-1/2, y)*fdk(3/2, y) - 9*fdk(1/2, y)**2)*fdk(3/2, y)/fdk(1/2, y)**2
+    y = np.multiply(chemical_potential.T, 1/temperature).T
+    vv, tt = np.meshgrid(specific_volume, temperature)
+    C_P = 5*np.sqrt(2)/(18*np.pi**2) * tt**(3/2)*vv
+    C_P *= (5*_1d_call(_fdk, y, k=-1/2)*_1d_call(_fdk, y, k=3/2) - 9*_1d_call(_fdk, y, k=1/2)**2)
+    C_P *= _1d_call(_fdk, y, k=3/2)/_1d_call(_fdk, y, k=1/2)**2
     return C_P
 
 
