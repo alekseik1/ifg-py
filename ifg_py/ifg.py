@@ -66,17 +66,19 @@ def get_pressure(temperature: np.ndarray, chemical_potential: np.ndarray, *args,
     return pressure
 
 
-def get_entropy(specific_volume: np.ndarray, temperature: np.ndarray, chemical_potential: np.ndarray, *args, **kwargs):
+def get_entropy(specific_volume: np.ndarray, temperature: np.ndarray,
+                chemical_potential: np.ndarray, *args, **kwargs) -> np.ndarray:
     """
     Get IFG entropy S in atomic units
 
-    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
-    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
-    :param chemical_potential: Chemical potential in atomic units. **Note**: only one parameter can be numpy vector!
-    :return: Entropy in atomic units
+    :param specific_volume: Specific volume in atomic units.
+    :param temperature: Temperature in atomic units.
+    :param chemical_potential: Chemical potential in atomic units.
+    :return: S[i][j] - Entropy in atomic units. *i*-th index is for temperature, *j*-th one is for volume
     """
-    y = chemical_potential/temperature
-    S = -np.sqrt(2)/(3*np.pi**2) * temperature**(3/2)*specific_volume*(3*y*fdk(1/2, y) - 5*fdk(3/2, y))
+    y = np.multiply(chemical_potential.T, 1/temperature).T
+    vv, tt = np.meshgrid(specific_volume, temperature)
+    S = -np.sqrt(2)/(3*np.pi**2) * tt**(3/2)*vv*(3*y*_1d_call(_fdk, y, k=1/2) - 5*_1d_call(_fdk, y, k=3/2))
     return S
 
 
