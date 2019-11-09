@@ -2,7 +2,7 @@ from fdint import fdk, ifd1h
 import numpy as np
 
 
-def get_chemical_potential(specific_volume: float, temperature: float):
+def get_chemical_potential(specific_volume: float, temperature: float, *args, **kwargs):
     """
     Get IFG chemical potential mu in atomic units
 
@@ -20,7 +20,7 @@ def get_chemical_potential(specific_volume: float, temperature: float):
     return mu
 
 
-def get_F_potential(specific_volume: float, temperature, chemical_potential):
+def get_F_potential(specific_volume: float, temperature: np.ndarray, chemical_potential: float, *args, **kwargs):
     """
     Get IFG Helmholtz potential F in atomic units
 
@@ -34,7 +34,7 @@ def get_F_potential(specific_volume: float, temperature, chemical_potential):
     return F
 
 
-def get_pressure(temperature, chemical_potential):
+def get_pressure(temperature: np.ndarray, chemical_potential: float, *args, **kwargs):
     """
     Get IFG pressure P in atomic units
 
@@ -47,7 +47,7 @@ def get_pressure(temperature, chemical_potential):
     return pressure
 
 
-def get_entropy(specific_volume, temperature, chemical_potential):
+def get_entropy(specific_volume: float, temperature: np.ndarray, chemical_potential: float, *args, **kwargs):
     """
     Get IFG entropy S in atomic units
 
@@ -61,7 +61,8 @@ def get_entropy(specific_volume, temperature, chemical_potential):
     return S
 
 
-def get_heat_capacity_volume(specific_volume, temperature, chemical_potential):
+def get_heat_capacity_volume(specific_volume: float, temperature: np.ndarray,
+                             chemical_potential: float, *args, **kwargs):
     """
     Get IFG heat capacity C_V in atomic units
 
@@ -76,7 +77,8 @@ def get_heat_capacity_volume(specific_volume, temperature, chemical_potential):
     return C_V
 
 
-def get_heat_capacity_pressure(specific_volume, temperature, chemical_potential):
+def get_heat_capacity_pressure(specific_volume: float, temperature: np.ndarray,
+                               chemical_potential: float, *args, **kwargs):
     """
     Get IFG heat capacity C_P in atomic units
 
@@ -91,7 +93,8 @@ def get_heat_capacity_pressure(specific_volume, temperature, chemical_potential)
     return C_P
 
 
-def get_sound_speed_temperature(specific_volume, temperature, chemical_potential):
+def get_sound_speed_temperature(specific_volume: float, temperature: np.ndarray,
+                                chemical_potential: float, *args, **kwargs):
     """
     Get IFG sound speed C_T in atomic units
 
@@ -105,7 +108,8 @@ def get_sound_speed_temperature(specific_volume, temperature, chemical_potential
     return C_T
 
 
-def get_sound_speed_entropy(specific_volume, temperature, chemical_potential):
+def get_sound_speed_entropy(specific_volume: float, temperature: np.ndarray,
+                            chemical_potential: float, *args, **kwargs):
     """
     Get IFG sound speed C_S in atomic units
 
