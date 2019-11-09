@@ -2,25 +2,29 @@ from fdint import fdk, ifd1h
 import numpy as np
 
 
-def get_chemical_potential(specific_volume: float, temperature: float, *args, **kwargs):
+def get_chemical_potential(specific_volume: np.ndarray, temperature: np.ndarray, *args, **kwargs) -> np.ndarray:
     """
     Get IFG chemical potential mu in atomic units
 
-    :param specific_volume: Specific volume in atomic units. **Note**: only one parameter can be numpy vector!
-    :param temperature: Temperature in atomic units. **Note**: only one parameter can be numpy vector!
-    :return: chemical potential in atomic units
+    :param specific_volume: Specific volume in atomic units.
+    :param temperature: Temperature in atomic units.
+    :return: `mu[i][j]` - chemical potential in atomic units. *i*-th index is for temperature, *j*-th one is for volume
     """
     g = 2
     gamma_32 = np.sqrt(np.pi)/2
+    vv, tt = np.meshgrid(specific_volume, temperature)
     # TODO: опять подгоны. Не нужно делить на Г(3/2), у меня нет объяснений
     #to_inverse = np.sqrt(2)*np.pi**2 / (g * temperature ** (3 / 2) * specific_volume * gamma_32)
-    to_inverse = np.sqrt(2)*np.pi**2 / (g * temperature ** (3 / 2) * specific_volume)
-    mu_T = ifd1h(to_inverse)
-    mu = mu_T * temperature
+    to_inverse = np.sqrt(2)*np.pi**2 / (g * tt ** (3 / 2) * vv)
+    mu_T = ifd1h(to_inverse.reshape(-1)).reshape(to_inverse.shape)
+    # Multiply mu/T and corresponding T (same T[i] for same specific volumes)
+    # Test it with: `np.all([mu[i] - mu_T[i]*temperature[i] == 0 for i in range(len(mu))])`
+    mu = np.multiply(temperature, mu_T.T).T
     return mu
 
 
-def get_F_potential(specific_volume: float, temperature: np.ndarray, chemical_potential: float, *args, **kwargs):
+def get_F_potential(specific_volume: np.ndarray, temperature: np.ndarray,
+                    chemical_potential: np.ndarray, *args, **kwargs):
     """
     Get IFG Helmholtz potential F in atomic units
 
@@ -34,7 +38,7 @@ def get_F_potential(specific_volume: float, temperature: np.ndarray, chemical_po
     return F
 
 
-def get_pressure(temperature: np.ndarray, chemical_potential: float, *args, **kwargs):
+def get_pressure(temperature: np.ndarray, chemical_potential: np.ndarray, *args, **kwargs):
     """
     Get IFG pressure P in atomic units
 
@@ -47,7 +51,7 @@ def get_pressure(temperature: np.ndarray, chemical_potential: float, *args, **kw
     return pressure
 
 
-def get_entropy(specific_volume: float, temperature: np.ndarray, chemical_potential: float, *args, **kwargs):
+def get_entropy(specific_volume: np.ndarray, temperature: np.ndarray, chemical_potential: np.ndarray, *args, **kwargs):
     """
     Get IFG entropy S in atomic units
 
@@ -61,8 +65,8 @@ def get_entropy(specific_volume: float, temperature: np.ndarray, chemical_potent
     return S
 
 
-def get_heat_capacity_volume(specific_volume: float, temperature: np.ndarray,
-                             chemical_potential: float, *args, **kwargs):
+def get_heat_capacity_volume(specific_volume: np.ndarray, temperature: np.ndarray,
+                             chemical_potential: np.ndarray, *args, **kwargs):
     """
     Get IFG heat capacity C_V in atomic units
 
@@ -77,8 +81,8 @@ def get_heat_capacity_volume(specific_volume: float, temperature: np.ndarray,
     return C_V
 
 
-def get_heat_capacity_pressure(specific_volume: float, temperature: np.ndarray,
-                               chemical_potential: float, *args, **kwargs):
+def get_heat_capacity_pressure(specific_volume: np.ndarray, temperature: np.ndarray,
+                               chemical_potential: np.ndarray, *args, **kwargs):
     """
     Get IFG heat capacity C_P in atomic units
 
@@ -93,8 +97,8 @@ def get_heat_capacity_pressure(specific_volume: float, temperature: np.ndarray,
     return C_P
 
 
-def get_sound_speed_temperature(specific_volume: float, temperature: np.ndarray,
-                                chemical_potential: float, *args, **kwargs):
+def get_sound_speed_temperature(specific_volume: np.ndarray, temperature: np.ndarray,
+                                chemical_potential: np.ndarray, *args, **kwargs):
     """
     Get IFG sound speed C_T in atomic units
 
@@ -108,8 +112,8 @@ def get_sound_speed_temperature(specific_volume: float, temperature: np.ndarray,
     return C_T
 
 
-def get_sound_speed_entropy(specific_volume: float, temperature: np.ndarray,
-                            chemical_potential: float, *args, **kwargs):
+def get_sound_speed_entropy(specific_volume: np.ndarray, temperature: np.ndarray,
+                            chemical_potential: np.ndarray, *args, **kwargs):
     """
     Get IFG sound speed C_S in atomic units
 
