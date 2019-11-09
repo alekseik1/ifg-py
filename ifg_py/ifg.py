@@ -6,8 +6,8 @@ def _1d_call(func, array, *args, **kwargs):
     return func(array.reshape(-1), *args, **kwargs).reshape(array.shape)
 
 
-def _fdk(array, k):
-    return fdk(k, array)
+def _fdk(array, k, *args, **kwargs):
+    return fdk(k, array, *args, **kwargs)
 
 
 def get_chemical_potential(specific_volume: np.ndarray, temperature: np.ndarray, *args, **kwargs) -> np.ndarray:
