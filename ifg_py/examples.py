@@ -1,7 +1,8 @@
 from ifg_py import get_chemical_potential, get_pressure, get_entropy, get_heat_capacity_volume, \
-    get_heat_capacity_pressure, get_sound_speed_temperature, get_sound_speed_entropy
+    get_heat_capacity_pressure, get_sound_speed_temperature, get_sound_speed_entropy, get_F_potential
 from ifg_py import SiAtomicConverter
 import numpy as np
+import os
 
 
 def describe_gas(specific_volume, temperature_range, plot_dir='plots'):
@@ -160,6 +161,48 @@ def plot_values(x_values, y_values, x_label=None, y_label=None, title=None, plot
     plt.clf()
 
 
+def calculate_all_properties(specific_volume: np.ndarray, temperature_range: np.ndarray, csv_dir: str):
+    """
+    Calculate all properties and save them to csv file
+
+    :param specific_volume: Specific volume in atomic units
+    :param temperature_range: Temperature in atomic units
+    :param csv_dir: Directory to save csv files to
+    :return: dict {'property_name': ndarray}
+    """
+    properties = dict(
+        mu=get_chemical_potential,
+        F=get_F_potential,
+        p=get_pressure,
+        S=get_entropy,
+        C_P=get_heat_capacity_pressure,
+        C_V=get_heat_capacity_volume,
+        C_T=get_sound_speed_temperature,
+        C_S=get_sound_speed_entropy
+    )
+    for key in properties.keys():
+        properties[key] = properties[key](specific_volume=specific_volume,
+                                          temperature=temperature_range,
+                                          chemical_potential=properties['mu'])
+        for i, volume in enumerate(specific_volume):
+            dump_to_csv(os.path.join(os.getcwd(), csv_dir, f'{key}_v={volume}_atomic_units.csv'),
+                        np.array([temperature_range, properties[key][:, i]]).T)
+    return properties
+
+
+def dump_to_csv(filepath, data):
+    """
+    Dumps `data` to csv under `filepath`. Creates all necessary folders
+    :param filepath: Path to file, like 'data/1.csv'
+    :param data: Data to dump
+    :return:
+    """
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    import pandas as pd
+    df = pd.DataFrame(data)
+    df.to_csv(filepath, index=False, sep=';')
+
+
 if __name__ == '__main__':
     converter = SiAtomicConverter(from_si=True)
     reverse_converter = SiAtomicConverter(from_si=False)
@@ -168,12 +211,15 @@ if __name__ == '__main__':
     # Since Aluminium has 3 electrons on valence shell
     v_Al /= 3
     v_Al = converter.convert_volume(v_Al)
+    v_Cu = converter.convert_density(density_sgs=8.92, molar_mass_sgs=63.5)
+    v_Cu /= 2
+    v_Cu = converter.convert_volume(v_Cu)
+    print('v_Al:', v_Al, '\n', 'v_Cu:', v_Cu)
+    v_array = np.array([v_Al, v_Cu])
 
-    # High temperatures
-    T_range = np.arange(10**6, 10**8, 100)
+    T_range = np.hstack((
+        np.arange(10**0, 10**4, 10),
+        np.arange(10**4, 10**8, 1000),
+    ))
     T_range = converter.convert_temperature(T_range)
-    describe_gas(specific_volume=v_Al, temperature_range=T_range, plot_dir='T=10^6..10^8')
-    # Lower temperatures
-    T_range = np.arange(10**0, 10**4, 100)
-    T_range = converter.convert_temperature(T_range)
-    describe_gas(specific_volume=v_Al, temperature_range=T_range, plot_dir='T=10^0..10^4')
+    high_properties = calculate_all_properties(v_array, T_range, 'data/all_temperatures')
