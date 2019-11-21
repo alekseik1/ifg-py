@@ -7,6 +7,9 @@ Calculating properties:
 .. automodule:: ifg_py.ifg
     :members:
 
+.. automodule:: ifg_py.units_converter
+    :members:
+
 Conversion between SI and atomic
 ================================
 
