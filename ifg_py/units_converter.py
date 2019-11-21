@@ -126,3 +126,19 @@ class SiAtomicConverter:
         # Per one particle
         v_si /= physical_constants['Avogadro constant'][0]
         return v_si
+
+
+def get_metal_specific_volume(density_sgs: float, molar_mass_sgs: float, num_electrons: float) -> float:
+    """
+    Calculate metal's specific volume from its density, molar mass and number of electrons on outer shell
+
+    :param density_sgs: Density in g/cm^3
+    :param molar_mass_sgs: Molar mass in g/mol
+    :param num_electrons: Number of electrons on outer shell
+    :return: Specific volume in atomic units
+    """
+    converter = SiAtomicConverter(from_si=True)
+    v = converter.convert_density(density_sgs=density_sgs, molar_mass_sgs=molar_mass_sgs)
+    v /= num_electrons
+    return converter.convert_volume(v)
+

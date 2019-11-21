@@ -1,3 +1,5 @@
+from ifg_py.utils import dump_to_csv
+import os
 from fdint import fdk, ifd1h
 import numpy as np
 
@@ -148,3 +150,36 @@ def get_sound_speed_entropy(specific_volume: np.ndarray, temperature: np.ndarray
     vv, tt = np.meshgrid(specific_volume, temperature)
     C_S = np.sqrt(10)*2**(1/4)/(3*np.pi) * tt**(5/4)*np.sqrt(vv*_1d_call(_fdk, y, k=3/2))
     return C_S
+
+
+def get_all_properties(specific_volume: np.ndarray,
+                       temperature_range: np.ndarray,
+                       csv_dir: str = None):
+    """
+    Calculate all properties and save them to csv file
+
+    :param specific_volume: Specific volume in atomic units
+    :param temperature_range: Temperature in atomic units
+    :param csv_dir: Directory to save csv files to
+    :return: dict {'property_name': ndarray}
+    """
+    properties = dict(
+        mu=get_chemical_potential,
+        F=get_F_potential,
+        p=get_pressure,
+        S=get_entropy,
+        C_P=get_heat_capacity_pressure,
+        C_V=get_heat_capacity_volume,
+        C_T=get_sound_speed_temperature,
+        C_S=get_sound_speed_entropy
+    )
+    for key in properties.keys():
+        properties[key] = properties[key](specific_volume=specific_volume,
+                                          temperature=temperature_range,
+                                          chemical_potential=properties['mu'])
+        if csv_dir:
+            for i, volume in enumerate(specific_volume):
+                dump_to_csv(
+                    os.path.join(os.getcwd(), csv_dir, f'{key}_v={volume}_atomic_units.csv'),
+                    np.array([temperature_range, properties[key][:, i]]).T)
+    return properties
