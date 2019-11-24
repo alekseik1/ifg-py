@@ -1,7 +1,7 @@
 from ifg_py import SiAtomicConverter, get_metal_specific_volume
 import numpy as np
 
-from ifg_py.ifg import get_all_properties
+from ifg_py import IfgCalculator
 
 if __name__ == '__main__':
 
@@ -13,10 +13,9 @@ if __name__ == '__main__':
 
     print(v_range)
     v_array = np.array([float(x) for x in v_range.values()])
-    converter = SiAtomicConverter(from_si=True)
     T_range = np.hstack((
         np.arange(10**0, 10**4, 10),
         np.arange(10**4, 10**8, 1000),
     ))
-    T_range = converter.convert_temperature(T_range)
-    high_properties = get_all_properties(v_array, T_range, csv_dir='data/all_temperatures')
+    calculator = IfgCalculator(specific_volumes=v_array, temperatures=T_range, input_in_si=True, output_in_si=True)
+    calculator.get_all_properties('data/all_temperatures')
