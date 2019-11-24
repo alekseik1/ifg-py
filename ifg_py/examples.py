@@ -6,9 +6,9 @@ from ifg_py import IfgCalculator
 if __name__ == '__main__':
 
     v_range = dict(
-        small=1.0,
+        small=get_metal_specific_volume(density_sgs=100, molar_mass_sgs=26.98, num_electrons=3),
         Al=get_metal_specific_volume(density_sgs=2.70, molar_mass_sgs=26.98, num_electrons=3),
-        huge=500.0
+        huge=get_metal_specific_volume(density_sgs=0.01, molar_mass_sgs=26.98, num_electrons=3),
     )
 
     print(v_range)
