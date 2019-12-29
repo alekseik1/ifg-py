@@ -1,16 +1,23 @@
 import setuptools
-from .__version__ import __version__
+import re
 
-with open('README.md', 'r') as fh:
-    long_description = fh.read()
+meta_file = open("ifg_py/metadata.py").read()
+metadata = dict(re.findall("__([a-z]+)__\s*=\s*'([^']+)'", meta_file))
+
+
+def get_long_description():
+    with open('README.md', 'r') as fh:
+        long_description = fh.read()
+        return long_description
+
 
 setuptools.setup(
     name='ifg_py',
-    version=__version__,
+    version=metadata['version'],
     author='Aleksei Kozharin',
     author_email='1alekseik1@gmail.com',
     description='Package for numerical calculations of ideal Fermi gas',
-    long_description=long_description,
+    long_description=get_long_description(),
     long_description_content_type="text/markdown",
     url='https://github.com/alekseik1/ifg-py',
     packages=setuptools.find_packages(),
