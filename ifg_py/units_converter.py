@@ -115,11 +115,12 @@ class SiAtomicConverter:
     # TODO: ignores `from_si` parameter
     def convert_density(self, density_sgs, molar_mass_sgs):
         """
-        Converts density from g/cm^3 to specific volume in SI using molar mass
+        Converts density from g/cm^3 to specific volume in SI using molar mass.
+        NOTE: ignores `from_si` parameter
 
         :param density_sgs: g/cm^3
         :param molar_mass_sgs: g/mol
-        :return: specific volume in SI
+        :return: specific volume in SI, m^3
         """
         # Per one mol
         v_si = molar_mass_sgs/density_sgs / 10**6
