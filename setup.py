@@ -1,5 +1,5 @@
 import setuptools
-from ifg_py import __version__
+from .__version__ import __version__
 
 with open('README.md', 'r') as fh:
     long_description = fh.read()
