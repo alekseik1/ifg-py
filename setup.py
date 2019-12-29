@@ -15,11 +15,10 @@ setuptools.setup(
     url='https://github.com/alekseik1/ifg-py',
     packages=setuptools.find_packages(),
     classifiers=[
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    python_requires='>=2.7',
+    python_requires='>=3.6',
 )
 
