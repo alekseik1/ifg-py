@@ -1,0 +1,16 @@
+language: python
+sudo: false
+python:
+- '3.6'
+- '3.7'
+- '3.8'
+cache: pip
+script: skip
+deploy:
+  provider: pypi
+  user: __token__
+  password:
+    secure: mngEE99axUgpmMI1ClAp2kagDHh3RpdjGdYIBUcnfmXokhWvppC8NEfymbAzuzZ3E5mXZDvDRGyKvwB0fXwcZsixAnUI+dm3H9IQ2iX/QGtrGjVue4plK9vN6vghRBHPs8/4kO1P/ZWUYEg2RyTfOld8EgkaeKjHTaWyQkJc6ReSw6vvbqo2m/0tkMH48+J1bp82SzjJ1mER7R9R9ewqnYZ9XlO9EsL1AmRm9cTfCGmZKzMTIdimFdtq0fszM0sjQo8TCtydR2BRlFB2p0Hy17CSAWM9q+rUwruK43kD/4xzcYa6u8X9RWSVXaAB8TiLlEJJkMZ9eo55TV1mL1tsYuKtE+vmucR9Gw14wkyYceIoHTRQRpwaXr3rJWaIf8Vd6mMDP5d6xeNLyfawPdODb/cH/siT/xDeSpgqaSuH2Ep0QqZspMzBucv+H7stm2Dfrx1VUEZCrZc/ScuuKPZLhkzlKbDTJ9CzTBm6mtJ+2zWRrLQc1ZE07osWakgqceGMi4rMeWDD6k8ydF8tvgghGtfLHHPV//D3P9cNaEDFtyu2Uf8AgZFYEW11jReV6JZsF7/zKZJGED8kwEqHA/Crl7TsvMAXMK30e/AZ5yZp6aOHVlGJ/pXC0gX+/x50bK9YQJPdAWykpVscaEiCt4gbeDt7MJABVgQMlJ3wb2k3tfI=
+  on:
+    branch: master
+  skip_existing: true
