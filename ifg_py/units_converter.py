@@ -13,7 +13,7 @@ class SiAtomicConverter:
 
     def convert_energy(self, energy):
         """
-        Converts energy (from SI or atomic, depends on `from_si` flag in class constructor)
+        Converts energy
 
         :param energy: Energy in corresponding units system
         :return: Converted energy
@@ -25,7 +25,7 @@ class SiAtomicConverter:
 
     def convert_temperature(self, temperature):
         """
-        Converts temperature (from SI or atomic, depends on `from_si` flag in class constructor)
+        Converts temperature
 
         :param temperature: Temperature in corresponding units system
         :return: Converted temperature
@@ -40,7 +40,7 @@ class SiAtomicConverter:
 
     def convert_volume(self, volume):
         """
-        Converts volume (from SI or atomic, depends on `from_si` flag in class constructor)
+        Converts volume
 
         :param volume: Volume in corresponding units system
         :return: Converted volume
@@ -52,7 +52,7 @@ class SiAtomicConverter:
 
     def convert_pressure(self, pressure):
         """
-        Converts pressure (from SI or atomic, depends on `from_si` flag in class constructor)
+        Converts pressure
 
         :param pressure: Pressure in corresponding units system
         :return: Converted pressure
@@ -66,7 +66,7 @@ class SiAtomicConverter:
 
     def convert_entropy(self, entropy):
         """
-        Converts entropy (from SI or atomic, depends on `from_si` flag in class constructor)
+        Converts entropy
 
         :param entropy: Entropy in corresponding units system
         :return: Converted entropy
@@ -90,7 +90,7 @@ class SiAtomicConverter:
 
     def convert_heat_capacity(self, heat_capacity):
         """
-        Converts heat_capacity (from SI or atomic, depends on `from_si` flag in class constructor)
+        Converts heat_capacity
 
         :param heat_capacity: Heat_capacity in corresponding units system
         :return: Converted heat_capacity
@@ -100,7 +100,7 @@ class SiAtomicConverter:
 
     def convert_sound_speed(self, sound_speed):
         """
-        Converts sound speed (from SI or atomic, depends on `from_si` flag in class constructor)
+        Converts sound speed
 
         :param sound_speed: Sound speed in corresponding units system
         :return: Converted sound speed
