@@ -1,35 +1,28 @@
 Welcome to ifg-py's documentation!
 ==================================
-
-Calculating properties using class:
-=======================
-All calculations can be done via one class.
-
-.. autoclass:: ifg_py.ifg.IfgCalculator
-    :members:
-
-Calculating properties using functions:
-===========
-You can also calculate all functions without creating a class instance.
-**Note that unit conversion will be your duty in this case!**
-
-.. automodule:: ifg_py.ifg
-    :members:
-
-.. automodule:: ifg_py.units_converter
-    :members:
-
-Conversion between SI and atomic
-================================
-
-.. autoclass:: ifg_py.units_converter.SiAtomicConverter
-    :members:
-
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :maxdepth: 2
+
+    conversion
+    class_desc
+    functional_desc
 
 
+Installation
+============
+Easily install via ``pip``::
+
+    pip install ifg-py
+
+Support
+=======
+
+Feel free to open an issue on Github_ if you have any questions.
+You can also contact me (email_, telegram_)
+
+.. _Github: http://github.com/alekseik1/ifg-py
+.. _email: mailto:1alekseik1@gmail.com
+.. _telegram: https://t.me/alekseik1
 
 Indices and tables
 ==================
