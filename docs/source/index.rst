@@ -5,7 +5,6 @@ Welcome to ifg-py's documentation!
 
     conversion
     class_desc
-    functional_desc
 
 
 Installation
