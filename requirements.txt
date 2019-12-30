@@ -3,3 +3,4 @@ fdint
 numpy
 pandas
 flake8
+tox
