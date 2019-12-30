@@ -2,7 +2,7 @@ import setuptools
 import re
 
 meta_file = open("ifg_py/metadata.py").read()
-metadata = dict(re.findall("__([a-z]+)__\s*=\s*'([^']+)'", meta_file))
+metadata = dict(re.findall(r"__([a-z]+)__\s*=\s*'([^']+)'", meta_file))
 
 
 def get_long_description():
@@ -35,4 +35,3 @@ setuptools.setup(
     ],
     python_requires='>=3.6',
 )
-
