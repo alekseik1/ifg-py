@@ -131,8 +131,8 @@ class SiAtomicConverter:
         return v_si
 
 
-def get_metal_specific_volume(density_sgs: float, molar_mass_sgs: float,
-                              num_electrons: float) -> float:
+def get_metal_specific_volume(density_sgs, molar_mass_sgs,
+                              num_electrons):
     """
     Calculate metal's specific volume from its density,
     molar mass and number of electrons on outer shell
