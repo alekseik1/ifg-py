@@ -2,3 +2,4 @@ scipy
 fdint
 numpy
 pandas
+flake8
