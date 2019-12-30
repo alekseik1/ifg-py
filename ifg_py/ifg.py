@@ -240,7 +240,7 @@ class IfgCalculator:
         """
         Get IFG chemical potential mu in atomic units
 
-        :return: `mu[i][j]` - chemical potential in atomic units.
+        :return: `mu[i][j]` - chemical potential in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
         if self.output_in_si:
@@ -252,7 +252,7 @@ class IfgCalculator:
         """
         Get IFG Helmholtz potential F in atomic units
 
-        :return: F[i][j] - Helmholtz free energy in atomic units.
+        :return: F[i][j] - Helmholtz free energy in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
         self.F_potential = get_F_potential(
@@ -267,7 +267,7 @@ class IfgCalculator:
         """
         Get IFG pressure P in atomic units
 
-        :return: P[i][j] - Pressure in atomic units.
+        :return: P[i][j] - Pressure in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
         self.pressure = get_pressure(
@@ -282,7 +282,7 @@ class IfgCalculator:
         """
         Get IFG entropy S in atomic units
 
-        :return: S[i][j] - Entropy in atomic units.
+        :return: S[i][j] - Entropy in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
         self.entropy = get_entropy(
@@ -297,7 +297,7 @@ class IfgCalculator:
         """
         Get IFG heat capacity C_V in atomic units
 
-        :return: C_V[i][j] - C_V in atomic units.
+        :return: C_V[i][j] - C_V in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
         self.heat_capacity_volume = get_heat_capacity_volume(
@@ -313,7 +313,7 @@ class IfgCalculator:
         """
         Get IFG heat capacity C_P in atomic units
 
-        :return: C_P[i][j] - C_P in atomic units.
+        :return: C_P[i][j] - C_P in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
         self.heat_capacity_pressure = get_heat_capacity_pressure(
@@ -329,7 +329,7 @@ class IfgCalculator:
         """
         Get IFG sound speed C_T in atomic units
 
-        :return: C_T[i][j] - C_T in atomic units.
+        :return: C_T[i][j] - C_T in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
         self.sound_speed_temperature = get_sound_speed_temperature(
@@ -345,7 +345,7 @@ class IfgCalculator:
         """
         Get IFG sound speed C_S in atomic units
 
-        :return: C_S[i][j] - C_S in atomic units.
+        :return: C_S[i][j] - C_S in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
         self.sound_speed_entropy = get_sound_speed_entropy(
