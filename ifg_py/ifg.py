@@ -198,7 +198,7 @@ def get_all_properties(specific_volume: np.ndarray,
             for i, volume in enumerate(specific_volume):
                 dump_to_csv(
                     os.path.join(os.getcwd(), csv_dir,
-                                 f'{key}_v={volume}_atomic_units.csv'),
+                                 '{}_v={}_atomic_units.csv'.format(key, volume)),
                     np.array([temperature_range, properties[key][:, i]]).T)
     return properties
 
@@ -379,6 +379,6 @@ class IfgCalculator:
                 for i, volume in enumerate(self.volumes):
                     dump_to_csv(
                         os.path.join(os.getcwd(), csv_dir,
-                                     f'{key}_v={volume}_atomic_units.csv'),
+                                     '{}_v={}_atomic_units.csv'.format(key, volume)),
                         np.array([self.temperatures, properties[key][:, i]]).T)
         return properties
