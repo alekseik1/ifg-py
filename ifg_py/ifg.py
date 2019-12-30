@@ -353,7 +353,7 @@ class IfgCalculator:
             chemical_potential=self.chemical_potential)
         if self.output_in_si:
             return self.converter.convert_sound_speed(
-                self.sound_speed_temperature)
+                self.sound_speed_entropy)
         return self.sound_speed_temperature
 
     def get_all_properties(self, csv_dir: str = None):
