@@ -1,3 +1,4 @@
+from __future__ import division
 from ifg_py.utils import dump_to_csv
 import os
 from fdint import fdk, ifd1h
