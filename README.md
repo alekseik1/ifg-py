@@ -1,6 +1,7 @@
 # Numerical ideal Fermi gas
 
-Docs status: [![Documentation Status](https://readthedocs.org/projects/ifg-py/badge/?version=latest)](https://ifg-py.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/ifg-py/badge/?version=latest)](https://ifg-py.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/alekseik1/ifg-py.svg?branch=master)](https://travis-ci.org/alekseik1/ifg-py)
 
 ## Getting started
 ```bash
