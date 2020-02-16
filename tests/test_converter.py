@@ -32,10 +32,9 @@ class ConverterTests(unittest.TestCase):
     def test_inverse_conversion(self, nums):
         # Si -> Atomic -> Si gives same result
         for func_str in self.available_converters:
-            with self.subTest(func_str):
-                from_si = getattr(self.from_si, func_str)
-                from_atomic = getattr(self.from_atomic, func_str)
-                self.assertNearlyEqual(from_si(from_atomic(nums)), nums)
+            from_si = getattr(self.from_si, func_str)
+            from_atomic = getattr(self.from_atomic, func_str)
+            self.assertNearlyEqual(from_si(from_atomic(nums)), nums)
 
     def test_hardcoded_values(self):
         for si_value, atomic_value, func_name in HARDCODED_TESTS:
