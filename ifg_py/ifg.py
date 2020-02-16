@@ -240,6 +240,7 @@ class IfgCalculator:
         self.output_in_si = output_in_si
         self.converter = SiAtomicConverter(from_si=True)
         self.reverse_converter = SiAtomicConverter(from_si=False)
+        specific_volumes, temperatures = map(np.array, [specific_volumes, temperatures])
         self.volumes = self.converter.convert_volume(specific_volumes) \
             if input_in_si else specific_volumes
         self.temperatures = self.converter.convert_temperature(temperatures) \
