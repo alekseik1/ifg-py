@@ -6,7 +6,7 @@ from ifg_py import IfgCalculator, get_metal_specific_volume
 
 class AsymptoticTest(unittest.TestCase):
 
-    def setUp(self) -> None:
+    def setUp(self):
         self.v_range = np.array([
             get_metal_specific_volume(
                 density_sgs=2.70, molar_mass_sgs=26.98, num_electrons=3
