@@ -12,7 +12,7 @@ class AsymptoticTest(unittest.TestCase):
                 density_sgs=2.70, molar_mass_sgs=26.98, num_electrons=3
             ),
         ])
-        self.temparatures = np.arange(10**10 - 10**8, 10**10)
+        self.temparatures = np.arange(10**10 - 10**3, 10**10)
         self.calculator = IfgCalculator(
             input_in_si=True, output_in_si=True,
             specific_volumes=self.v_range,
