@@ -4,4 +4,3 @@ numpy
 pandas
 flake8
 tox
-hypothesis

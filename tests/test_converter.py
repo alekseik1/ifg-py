@@ -1,8 +1,6 @@
 from __future__ import division
 import unittest
 from ifg_py import SiAtomicConverter
-from hypothesis import given
-from hypothesis.strategies import floats
 
 HARDCODED_TESTS = {
     # (SI, atomic, func_name)
@@ -29,13 +27,14 @@ class ConverterTests(unittest.TestCase):
         if abs(a - b) > abs(fraction * a):
             self.fail("The given numbers %s and %s are not near each other." % (a, b))
 
-    @given(floats(min_value=10**-40))
-    def test_inverse_conversion(self, nums):
+    def test_inverse_conversion(self):
         # Si -> Atomic -> Si gives same result
-        for func_str in self.available_converters:
-            from_si = getattr(self.from_si, func_str)
-            from_atomic = getattr(self.from_atomic, func_str)
-            self.assertNearlyEqual(from_si(from_atomic(nums)), nums)
+        NUMS = {0.0, 10**3, 10**6, }
+        for num in NUMS:
+            for func_str in self.available_converters:
+                from_si = getattr(self.from_si, func_str)
+                from_atomic = getattr(self.from_atomic, func_str)
+                self.assertNearlyEqual(from_si(from_atomic(num)), num)
 
     def test_hardcoded_values(self):
         for si_value, atomic_value, func_name in HARDCODED_TESTS:
