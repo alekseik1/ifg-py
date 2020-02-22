@@ -240,6 +240,7 @@ class IfgCalculator:
         self.output_in_si = output_in_si
         self.converter = SiAtomicConverter(from_si=True)
         self.reverse_converter = SiAtomicConverter(from_si=False)
+        specific_volumes, temperatures = map(np.array, [specific_volumes, temperatures])
         self.volumes = self.converter.convert_volume(specific_volumes) \
             if input_in_si else specific_volumes
         self.temperatures = self.converter.convert_temperature(temperatures) \
@@ -255,7 +256,7 @@ class IfgCalculator:
         *i*-th index is for temperature, *j*-th one is for volume
         """
         if self.output_in_si:
-            return self.converter.convert_energy(self.chemical_potential)
+            return self.reverse_converter.convert_energy(self.chemical_potential)
         return self.chemical_potential
 
     @ensure_mu
@@ -270,7 +271,7 @@ class IfgCalculator:
             specific_volume=self.volumes, temperature=self.temperatures,
             chemical_potential=self.chemical_potential)
         if self.output_in_si:
-            return self.converter.convert_energy(self.F_potential)
+            return self.reverse_converter.convert_energy(self.F_potential)
         return self.F_potential
 
     @ensure_mu
@@ -285,7 +286,7 @@ class IfgCalculator:
             temperature=self.temperatures,
             chemical_potential=self.chemical_potential)
         if self.output_in_si:
-            return self.converter.convert_pressure(self.pressure)
+            return self.reverse_converter.convert_pressure(self.pressure)
         return self.pressure
 
     @ensure_mu
@@ -300,7 +301,7 @@ class IfgCalculator:
             specific_volume=self.volumes, temperature=self.temperatures,
             chemical_potential=self.chemical_potential)
         if self.output_in_si:
-            return self.converter.convert_entropy(self.entropy)
+            return self.reverse_converter.convert_entropy(self.entropy)
         return self.entropy
 
     @ensure_mu
@@ -315,7 +316,7 @@ class IfgCalculator:
             specific_volume=self.volumes, temperature=self.temperatures,
             chemical_potential=self.chemical_potential)
         if self.output_in_si:
-            return self.converter.convert_heat_capacity(
+            return self.reverse_converter.convert_heat_capacity(
                 self.heat_capacity_volume)
         return self.heat_capacity_volume
 
@@ -331,7 +332,7 @@ class IfgCalculator:
             specific_volume=self.volumes, temperature=self.temperatures,
             chemical_potential=self.chemical_potential)
         if self.output_in_si:
-            return self.converter.convert_heat_capacity(
+            return self.reverse_converter.convert_heat_capacity(
                 self.heat_capacity_pressure)
         return self.heat_capacity_pressure
 
@@ -347,7 +348,7 @@ class IfgCalculator:
             specific_volume=self.volumes, temperature=self.temperatures,
             chemical_potential=self.chemical_potential)
         if self.output_in_si:
-            return self.converter.convert_sound_speed(
+            return self.reverse_converter.convert_sound_speed(
                 self.sound_speed_temperature)
         return self.sound_speed_temperature
 
@@ -363,7 +364,7 @@ class IfgCalculator:
             specific_volume=self.volumes, temperature=self.temperatures,
             chemical_potential=self.chemical_potential)
         if self.output_in_si:
-            return self.converter.convert_sound_speed(
+            return self.reverse_converter.convert_sound_speed(
                 self.sound_speed_entropy)
         return self.sound_speed_temperature
 
