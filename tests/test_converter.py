@@ -1,3 +1,4 @@
+from __future__ import division
 import unittest
 from ifg_py import SiAtomicConverter
 from hypothesis import given
