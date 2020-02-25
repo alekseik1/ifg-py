@@ -4,7 +4,6 @@ import os
 from fdint import fdk, ifd1h
 import numpy as np
 from ifg_py.units_converter import SiAtomicConverter
-from functools import wraps
 
 
 def _1d_call(func, array, *args, **kwargs):
@@ -213,17 +212,6 @@ def get_all_properties(specific_volume,
     return properties
 
 
-def ensure_mu(fn):
-    @wraps(fn)
-    def wrapped(self, *args, **kwargs):
-        if self.chemical_potential is None:
-            self.chemical_potential = get_chemical_potential(
-                self.volumes, self.temperatures)
-        return fn(self, *args, **kwargs)
-
-    return wrapped
-
-
 class IfgCalculator:
 
     def __init__(self, specific_volumes, temperatures,
@@ -245,153 +233,122 @@ class IfgCalculator:
             if input_in_si else specific_volumes
         self.temperatures = self.converter.convert_temperature(temperatures) \
             if input_in_si else temperatures
-        self.chemical_potential = None
 
-    @ensure_mu
-    def get_chemical_potential(self):
+    def generic_getter(self, calc_function, attribute_name, convert_function):
+        cache = '__{}_cached__'.format(attribute_name)
+        if hasattr(self, cache):
+            # return cached value if possible
+            return getattr(self, cache)
+        elif attribute_name == 'mu':
+            # `mu` is a special case since it is used in `calc_function` below
+            return get_chemical_potential(
+                specific_volume=self.volumes, temperature=self.temperatures)
+        # Cache is not available
+        value = calc_function(
+            specific_volume=self.volumes, temperature=self.temperatures,
+            chemical_potential=self.mu)
+        if self.output_in_si:
+            # Call `convert_function` on `value` if output is in SI
+            value = getattr(self.reverse_converter, convert_function)(value)
+        # Store cache
+        setattr(self, cache, value)
+        return value
+
+    @property
+    def mu(self):
         """
         Get IFG chemical potential mu in atomic units
 
         :return: `mu[i][j]` - chemical potential in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        if self.output_in_si:
-            return self.reverse_converter.convert_energy(self.chemical_potential)
-        return self.chemical_potential
+        return self.generic_getter(get_chemical_potential, 'mu', 'convert_energy')
 
-    @ensure_mu
-    def get_F_potential(self):
+    @property
+    def F(self):
         """
         Get IFG Helmholtz potential F in atomic units
 
         :return: F[i][j] - Helmholtz free energy in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.F_potential = get_F_potential(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_energy(self.F_potential)
-        return self.F_potential
+        return self.generic_getter(get_F_potential, 'F', 'convert_energy')
 
-    @ensure_mu
-    def get_pressure(self):
+    @property
+    def p(self):
         """
         Get IFG pressure P in atomic units
 
         :return: P[i][j] - Pressure in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.pressure = get_pressure(
-            temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_pressure(self.pressure)
-        return self.pressure
+        return self.generic_getter(get_pressure, 'p', 'convert_pressure')
 
-    @ensure_mu
-    def get_entropy(self):
+    @property
+    def S(self):
         """
         Get IFG entropy S in atomic units
 
         :return: S[i][j] - Entropy in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.entropy = get_entropy(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_entropy(self.entropy)
-        return self.entropy
+        return self.generic_getter(get_entropy, 'S', 'convert_entropy')
 
-    @ensure_mu
-    def get_heat_capacity_volume(self):
+    @property
+    def C_V(self):
         """
         Get IFG heat capacity C_V in atomic units
 
         :return: C_V[i][j] - C_V in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.heat_capacity_volume = get_heat_capacity_volume(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_heat_capacity(
-                self.heat_capacity_volume)
-        return self.heat_capacity_volume
+        return self.generic_getter(get_heat_capacity_volume, 'C_V', 'convert_heat_capacity')
 
-    @ensure_mu
-    def get_heat_capacity_pressure(self):
+    @property
+    def C_P(self):
         """
         Get IFG heat capacity C_P in atomic units
 
         :return: C_P[i][j] - C_P in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.heat_capacity_pressure = get_heat_capacity_pressure(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_heat_capacity(
-                self.heat_capacity_pressure)
-        return self.heat_capacity_pressure
+        return self.generic_getter(get_heat_capacity_pressure, 'C_P', 'convert_heat_capacity')
 
-    @ensure_mu
-    def get_sound_speed_temperature(self):
+    @property
+    def C_T(self):
         """
         Get IFG sound speed C_T in atomic units
 
         :return: C_T[i][j] - C_T in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.sound_speed_temperature = get_sound_speed_temperature(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_sound_speed(
-                self.sound_speed_temperature)
-        return self.sound_speed_temperature
+        return self.generic_getter(get_sound_speed_temperature, 'C_T', 'convert_sound_speed')
 
-    @ensure_mu
-    def get_sound_speed_entropy(self):
+    @property
+    def C_S(self):
         """
         Get IFG sound speed C_S in atomic units
 
         :return: C_S[i][j] - C_S in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.sound_speed_entropy = get_sound_speed_entropy(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_sound_speed(
-                self.sound_speed_entropy)
-        return self.sound_speed_temperature
+        return self.generic_getter(get_sound_speed_entropy, 'C_S', 'convert_sound_speed')
 
     def get_all_properties(self, csv_dir=None):
-        # type: (str) -> None
+        # type: (str) -> dict
         """
         Calculate all properties and save them to csv file
 
         :param csv_dir: Directory to save csv files to
         :return: dict {'property_name': ndarray}
         """
-        properties = dict(
-            mu=self.get_chemical_potential,
-            F=self.get_F_potential,
-            p=self.get_pressure,
-            S=self.get_entropy,
-            C_P=self.get_heat_capacity_pressure,
-            C_V=self.get_heat_capacity_volume,
-            C_T=self.get_sound_speed_temperature,
-            C_S=self.get_sound_speed_entropy
-        )
-        for key in properties.keys():
-            properties[key] = properties[key]()
-            if csv_dir:
+        properties = {
+            prop: getattr(self, prop) for prop in
+            ['mu', 'F', 'p', 'S', 'C_P', 'C_V', 'C_T', 'C_S']
+        }
+        if csv_dir is not None:
+            for key, value in properties.items():
                 for i, volume in enumerate(self.volumes):
-                    dump_to_csv(
-                        os.path.join(os.getcwd(), csv_dir,
-                                     '{}_v={}_atomic_units.csv'.format(key, volume)),
-                        np.array([self.temperatures, properties[key][:, i]]).T)
-        return properties
+                    dump_to_csv(os.path.join(
+                        os.getcwd(), csv_dir, '{}_v={}_atomic_units.csv'.format(key, volume)),
+                        np.array([self.temperatures, value[:, i]]).T)

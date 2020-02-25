@@ -21,9 +21,9 @@ Examples
 
     calculator = IfgCalculator(temperatures=T_range, specific_volumes=v_al, input_in_si=True, output_in_si=True)
 
-    calculator.get_chemical_potential()
+    calculator.mu
     # array([[9.82775992e+16], [9.82775987e+16], [9.82775550e+16], [9.82731832e+16]])
-    calculator.get_pressure()
+    calculator.p
     # array([[1.56068519e-16], [1.56068523e-16], [1.56068870e-16], [1.56103577e-16]])
 
 
