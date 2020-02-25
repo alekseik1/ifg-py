@@ -28,11 +28,10 @@ class AsymptoticTest(unittest.TestCase):
         HARDCODED_ASYMPTOTICS_SI = {
             # (expected in SI per atom, func name)
             # Only 1-dimensional, no arrays (we do simple tests)
-            (lambda v, T: 5/2*k, 'get_heat_capacity_pressure'),
-            (lambda v, T: 3/2*k, 'get_heat_capacity_volume'),
+            (lambda v, T: 5/2*k, 'C_P'),
+            (lambda v, T: 3 / 2 * k, 'C_V'),
         }
-        for expected_si, func_name in HARDCODED_ASYMPTOTICS_SI:
-            func = getattr(self.calculator, func_name)
-            calculated = func()
+        for expected_si, prop_name in HARDCODED_ASYMPTOTICS_SI:
+            prop = getattr(self.calculator, prop_name)
             self.assertNearlyEqual(expected_si(self.v_range[-1], self.temparatures[-1]),
-                                   calculated[-1, -1])
+                                   prop[-1, -1])
