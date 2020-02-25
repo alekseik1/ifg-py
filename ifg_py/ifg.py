@@ -247,6 +247,17 @@ class IfgCalculator:
             if input_in_si else temperatures
         self.chemical_potential = None
 
+    def generic_getter(self, calc_function, attribute_name, convert_function):
+        value = calc_function(
+            specific_volume=self.volumes, temperature=self.temperatures,
+            chemical_potential=self.chemical_potential)
+        if self.output_in_si:
+            # Call `convert_function` on value if output is in SI
+            value = getattr(self.reverse_converter, convert_function)(value)
+        # Cache value in class instance
+        setattr(self, attribute_name, value)
+        return value
+
     @ensure_mu
     def get_chemical_potential(self):
         """
@@ -255,9 +266,7 @@ class IfgCalculator:
         :return: `mu[i][j]` - chemical potential in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        if self.output_in_si:
-            return self.reverse_converter.convert_energy(self.chemical_potential)
-        return self.chemical_potential
+        return self.generic_getter(get_chemical_potential, 'mu', 'convert_energy')
 
     @ensure_mu
     def get_F_potential(self):
@@ -267,12 +276,7 @@ class IfgCalculator:
         :return: F[i][j] - Helmholtz free energy in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.F_potential = get_F_potential(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_energy(self.F_potential)
-        return self.F_potential
+        return self.generic_getter(get_F_potential, 'F', 'convert_energy')
 
     @ensure_mu
     def get_pressure(self):
@@ -282,12 +286,7 @@ class IfgCalculator:
         :return: P[i][j] - Pressure in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.pressure = get_pressure(
-            temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_pressure(self.pressure)
-        return self.pressure
+        return self.generic_getter(get_pressure, 'p', 'convert_pressure')
 
     @ensure_mu
     def get_entropy(self):
@@ -297,12 +296,7 @@ class IfgCalculator:
         :return: S[i][j] - Entropy in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.entropy = get_entropy(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_entropy(self.entropy)
-        return self.entropy
+        return self.generic_getter(get_entropy, 'S', 'convert_entropy')
 
     @ensure_mu
     def get_heat_capacity_volume(self):
@@ -312,13 +306,7 @@ class IfgCalculator:
         :return: C_V[i][j] - C_V in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.heat_capacity_volume = get_heat_capacity_volume(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_heat_capacity(
-                self.heat_capacity_volume)
-        return self.heat_capacity_volume
+        return self.generic_getter(get_heat_capacity_volume, 'C_V', 'convert_heat_capacity')
 
     @ensure_mu
     def get_heat_capacity_pressure(self):
@@ -328,13 +316,7 @@ class IfgCalculator:
         :return: C_P[i][j] - C_P in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.heat_capacity_pressure = get_heat_capacity_pressure(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_heat_capacity(
-                self.heat_capacity_pressure)
-        return self.heat_capacity_pressure
+        return self.generic_getter(get_heat_capacity_pressure, 'C_P', 'convert_heat_capacity')
 
     @ensure_mu
     def get_sound_speed_temperature(self):
@@ -344,13 +326,7 @@ class IfgCalculator:
         :return: C_T[i][j] - C_T in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.sound_speed_temperature = get_sound_speed_temperature(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_sound_speed(
-                self.sound_speed_temperature)
-        return self.sound_speed_temperature
+        return self.generic_getter(get_sound_speed_temperature, 'C_T', 'convert_sound_speed')
 
     @ensure_mu
     def get_sound_speed_entropy(self):
@@ -360,13 +336,7 @@ class IfgCalculator:
         :return: C_S[i][j] - C_S in atomic units.\
         *i*-th index is for temperature, *j*-th one is for volume
         """
-        self.sound_speed_entropy = get_sound_speed_entropy(
-            specific_volume=self.volumes, temperature=self.temperatures,
-            chemical_potential=self.chemical_potential)
-        if self.output_in_si:
-            return self.reverse_converter.convert_sound_speed(
-                self.sound_speed_entropy)
-        return self.sound_speed_temperature
+        return self.generic_getter(get_sound_speed_entropy, 'C_S', 'convert_sound_speed')
 
     def get_all_properties(self, csv_dir=None):
         # type: (str) -> None
