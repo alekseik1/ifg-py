@@ -15,6 +15,9 @@ temperatures_st = st_numpy.arrays(np.float, st.tuples(st.integers(0, 100)),
 volumes_st = st_numpy.arrays(np.float, st.tuples(st.integers(1, 1)),
                              elements=st.floats(10., 100.))
 
+temperatures_high = st_numpy.arrays(np.float, st.tuples(st.integers(0, 100)),
+                                    elements=st.floats(1.E+40, 1.E+49))
+
 
 @contextmanager
 def set_up(temps, vols):
@@ -75,3 +78,12 @@ class TestLowTemperaturesLimits:
             # According to the original article
             expected = 2 / 3 * A * vv ** (-5 / 3) + beta / 3 * tt ** 2 * vv ** (2 / 3)
             np.testing.assert_array_almost_equal(calculator.p, expected)
+
+
+class TestHighTemperaturesLimits:
+
+    @given(temperatures_high, volumes_st)
+    def test_pressure(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = tt/vv
+            np.testing.assert_allclose(calc.p, expected)
