@@ -26,6 +26,42 @@ def set_up(temps, vols):
 class TestLowTemperaturesLimits:
 
     @given(temperatures_st, volumes_st)
+    def test_entropy(self, temps, vols):
+        with set_up(temps, vols) as (calculator, vv, tt):
+            expected = beta * tt * vv**(2/3)
+            np.testing.assert_array_almost_equal(calculator.S, expected)
+
+    @given(temperatures_st, volumes_st)
+    def test_C_V(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = beta * tt * vv**(2/3)
+            np.testing.assert_array_almost_equal(calc.C_V, expected)
+
+    @given(temperatures_st, volumes_st)
+    def test_C_P(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = beta * tt * vv**(2/3)
+            np.testing.assert_array_almost_equal(calc.C_P, expected)
+
+    @given(temperatures_st, volumes_st)
+    def test_C_T(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = np.sqrt(10/9 * A * vv**(-2/3) + beta/9 * tt**2 * vv**(2/3))
+            np.testing.assert_array_almost_equal(calc.C_T, expected)
+
+    @given(temperatures_st, volumes_st)
+    def test_C_S(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = np.sqrt(10/9 * A * vv**(2/3) + 5/9 * beta * tt**2 * vv**(2/3))
+            np.testing.assert_array_almost_equal(calc.C_S, expected)
+
+    @given(temperatures_st, volumes_st)
+    def test_F_potential(self, temps, vols):
+        with set_up(temps, vols) as (calculator, vv, tt):
+            expected = A*vv**(-2/3) - beta/2 * tt**2 * vv**(2/3)
+            np.testing.assert_array_almost_equal(calculator.F, expected)
+
+    @given(temperatures_st, volumes_st)
     def test_chemical_potential(self, temperatures, volumes):
         with set_up(temperatures, volumes) as (calculator, vv, tt):
             # According to the original article
