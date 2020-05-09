@@ -87,3 +87,46 @@ class TestHighTemperaturesLimits:
         with set_up(temps, vols) as (calc, vv, tt):
             expected = tt/vv
             np.testing.assert_allclose(calc.p, expected)
+
+    @given(temperatures_high, volumes_st)
+    def test_chemical_potential(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = tt * np.log(1/(g*vv) * (2*np.pi/tt)**(3/2))
+            np.testing.assert_allclose(calc.mu, expected)
+
+    @given(temperatures_high, volumes_st)
+    def test_F_potential(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = tt * np.log(1/(g*vv) * (2*np.pi/tt)**(3/2)) - tt \
+                       + np.pi**(3/2) / (2*g*vv*tt**(1/2))
+            np.testing.assert_allclose(calc.F, expected)
+
+    @given(temperatures_high, volumes_st)
+    def test_C_S(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = np.sqrt(5/3*tt)
+            np.testing.assert_allclose(calc.C_S, expected)
+
+    @given(temperatures_high, volumes_st)
+    def test_C_T(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = np.sqrt(tt)
+            np.testing.assert_allclose(calc.C_T, expected)
+
+    @given(temperatures_high, volumes_st)
+    def test_C_P(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = 5/2*np.ones_like(tt)
+            np.testing.assert_allclose(calc.C_P, expected)
+
+    @given(temperatures_high, volumes_st)
+    def test_C_V(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = 3/2*np.ones_like(tt)
+            np.testing.assert_allclose(calc.C_V, expected)
+
+    @given(temperatures_high, volumes_st)
+    def test_entropy(self, temps, vols):
+        with set_up(temps, vols) as (calc, vv, tt):
+            expected = 5/2 - calc.mu / tt
+            np.testing.assert_allclose(calc.S, expected)
