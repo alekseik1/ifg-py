@@ -55,7 +55,7 @@ class TestLowTemperaturesLimits:
     @given(temperatures_st, volumes_st)
     def test_C_S(self, temps, vols):
         with set_up(temps, vols) as (calc, vv, tt):
-            expected = np.sqrt(10/9 * A * vv**(2/3) + 5/9 * beta * tt**2 * vv**(2/3))
+            expected = np.sqrt(10/9 * A * vv**(-2/3) + 5/9 * beta * tt**2 * vv**(2/3))
             np.testing.assert_allclose(calc.C_S, expected)
 
     @given(temperatures_st, volumes_st)
