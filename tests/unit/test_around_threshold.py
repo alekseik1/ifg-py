@@ -4,10 +4,10 @@ from tests.conftest import volumes_st, set_up
 import numpy as np
 import hypothesis.extra.numpy as st_numpy
 
-temps_left_st = st_numpy.arrays(np.float, (100, ),
-                                st.floats(THRESHOLD*(1-1e-7), THRESHOLD, exclude_max=True))
-temps_right_st = st_numpy.arrays(np.float, (100, ),
-                                 st.floats(THRESHOLD, THRESHOLD*(1+1e-7), exclude_min=True))
+temps_left_st = st_numpy.arrays(np.float, (100, ), elements=st.floats(
+    THRESHOLD*(1-1e-7), THRESHOLD, exclude_max=True))
+temps_right_st = st_numpy.arrays(np.float, (100, ), elements=st.floats(
+    THRESHOLD, THRESHOLD*(1+1e-7), exclude_min=True))
 
 
 @given(temps_left_st, temps_right_st, volumes_st)
