@@ -1,4 +1,5 @@
 import os
+from csv import writer
 
 
 def dump_to_csv(filepath, data):
@@ -10,6 +11,7 @@ def dump_to_csv(filepath, data):
     :return:
     """
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
-    import pandas as pd
-    df = pd.DataFrame(data)
-    df.to_csv(filepath, index=False, sep=';')
+    with open(filepath, 'w') as f:
+        w = writer(f)
+        w.writerow(['temperature', 'value'])
+        w.writerows(data)

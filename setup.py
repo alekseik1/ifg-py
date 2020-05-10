@@ -26,7 +26,6 @@ setuptools.setup(
         'fdint',
         'scipy',
         'numpy',
-        'pandas'
     ],
     classifiers=[
         'Programming Language :: Python :: 3.6',
