@@ -1,30 +1,11 @@
 from __future__ import division
-import hypothesis.extra.numpy as st_numpy
-from hypothesis import strategies as st, given
-from contextlib import contextmanager
+from hypothesis import given
 import numpy as np
-from ifg_py import IfgCalculator
-
+from tests.conftest import volumes_st, temperatures_st, temperatures_high, set_up
 
 g = 2
 A = 3/5*(3*np.pi**2/(np.sqrt(2)*g))**(2/3)
 beta = (g*np.pi/6)**(2/3)
-
-
-temperatures_st = st_numpy.arrays(np.float, st.tuples(st.integers(0, 100)),
-                                  elements=st.floats(1E-49, 1E-30))
-volumes_st = st_numpy.arrays(np.float, st.tuples(st.integers(1, 1)),
-                             elements=st.floats(10., 100.))
-
-temperatures_high = st_numpy.arrays(np.float, st.tuples(st.integers(0, 100)),
-                                    elements=st.floats(1.E+40, 1.E+49))
-
-
-@contextmanager
-def set_up(temps, vols):
-    yield (IfgCalculator(
-        temperatures=temps, specific_volumes=vols,
-        input_in_si=False, output_in_si=False), np.meshgrid(vols, temps))
 
 
 class TestLowTemperaturesLimits:
