@@ -6,6 +6,9 @@ import numpy as np
 from ifg_py.units_converter import SiAtomicConverter
 
 
+THRESHOLD = 1e25
+
+
 def _1d_call(func, array, *args, **kwargs):
     return func(array.reshape(-1), *args, **kwargs).reshape(array.shape)
 
@@ -87,9 +90,17 @@ def get_entropy(specific_volume, temperature,
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
     vv, tt = np.meshgrid(specific_volume, temperature)
-    S = -np.sqrt(2) / (3 * np.pi ** 2) * tt ** (3 / 2) * vv * \
-        (3 * y * _1d_call(_fdk, y, k=1 / 2) - 5 * _1d_call(_fdk, y, k=3 / 2))
-    return S
+    # There is a precision problem with "-" (minus) operator
+    # We'll use asymptotic formula for low temperatures to avoid that problem
+    y_low = y[y < THRESHOLD]
+    vv_low, vv_high = vv[y < THRESHOLD], vv[y >= THRESHOLD]
+    tt_low, tt_high = tt[y < THRESHOLD], tt[y >= THRESHOLD]
+    # high temperatures - low numbers
+    S_low = -np.sqrt(2) / (3 * np.pi ** 2) * tt_low ** (3 / 2) * vv_low * \
+        (3 * y_low * _1d_call(_fdk, y_low, k=1 / 2) - 5 * _1d_call(_fdk, y_low, k=3 / 2))
+    # low temperatures - high numbers
+    S_high = (np.pi / 3)**(2/3) * tt_high * vv_high**(2/3)
+    return np.concatenate((S_low, S_high)).reshape(y.shape)
 
 
 def get_heat_capacity_volume(specific_volume,
@@ -108,11 +119,19 @@ def get_heat_capacity_volume(specific_volume,
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
     vv, tt = np.meshgrid(specific_volume, temperature)
-    C_V = np.sqrt(2) / (2 * np.pi ** 2) * tt ** (3 / 2) * vv
-    C_V *= (5 * _1d_call(_fdk, y, k=-1 / 2) * _1d_call(_fdk, y, k=3 / 2)
-            - 9 * _1d_call(_fdk, y, k=1 / 2) ** 2)
-    C_V /= _1d_call(_fdk, y, k=-1 / 2)
-    return C_V
+    # There is a precision problem with "-" (minus) operator
+    # We'll use asymptotic formula for high temperatures to avoid that problem
+    y_low = y[y < THRESHOLD]
+    vv_low, vv_high = vv[y < THRESHOLD], vv[y >= THRESHOLD]
+    tt_low, tt_high = tt[y < THRESHOLD], tt[y >= THRESHOLD]
+    # high temperatures - low numbers
+    C_V_low = 5 * _1d_call(_fdk, y_low, k=-1 / 2) * _1d_call(_fdk, y_low, k=3 / 2)
+    C_V_low -= 9 * _1d_call(_fdk, y_low, k=1 / 2) ** 2
+    C_V_low *= np.sqrt(2) / (2 * np.pi ** 2) * tt_low ** (3 / 2) * vv_low
+    C_V_low /= _1d_call(_fdk, y_low, k=-1 / 2)
+    # low temperatures - high numbers
+    C_V_high = (np.pi / 3)**(2/3) * tt_high * vv_high**(2/3)
+    return np.concatenate((C_V_low, C_V_high)).reshape(y.shape)
 
 
 def get_heat_capacity_pressure(specific_volume, temperature,
@@ -130,11 +149,19 @@ def get_heat_capacity_pressure(specific_volume, temperature,
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
     vv, tt = np.meshgrid(specific_volume, temperature)
-    C_P = 5 * np.sqrt(2) / (18 * np.pi ** 2) * tt ** (3 / 2) * vv
-    C_P *= (5 * _1d_call(_fdk, y, k=-1 / 2) * _1d_call(_fdk, y, k=3 / 2)
-            - 9 * _1d_call(_fdk, y, k=1 / 2) ** 2)
-    C_P *= _1d_call(_fdk, y, k=3 / 2) / _1d_call(_fdk, y, k=1 / 2) ** 2
-    return C_P
+    # There is a precision problem with "-" (minus) operator
+    # We'll use asymptotic formula for high temperatures to avoid that problem
+    y_low = y[y < THRESHOLD]
+    vv_low, vv_high = vv[y < THRESHOLD], vv[y >= THRESHOLD]
+    tt_low, tt_high = tt[y < THRESHOLD], tt[y >= THRESHOLD]
+    # high temperatures - low numbers
+    C_P_low = 5 * np.sqrt(2) / (18 * np.pi ** 2) * tt_low ** (3 / 2) * vv_low
+    C_P_low *= (5 * _1d_call(_fdk, y_low, k=-1 / 2) * _1d_call(_fdk, y_low, k=3 / 2)
+                - 9 * _1d_call(_fdk, y_low, k=1 / 2) ** 2)
+    C_P_low *= _1d_call(_fdk, y_low, k=3 / 2) / _1d_call(_fdk, y_low, k=1 / 2) ** 2
+    # low temperatures - high numbers
+    C_P_high = (np.pi / 3)**(2/3) * tt_high * vv_high**(2/3)
+    return np.concatenate((C_P_low, C_P_high)).reshape(y.shape)
 
 
 def get_sound_speed_temperature(specific_volume, temperature,
