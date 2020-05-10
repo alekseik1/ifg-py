@@ -1,6 +1,5 @@
 language: python
 cache: pip
-install: pip install tox
 script: tox
 matrix:
   include:

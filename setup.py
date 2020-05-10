@@ -21,6 +21,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url='https://github.com/alekseik1/ifg-py',
     packages=setuptools.find_packages(),
+    setup_requires=['fdint', 'numpy', 'scipy', ],
     install_requires=[
         'fdint',
         'scipy',
