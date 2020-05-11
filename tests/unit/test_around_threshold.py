@@ -1,4 +1,4 @@
-from ifg_py.calculator import THRESHOLD
+from ifg.calculator import THRESHOLD
 from hypothesis import strategies as st, given
 from tests.conftest import volumes_st, set_up
 import numpy as np

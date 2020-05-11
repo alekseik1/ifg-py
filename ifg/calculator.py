@@ -1,9 +1,9 @@
 from __future__ import division
-from ifg_py.utils import dump_to_csv
+from ifg.utils import dump_to_csv
 import os
 from fdint import fdk, ifd1h
 import numpy as np
-from ifg_py.units_converter import SiAtomicConverter
+from ifg.units_converter import SiAtomicConverter
 
 
 THRESHOLD = 1e10

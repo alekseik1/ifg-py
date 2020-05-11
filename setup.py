@@ -1,7 +1,7 @@
 import setuptools
 import re
 
-meta_file = open("ifg_py/metadata.py").read()
+meta_file = open("ifg/metadata.py").read()
 metadata = dict(re.findall(r"__([a-z]+)__\s*=\s*'([^']+)'", meta_file))
 
 
@@ -12,7 +12,7 @@ def get_long_description():
 
 
 setuptools.setup(
-    name='ifg_py',
+    name='ifg',
     version=metadata['version'],
     author='Aleksei Kozharin',
     author_email='1alekseik1@gmail.com',
