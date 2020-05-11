@@ -1,7 +1,7 @@
-from ifg_py import get_metal_specific_volume
+from ifg import get_metal_specific_volume
 import numpy as np
 
-from ifg_py import IfgCalculator
+from ifg import IfgCalculator
 
 if __name__ == '__main__':
 

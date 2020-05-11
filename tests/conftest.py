@@ -5,7 +5,7 @@ import pytest
 from hypothesis import strategies as st
 from hypothesis.extra import numpy as st_numpy
 
-from ifg_py import SiAtomicConverter, IfgCalculator
+from ifg import SiAtomicConverter, IfgCalculator
 
 
 @pytest.fixture(scope='session', params=[
