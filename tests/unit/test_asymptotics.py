@@ -1,5 +1,6 @@
 from __future__ import division
-from hypothesis import given
+from hypothesis import given, settings
+from datetime import timedelta
 import numpy as np
 from tests.conftest import volumes_st, temperatures_st, temperatures_high, set_up
 
@@ -23,6 +24,7 @@ class TestLowTemperaturesLimits:
             np.testing.assert_allclose(calc.C_V, expected)
 
     @given(temperatures_st, volumes_st)
+    @settings(deadline=timedelta(seconds=1))
     def test_C_P(self, temps, vols):
         with set_up(temps, vols) as (calc, (vv, tt)):
             expected = beta * tt * vv**(2/3)
