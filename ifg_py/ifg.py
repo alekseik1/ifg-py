@@ -6,7 +6,7 @@ import numpy as np
 from ifg_py.units_converter import SiAtomicConverter
 
 
-THRESHOLD = 1e25
+THRESHOLD = 1e10
 
 
 def _1d_call(func, array, *args, **kwargs):
