@@ -5,7 +5,7 @@
 
 ## Getting started
 ```bash
-pip install ifg-py
+pip install ifg
 ```
 
 ## Functionality
