@@ -13,6 +13,10 @@ The module can calculate some properties (like pressure, entropy) for ideal Ferm
 
 See [API reference](https://ifg-py.readthedocs.io/en/latest/) for more information
 
+
+## Examples
+See `examples/` folder for plots and code examples.
+
 ## Acknowledgements
 - [Library for Fermi integrals](https://pypi.org/project/fdint/)
 
