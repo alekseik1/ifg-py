@@ -6,6 +6,14 @@ Welcome to ifg-py's documentation!
     conversion
     class_desc
 
+Summary
+=======
+Numerical calculation of ideal Fermi gas (IFG) properties.
+
+Currently supports temperatures in range [1e-49..1e+49] and
+specific volumes in range [1e-30..1e+20].
+Others are not tested.
+
 
 Installation
 ============
