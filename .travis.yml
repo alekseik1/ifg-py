@@ -1,5 +1,7 @@
 language: python
 cache: pip
+services:
+  - docker
 jobs:
   include:
     - stage: test
@@ -31,36 +33,28 @@ jobs:
       before_script: pip install --upgrade setuptools wheel virtualenv
       script:
         - python setup.py sdist bdist_wheel
-        # install in separate virtual environment
-        - python -m virtualenv venv
-        - ./venv/bin/pip install dist/*.whl
+        - docker run -v $(pwd)/dist:/dist --rm python:2.7 /bin/bash -c "pip install numpy && pip install /dist/*.whl"
     - stage: build
       name: '3.5 build & install'
       python: 3.5
       before_script: pip install --upgrade setuptools wheel
       script:
         - python setup.py sdist bdist_wheel
-        # install in separate virtual environment
-        - python -m virtualenv venv
-        - ./venv/bin/pip install dist/*.whl
+        - docker run -v $(pwd)/dist:/dist --rm python:3.5 /bin/bash -c "pip install numpy && pip install /dist/*.whl"
     - stage: build
       name: '3.6 build & install'
       python: 3.6
       before_script: pip install --upgrade setuptools wheel
       script:
         - python setup.py sdist bdist_wheel
-        # install in separate virtual environment
-        - python -m virtualenv venv
-        - ./venv/bin/pip install dist/*.whl
+        - docker run -v $(pwd)/dist:/dist --rm python:3.6 /bin/bash -c "pip install numpy && pip install /dist/*.whl"
     - stage: build
       name: '3.7 build & install'
       python: 3.7
       before_script: pip install --upgrade setuptools wheel
       script:
         - python setup.py sdist bdist_wheel
-        # install in separate virtual environment
-        - python -m virtualenv venv
-        - ./venv/bin/pip install dist/*.whl
+        - docker run -v $(pwd)/dist:/dist --rm python:3.7 /bin/bash -c "pip install numpy && pip install /dist/*.whl"
     - stage: deploy
       name: "deploy to PyPi"
       script: skip
