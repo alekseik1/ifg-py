@@ -19,7 +19,7 @@ Installation
 ============
 Easily install via ``pip``::
 
-    pip install ifg-py
+    pip install ifg
 
 Support
 =======
