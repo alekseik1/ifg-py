@@ -1,7 +1,5 @@
 language: python
 cache: pip
-services:
-  - docker
 jobs:
   include:
     - stage: test
