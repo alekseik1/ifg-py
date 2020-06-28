@@ -17,8 +17,10 @@ Others are not tested.
 
 Installation
 ============
-Easily install via ``pip``::
+Easily install via ``pip``
+(note, however, that ``numpy`` should be installed first, see *Installation* on https://pypi.org/project/fdint/)::
 
+    pip install numpy
     pip install ifg
 
 Support
