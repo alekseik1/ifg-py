@@ -35,7 +35,7 @@ jobs:
         - python setup.py sdist bdist_wheel
         # Uninstall requirements to get kinda of `clean` environment
         # TODO: upload build artifacts and run fresh install against them
-        - pip uninstall -r requirements.txt
+        - pip uninstall -y -r requirements.txt
         - pip install dist/*.whl
     - stage: build
       name: '3.5 build & install'
@@ -45,7 +45,7 @@ jobs:
         - python setup.py sdist bdist_wheel
         # Uninstall requirements to get kinda of `clean` environment
         # TODO: upload build artifacts and run fresh install against them
-        - pip uninstall -r requirements.txt
+        - pip uninstall -y -r requirements.txt
         - pip install dist/*.whl
     - stage: build
       name: '3.6 build & install'
@@ -55,7 +55,7 @@ jobs:
         - python setup.py sdist bdist_wheel
         # Uninstall requirements to get kinda of `clean` environment
         # TODO: upload build artifacts and run fresh install against them
-        - pip uninstall -r requirements.txt
+        - pip uninstall -y -r requirements.txt
         - pip install dist/*.whl
     - stage: build
       name: '3.7 build & install'
@@ -65,7 +65,7 @@ jobs:
         - python setup.py sdist bdist_wheel
         # Uninstall requirements to get kinda of `clean` environment
         # TODO: upload build artifacts and run fresh install against them
-        - pip uninstall -r requirements.txt
+        - pip uninstall -y -r requirements.txt
         - pip install dist/*.whl
     - stage: deploy
       name: "deploy to PyPi"
