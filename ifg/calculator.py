@@ -302,7 +302,7 @@ class IfgCalculator:
         return self.generic_getter(get_F_potential, 'F', 'convert_energy')
 
     @property
-    def p(self):
+    def P(self):
         """
         Get IFG pressure P in atomic units
 

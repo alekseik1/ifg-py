@@ -61,7 +61,7 @@ class TestLowTemperaturesLimits:
         with set_up(temperatures, volumes) as (calculator, (vv, tt)):
             # According to the original article
             expected = 2 / 3 * A * vv ** (-5 / 3) + beta / 3 * tt ** 2 * vv ** (2 / 3)
-            np.testing.assert_allclose(calculator.p, expected)
+            np.testing.assert_allclose(calculator.P, expected)
 
 
 class TestHighTemperaturesLimits:
@@ -70,7 +70,7 @@ class TestHighTemperaturesLimits:
     def test_pressure(self, temps, vols):
         with set_up(temps, vols) as (calc, (vv, tt)):
             expected = tt/vv
-            np.testing.assert_allclose(calc.p, expected)
+            np.testing.assert_allclose(calc.P, expected)
 
     @given(temperatures_high, volumes_st)
     def test_chemical_potential(self, temps, vols):
