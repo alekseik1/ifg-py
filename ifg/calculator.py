@@ -76,6 +76,25 @@ def get_pressure(temperature, chemical_potential,
     return pressure
 
 
+def get_energy(specific_volume, temperature, chemical_potential,
+                 *args, **kwargs):
+    # type: (np.ndarray, np.ndarray, np.ndarray, list, dict) -> np.ndarray
+    """
+    Get IFG energy E in atomic units
+
+    :param specific_volume: Specific volume in atomic units.
+    :param temperature: Temperature in atomic units.
+    :param chemical_potential: Chemical potential in atomic units.
+    :return: E[i][j] - Energy in atomic units.
+    *i*-th index is for temperature, *j*-th one is for volume
+    """
+    y = np.multiply(chemical_potential.T, 1 / temperature).T
+    vv, tt = np.meshgrid(specific_volume, temperature)
+    energy = 2 * vv / (np.sqrt(2) * np.pi**2) * \
+               tt ** (5 / 2) * _1d_call(_fdk, y, k=3 / 2)
+    return energy
+
+
 def get_entropy(specific_volume, temperature,
                 chemical_potential, *args, **kwargs):
     # type: (np.ndarray, np.ndarray, np.ndarray, list, dict) -> np.ndarray
@@ -302,7 +321,7 @@ class IfgCalculator:
         return self.generic_getter(get_F_potential, 'F', 'convert_energy')
 
     @property
-    def p(self):
+    def P(self):
         """
         Get IFG pressure P in atomic units
 
@@ -310,6 +329,16 @@ class IfgCalculator:
         *i*-th index is for temperature, *j*-th one is for volume
         """
         return self.generic_getter(get_pressure, 'p', 'convert_pressure')
+
+    @property
+    def E(self):
+        """
+        Get IFG energy E in atomic units
+
+        :return: E[i][j] - Energy in atomic units.\
+        *i*-th index is for temperature, *j*-th one is for volume
+        """
+        return self.generic_getter(get_energy, 'E', 'convert_energy')
 
     @property
     def S(self):
@@ -371,7 +400,7 @@ class IfgCalculator:
         """
         properties = {
             prop: getattr(self, prop) for prop in
-            ['mu', 'F', 'p', 'S', 'C_P', 'C_V', 'C_T', 'C_S']
+            ['mu', 'F', 'P', 'E', 'S', 'C_P', 'C_V', 'C_T', 'C_S']
         }
         if csv_dir is not None:
             for key, value in properties.items():

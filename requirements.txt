@@ -1,6 +1,6 @@
 scipy
-fdint
 numpy
+fdint
 flake8
 tox
 hypothesis
