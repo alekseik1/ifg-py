@@ -23,6 +23,32 @@ Easily install via ``pip``
     pip install numpy
     pip install ifg
 
+
+Usage
+=====
+
+.. code-block:: python
+    import numpy as np
+    from ifg import IfgCalculator
+    from ifg import get_metal_specific_volume
+
+    # Aluminium
+    v_array = np.array([get_metal_specific_volume(density_sgs=2.70, molar_mass_sgs=26.98, num_electrons=3)])
+
+    T_range = np.hstack((
+        np.arange(10**0, 10**4, 10),
+        np.arange(10**4, 10**8, 1000),
+    ))
+    calculator = IfgCalculator(specific_volumes=v_array, temperatures=T_range, input_in_si=True, output_in_si=True)
+    # Pressure
+    print(calculator.P)
+    # Entropy
+    print(calculator.S)
+    # Isobaric heat capacity
+    print(calculator.C_P)
+
+More examples are available in `ifg/examples.py` folder.
+
 Support
 =======
 
