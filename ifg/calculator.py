@@ -400,7 +400,7 @@ class IfgCalculator:
         """
         properties = {
             prop: getattr(self, prop) for prop in
-            ['mu', 'F', 'p', 'S', 'C_P', 'C_V', 'C_T', 'C_S']
+            ['mu', 'F', 'P', 'E', 'S', 'C_P', 'C_V', 'C_T', 'C_S']
         }
         if csv_dir is not None:
             for key, value in properties.items():
