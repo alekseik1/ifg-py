@@ -35,28 +35,28 @@ jobs:
       before_script: pip install --upgrade setuptools wheel virtualenv
       script:
         - python setup.py sdist bdist_wheel
-        - pip install numpy && pip install /dist/*.whl
+        - pip install numpy && pip install -U dist/*.whl
     - stage: build
       name: '3.5 build & install'
       python: 3.5
       before_script: pip install --upgrade setuptools wheel
       script:
         - python setup.py sdist bdist_wheel
-        - pip install numpy && pip install /dist/*.whl
+        - pip install numpy && pip install -U dist/*.whl
     - stage: build
       name: '3.6 build & install'
       python: 3.6
       before_script: pip install --upgrade setuptools wheel
       script:
         - python setup.py sdist bdist_wheel
-        - pip install numpy && pip install /dist/*.whl
+        - pip install numpy && pip install -U dist/*.whl
     - stage: build
       name: '3.7 build & install'
       python: 3.7
       before_script: pip install --upgrade setuptools wheel
       script:
         - python setup.py sdist bdist_wheel
-        - pip install numpy && pip install /dist/*.whl
+        - pip install numpy && pip install -U dist/*.whl
     - stage: deploy
       name: "deploy to PyPi"
       script: skip
