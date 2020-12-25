@@ -1,19 +1,8 @@
+os: linux
+arch: arm64-graviton2
 language: python
 cache:
   - pip
-  - $HOME/docker
-services:
-  - docker
-
-before_cache:
-  # Save tagged docker images
-  # See https://github.com/travis-ci/travis-ci/issues/5358#issuecomment-248915326
-  - >
-    mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
-    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
-before_install:
-   # Load cached docker images
-   - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
 
 jobs:
   include:
@@ -46,28 +35,28 @@ jobs:
       before_script: pip install --upgrade setuptools wheel virtualenv
       script:
         - python setup.py sdist bdist_wheel
-        - docker run -v $(pwd)/dist:/dist --rm python:2.7 /bin/bash -c "pip install numpy && pip install /dist/*.whl"
+        - pip install numpy && pip install -U dist/*.whl
     - stage: build
       name: '3.5 build & install'
       python: 3.5
       before_script: pip install --upgrade setuptools wheel
       script:
         - python setup.py sdist bdist_wheel
-        - docker run -v $(pwd)/dist:/dist --rm python:3.5 /bin/bash -c "pip install numpy && pip install /dist/*.whl"
+        - pip install numpy && pip install -U dist/*.whl
     - stage: build
       name: '3.6 build & install'
       python: 3.6
       before_script: pip install --upgrade setuptools wheel
       script:
         - python setup.py sdist bdist_wheel
-        - docker run -v $(pwd)/dist:/dist --rm python:3.6 /bin/bash -c "pip install numpy && pip install /dist/*.whl"
+        - pip install numpy && pip install -U dist/*.whl
     - stage: build
       name: '3.7 build & install'
       python: 3.7
       before_script: pip install --upgrade setuptools wheel
       script:
         - python setup.py sdist bdist_wheel
-        - docker run -v $(pwd)/dist:/dist --rm python:3.7 /bin/bash -c "pip install numpy && pip install /dist/*.whl"
+        - pip install numpy && pip install -U dist/*.whl
     - stage: deploy
       name: "deploy to PyPi"
       script: skip
