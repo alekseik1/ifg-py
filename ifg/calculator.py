@@ -1,10 +1,14 @@
 from __future__ import division
-from ifg.utils import dump_to_csv
+#from ifg.utils import dump_to_csv
+from utils import dump_to_csv
 import os
 from fdint import fdk, ifd1h
 import numpy as np
-from ifg.units_converter import SiAtomicConverter
+#from ifg.units_converter import SiAtomicConverter
+from units_converter import SiAtomicConverter
 
+class Params:
+    gbar = 2.;
 
 THRESHOLD = 1e10
 
@@ -28,9 +32,8 @@ def get_chemical_potential(specific_volume, temperature,
     :return: `mu[i][j]` - chemical potential in atomic units.
     *i*-th index is for temperature, *j*-th one is for volume
     """
-    g = 2
     vv, tt = np.meshgrid(specific_volume, temperature)
-    to_inverse = np.sqrt(2) * np.pi ** 2 / (g * tt ** (3 / 2) * vv)
+    to_inverse = np.sqrt(2) * np.pi ** 2 / (Params.gbar * tt ** (1.5) * vv)
     mu_div_temperature = _1d_call(ifd1h, to_inverse)
     mu = np.multiply(temperature, mu_div_temperature.T).T
     return mu
@@ -52,8 +55,8 @@ def get_F_potential(specific_volume, temperature,
     # y = chemical_potential/temperature
     y = np.multiply(chemical_potential.T, 1 / temperature).T
     vv, tt = np.meshgrid(specific_volume, temperature)
-    F = np.sqrt(2) / np.pi ** 2 * tt ** (5 / 2) * vv
-    F *= (y * _1d_call(_fdk, y, k=1 / 2) - 2 / 3 * _1d_call(_fdk, y, k=3 / 2))
+    F = Params.gbar / np.sqrt(2.) / np.pi**2 * tt ** (2.5) * vv
+    F *= (y * _1d_call(_fdk, y, k=0.5) - 2. / 3. * _1d_call(_fdk, y, k=1.5))
     return F
 
 
@@ -71,8 +74,8 @@ def get_pressure(temperature, chemical_potential,
     specific_volume = np.empty(1)
     y = np.multiply(chemical_potential.T, 1 / temperature).T
     vv, tt = np.meshgrid(specific_volume, temperature)
-    pressure = 2 * np.sqrt(2) / (3 * np.pi ** 2) * \
-        tt ** (5 / 2) * _1d_call(_fdk, y, k=3 / 2)
+    pressure = Params.gbar * np.sqrt(2) / (3 * np.pi ** 2) * \
+        tt ** (2.5) * _1d_call(_fdk, y, k=1.5)
     return pressure
 
 
@@ -90,8 +93,8 @@ def get_energy(specific_volume, temperature, chemical_potential,
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
     vv, tt = np.meshgrid(specific_volume, temperature)
-    energy = 2 * vv / (np.sqrt(2) * np.pi**2) * \
-               tt ** (5 / 2) * _1d_call(_fdk, y, k=3 / 2)
+    energy = Params.gbar * vv / (np.sqrt(2) * np.pi**2) * \
+               tt ** (2.5) * _1d_call(_fdk, y, k=1.5)
     return energy
 
 
@@ -115,10 +118,10 @@ def get_entropy(specific_volume, temperature,
     vv_low, vv_high = vv[y < THRESHOLD], vv[y >= THRESHOLD]
     tt_low, tt_high = tt[y < THRESHOLD], tt[y >= THRESHOLD]
     # high temperatures - low numbers
-    S_low = -np.sqrt(2) / (3 * np.pi ** 2) * tt_low ** (3 / 2) * vv_low * \
+    S_low = -Params.gbar * np.sqrt(2) / (6 * np.pi ** 2) * tt_low ** (3 / 2) * vv_low * \
         (3 * y_low * _1d_call(_fdk, y_low, k=1 / 2) - 5 * _1d_call(_fdk, y_low, k=3 / 2))
     # low temperatures - high numbers
-    S_high = (np.pi / 3)**(2/3) * tt_high * vv_high**(2/3)
+    S_high = (Params.gbar * np.pi / 6)**(2/3) * tt_high * vv_high**(2/3)
     return np.concatenate((S_low, S_high)).reshape(y.shape)
 
 
@@ -146,10 +149,10 @@ def get_heat_capacity_volume(specific_volume,
     # high temperatures - low numbers
     C_V_low = 5 * _1d_call(_fdk, y_low, k=-1 / 2) * _1d_call(_fdk, y_low, k=3 / 2)
     C_V_low -= 9 * _1d_call(_fdk, y_low, k=1 / 2) ** 2
-    C_V_low *= np.sqrt(2) / (2 * np.pi ** 2) * tt_low ** (3 / 2) * vv_low
+    C_V_low *= Params.gbar * np.sqrt(2) / (4 * np.pi ** 2) * tt_low ** (3 / 2) * vv_low
     C_V_low /= _1d_call(_fdk, y_low, k=-1 / 2)
     # low temperatures - high numbers
-    C_V_high = (np.pi / 3)**(2/3) * tt_high * vv_high**(2/3)
+    C_V_high = (Params.gbar * np.pi / 6)**(2/3) * tt_high * vv_high**(2/3)
     return np.concatenate((C_V_low, C_V_high)).reshape(y.shape)
 
 
@@ -174,12 +177,12 @@ def get_heat_capacity_pressure(specific_volume, temperature,
     vv_low, vv_high = vv[y < THRESHOLD], vv[y >= THRESHOLD]
     tt_low, tt_high = tt[y < THRESHOLD], tt[y >= THRESHOLD]
     # high temperatures - low numbers
-    C_P_low = 5 * np.sqrt(2) / (18 * np.pi ** 2) * tt_low ** (3 / 2) * vv_low
+    C_P_low = 5 * Params.gbar * np.sqrt(2) / (36 * np.pi ** 2) * tt_low ** (3 / 2) * vv_low
     C_P_low *= (5 * _1d_call(_fdk, y_low, k=-1 / 2) * _1d_call(_fdk, y_low, k=3 / 2)
                 - 9 * _1d_call(_fdk, y_low, k=1 / 2) ** 2)
     C_P_low *= _1d_call(_fdk, y_low, k=3 / 2) / _1d_call(_fdk, y_low, k=1 / 2) ** 2
     # low temperatures - high numbers
-    C_P_high = (np.pi / 3)**(2/3) * tt_high * vv_high**(2/3)
+    C_P_high = (Params.gbar * np.pi / 6)**(2/3) * tt_high * vv_high**(2/3)
     return np.concatenate((C_P_low, C_P_high)).reshape(y.shape)
 
 
@@ -198,7 +201,7 @@ def get_sound_speed_temperature(specific_volume, temperature,
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
     vv, tt = np.meshgrid(specific_volume, temperature)
-    C_T = 2 ** (3 / 4) / np.pi * np.sqrt(vv) * tt ** (5 / 4) * \
+    C_T = 2 ** (1 / 4) * np.sqrt(Params.gbar) / np.pi * np.sqrt(vv) * tt ** (5 / 4) * \
         _1d_call(_fdk, y, k=1 / 2) / np.sqrt(_1d_call(_fdk, y, k=-1 / 2))
     return C_T
 
@@ -218,7 +221,7 @@ def get_sound_speed_entropy(specific_volume, temperature,
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
     vv, tt = np.meshgrid(specific_volume, temperature)
-    C_S = np.sqrt(10) * 2 ** (1 / 4) / (3 * np.pi) * tt ** (5 / 4) * \
+    C_S = np.sqrt(5) * np.sqrt(Params.gbar) * 2 ** (1 / 4) / (3 * np.pi) * tt ** (5 / 4) * \
         np.sqrt(vv * _1d_call(_fdk, y, k=3 / 2))
     return C_S
 
@@ -261,7 +264,7 @@ def get_all_properties(specific_volume,
 class IfgCalculator:
 
     def __init__(self, specific_volumes, temperatures,
-                 input_in_si, output_in_si):
+                 input_in_si, output_in_si, g = 2., mr = 1.):
         # type: (np.ndarray, np.ndarray, bool, bool) -> None
         """
         Main class for IFG calculations
@@ -269,9 +272,12 @@ class IfgCalculator:
         :param specific_volumes: Array of specific volumes of a gas
         :param temperatures: Array of temperatures of a gas
         :param input_in_si: Whether values are in SI or in atomic units
+        :param g: degeneracy of spin states, g = 2s + 1, s - spin
+        :param mr: mass of particles with repsect to electron mass
         """
         self.input_in_si = input_in_si
         self.output_in_si = output_in_si
+        Params.gbar = g * mr**1.5
         self.converter = SiAtomicConverter(from_si=True)
         self.reverse_converter = SiAtomicConverter(from_si=False)
         specific_volumes, temperatures = map(np.array, [specific_volumes, temperatures])
