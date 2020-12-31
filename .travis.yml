@@ -68,4 +68,5 @@ jobs:
           secure: DM1F0tApae9m7G+8xFQf9szjwalhLY5fGcyPFpNMR1nQ8T2JCQRi549lUUTL2/kgWrsfHyfWklmc9gxc7bk1XkeHsHX3vhKRPAXBhG4bZAWyPJBbx81qCpZ1NRqFiwISjFkE0noceBYNd0CuJTuPvoRcOJ9fIeVtKk7SHhT/8okgJYZX8BeE+RUUy3HPRSNqQL7xNQfJIOWZ4mlhvJwOgUB66IjUKTtxdEZL4WQ47+G5YhxpcUP6QLlbbhi8J4KJsuw7XftLKhxSzw8Mh53Xq8M6b+av3S/ysNzKumrogGlPkz58pun/QHuAA8KRf7uoVarjY99yiN7wFzSmrGwtJB5kkLl9h1TkhqcSm87KllGXa0GsdUwMyEdBCM+ByA3CmgEN6tjj3YdDUm0AY66LPHMSG7OM0+T3Fuv4kIIMr33LCIVzxLJEMGXjWZu1M4Vxzw8aVwH97qnI+x+zwUzA0K/ha59v/GYMt7O2oGU+KQy0MwXn+1b17MY0756uAOLSJnblT0CcUUVaOtgENY1cPvFFIcZ4mgiG/xw7NFQNEjH2Q6Hq6xaYFMkO6Xny2le2P/T/x7qlBh9pS0ftvDGxB8mG8hiTqt/l7t4iDMU9YaztJBKnsgu90tYFh52GvM9kXzxTucOEWbPz0iliEGBPX991EG5p0Ib8Qof8Kgy0dfg=
         on:
           branch: master
+          tags: true
         skip_existing: true
