@@ -1,14 +1,8 @@
 import setuptools
 import re
-import os
 
 meta_file = open("ifg/metadata.py").read()
 metadata = dict(re.findall(r"__([a-z]+)__\s*=\s*'([^']+)'", meta_file))
-
-CI_POSTFIX = os.environ.get('TRAVIS_BUILD_NUMBER', None)
-BASE_VERSION = metadata['version']
-metadata['version'] = '{}.{}'.format(BASE_VERSION, CI_POSTFIX) \
-    if CI_POSTFIX else BASE_VERSION
 
 
 def get_long_description():
