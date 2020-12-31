@@ -4,6 +4,9 @@ Conversion between SI and atomic
 Conversion is done using ``SiAtomicConverter`` class.
 Currently, only SI and atomic units are supported.
 
+
+Note that energy, heat capacity and entropy are specific (i.e. J/m^3 for energy).
+
 ========
 Examples
 ========
