@@ -1,11 +1,9 @@
 from __future__ import division
 from ifg.utils import dump_to_csv
-#from utils import dump_to_csv
 import os
 from fdint import fdk, ifd1h
 import numpy as np
 from ifg.units_converter import SiAtomicConverter
-#from units_converter import SiAtomicConverter
 
 
 THRESHOLD = 1e10
@@ -274,7 +272,7 @@ class IfgCalculator:
         :param temperatures: Array of temperatures of a gas
         :param input_in_si: Whether values are in SI or in atomic units
         :param g: degeneracy of spin states, g = 2s + 1, s - spin
-        :param mr: mass of particles with repsect to electron mass
+        :param mr: mass of particles with respect to electron mass
         """
         self.input_in_si = input_in_si
         self.output_in_si = output_in_si
