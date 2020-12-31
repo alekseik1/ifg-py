@@ -1,4 +1,5 @@
 from scipy.constants import physical_constants
+import scipy.constants as const
 
 
 class SiAtomicConverter:
@@ -10,6 +11,19 @@ class SiAtomicConverter:
         :param from_si: Whether to convert from SI or atomic
         """
         self.from_si = from_si
+# self.ab - Bohr radius
+        self.ab = physical_constants['Bohr radius'][0]
+# self.ab3 - Bohr radius to the 3rd power
+        self.ab3 = self.ab * self.ab * self.ab
+# self.ec = elementary charge
+        self.ec = physical_constants['elementary charge'][0]
+# self.kb - Boltzmann constant
+        self.kb = physical_constants['Boltzmann constant'][0]
+# self.e0 - Vacuum permeatbility
+        self.e0 = physical_constants['electric constant'][0]
+# self.ha - Hartree energy in Joules
+        self.ha = 0.25 * self.ec * self.ec / const.pi / self.e0 / self.ab
+        
 
     def convert_energy(self, energy):
         """
@@ -19,9 +33,9 @@ class SiAtomicConverter:
         :return: Converted energy
         """
         if self.from_si:
-            return energy/physical_constants['atomic unit of energy'][0]
+            return energy / self.ha * self.ab3
         else:
-            return energy*physical_constants['atomic unit of energy'][0]
+            return energy * self.ha / self.ab3
 
     def convert_temperature(self, temperature):
         """
@@ -31,14 +45,10 @@ class SiAtomicConverter:
         :return: Converted temperature
         """
         if self.from_si:
-            temperature_joule = temperature * \
-                                physical_constants['kelvin-joule relationship'][0]
-            return temperature_joule*physical_constants['joule-hartree relationship'][0]
+            return temperature / self.ha * self.kb
         else:
             # E_h -> Joules -> Kelvins
-            temperature_joule = temperature * \
-                                physical_constants['hartree-joule relationship'][0]
-            return temperature_joule*physical_constants['joule-kelvin relationship'][0]
+            return temperature * self.ha / self.kb
 
     def convert_volume(self, volume):
         """
@@ -48,9 +58,9 @@ class SiAtomicConverter:
         :return: Converted volume
         """
         if self.from_si:
-            return volume/physical_constants['atomic unit of length'][0]**3
+            return volume / self.ab3
         else:
-            return volume*physical_constants['atomic unit of length'][0]**3
+            return volume * self.ab3
 
     def convert_pressure(self, pressure):
         """
@@ -60,11 +70,9 @@ class SiAtomicConverter:
         :return: Converted pressure
         """
         if self.from_si:
-            return pressure/physical_constants['atomic unit of force'][0] * \
-                   physical_constants['atomic unit of length'][0]**2
+            return pressure / self.ha * self.ab3
         else:
-            return pressure*physical_constants['atomic unit of force'][0] / \
-                   physical_constants['atomic unit of length'][0]**2
+            return pressure * self.ha / self.ab3
 
     def convert_entropy(self, entropy):
         """
@@ -74,21 +82,9 @@ class SiAtomicConverter:
         :return: Converted entropy
         """
         if self.from_si:
-            # Convert joules
-            tmp = entropy*physical_constants['joule-hartree relationship'][0]
-            # Convert temperature
-            coeff = physical_constants['kelvin-joule relationship'][0] * \
-                physical_constants['joule-hartree relationship'][0]
-            tmp /= coeff
-            return tmp
+            return entropy / self.kb * self.ab3
         else:
-            # Convert joules
-            tmp = entropy/physical_constants['joule-hartree relationship'][0]
-            # Convert temperature
-            coeff = physical_constants['kelvin-joule relationship'][0] * \
-                physical_constants['joule-hartree relationship'][0]
-            tmp *= coeff
-            return tmp
+            return entropy * self.kb / self.ab3
 
     def convert_heat_capacity(self, heat_capacity):
         """
