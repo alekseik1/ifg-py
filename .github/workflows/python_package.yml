@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-
+    name: "test with pytest + run examples"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -25,9 +25,12 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+    - name: Run examples
+      run: |
+        python -m ifg.examples
 
   deploy:
-
+    name: build and deploy to PyPi
     runs-on: ubuntu-latest
 
     steps:
