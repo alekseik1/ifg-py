@@ -1,12 +1,11 @@
 name: Test package and publish Python 🐍 distributions 📦 to PyPI
 
-runs-on: ubuntu-latest
-
 on: push
 
 jobs:
   build:
 
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ['2.7', '3.5', '3.6', '3.7']
@@ -27,6 +26,7 @@ jobs:
 
   deploy:
 
+    runs-on: ubuntu-latest
     on:
       push:
         branches: [ $default-branch ]
