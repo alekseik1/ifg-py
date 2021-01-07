@@ -1,6 +1,7 @@
 # Numerical ideal Fermi gas
 
 [![Documentation Status](https://readthedocs.org/projects/ifg-py/badge/?version=latest)](https://ifg-py.readthedocs.io/en/latest/?badge=latest)
+[![test and run examples](https://github.com/alekseik1/ifg-py/workflows/test%20and%20run%20examples/badge.svg)](https://github.com/alekseik1/ifg-py/actions?query=workflow%3A%22test+and+run+examples%22)
 [![build and deploy](https://github.com/alekseik1/ifg-py/workflows/build%20and%20deploy/badge.svg)](https://github.com/alekseik1/ifg-py/actions)
 
 ## Getting started
