@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.0 (2021-01-07)
+### Feature
+* Correct get_all_properties ([`2c65491`](https://github.com/alekseik1/ifg-py/commit/2c6549118dc4c30536764af527e6eb3bef058e4e))
+
+### Fix
+* Python2.7 crash on `exist_ok` ([`44fbde5`](https://github.com/alekseik1/ifg-py/commit/44fbde5601c5d58657d42081dc227b2ed4dd8bf0))
+
+### Documentation
+* **README.md:** Add badge for tests ([`e22209f`](https://github.com/alekseik1/ifg-py/commit/e22209ff729a423d54e5d6ca975b792699c0e6aa))
+* Add GitHub Actions build status ([`06dea65`](https://github.com/alekseik1/ifg-py/commit/06dea6551abe26c3be1decd6dce5e9aa8d098e56))
+
 ## v1.1.0 (2021-01-07)
 ### Feature
 * Add energy to calculator ([`8cf1e7a`](https://github.com/alekseik1/ifg-py/commit/8cf1e7a4f9d7bc16121d656ad1e71863199905a0))
