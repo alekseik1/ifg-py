@@ -2,10 +2,14 @@ from contextlib import contextmanager
 
 import numpy as np
 import pytest
-from hypothesis import strategies as st
+from datetime import timedelta
+from hypothesis import strategies as st, settings, Verbosity
 from hypothesis.extra import numpy as st_numpy
 
 from ifg import SiAtomicConverter, IfgCalculator
+
+settings.register_profile('ci', deadline=timedelta(seconds=5))
+settings.load_profile('ci')
 
 
 @pytest.fixture(scope='session', params=[
