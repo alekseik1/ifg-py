@@ -3,7 +3,7 @@ from contextlib import contextmanager
 import numpy as np
 import pytest
 from datetime import timedelta
-from hypothesis import strategies as st, settings, Verbosity
+from hypothesis import strategies as st, settings
 from hypothesis.extra import numpy as st_numpy
 
 from ifg import SiAtomicConverter, IfgCalculator

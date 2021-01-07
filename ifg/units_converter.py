@@ -11,19 +11,18 @@ class SiAtomicConverter:
         :param from_si: Whether to convert from SI or atomic
         """
         self.from_si = from_si
-# self.ab - Bohr radius
+        # self.ab - Bohr radius
         self.ab = physical_constants['Bohr radius'][0]
-# self.ab3 - Bohr radius to the 3rd power
+        # self.ab3 - Bohr radius to the 3rd power
         self.ab3 = self.ab * self.ab * self.ab
-# self.ec = elementary charge
+        # self.ec = elementary charge
         self.ec = physical_constants['elementary charge'][0]
-# self.kb - Boltzmann constant
+        # self.kb - Boltzmann constant
         self.kb = physical_constants['Boltzmann constant'][0]
-# self.e0 - Vacuum permeatbility
+        # self.e0 - Vacuum permeatbility
         self.e0 = physical_constants['electric constant'][0]
-# self.ha - Hartree energy in Joules
+        # self.ha - Hartree energy in Joules
         self.ha = 0.25 * self.ec * self.ec / const.pi / self.e0 / self.ab
-        
 
     def convert_energy(self, energy):
         """

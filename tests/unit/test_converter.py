@@ -6,11 +6,14 @@ allowed_numbers = st.floats(min_value=1e-50, max_value=1e+50)
 # One in atomic is `atomic_to_si[quantity]` in SI
 atomic_to_si = {
     'pressure': 29421015696686.086,
-    'energy': 4.3597447222071E-18 / (5.29177210903*10**-11)**3,  # NOTE: energy is relative to volume, i.e. J / m^3
+    # NOTE: energy is relative to volume, i.e. J / m^3
+    'energy': 4.3597447222071E-18 / (5.29177210903*10**-11)**3,
     'temperature': 315775.02480232634,
     'volume': 1.481847114721628e-31,
-    'entropy': 1.380649E-23 / (5.29177210903*10**-11)**3,  # NOTE: energy is relative to volume, i.e. J / m^3
-    'heat_capacity': 1.380649E-23 / (5.29177210903*10**-11)**3,  # NOTE: energy is relative to volume, i.e. J / m^3
+    # NOTE: energy is relative to volume, i.e. J / m^3
+    'entropy': 1.380649E-23 / (5.29177210903*10**-11)**3,
+    # NOTE: energy is relative to volume, i.e. J / m^3
+    'heat_capacity': 1.380649E-23 / (5.29177210903*10**-11)**3,
     'sound_speed': 2187691.2636411325,
 }
 
