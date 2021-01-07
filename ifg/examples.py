@@ -22,5 +22,5 @@ if __name__ == '__main__':
     ))
     calculator = IfgCalculator(specific_volumes=v_array, temperatures=T_range,
                                input_in_si=True, output_in_si=True)
-    # calculator.get_all_properties('data/all_temperatures')
+    calculator.get_all_properties('data/all_temperatures')
     calculator.get_all_properties()

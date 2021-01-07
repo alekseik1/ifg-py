@@ -413,3 +413,4 @@ class IfgCalculator:
                     dump_to_csv(os.path.join(
                         os.getcwd(), csv_dir, '{}_v={}_atomic_units.csv'.format(key, volume)),
                         np.array([self.temperatures, value[:, i]]).T)
+        return properties
