@@ -1,10 +1,10 @@
-name: Test package and publish Python 🐍 distributions 📦 to PyPI
+name: Test, build and publish
 
 on: [push]
 
 jobs:
   test:
-    name: "test with pytest + run examples"
+    name: "pytest + examples"
     runs-on: ubuntu-latest
     strategy:
       matrix:
