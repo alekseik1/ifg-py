@@ -1,4 +1,5 @@
 import os
+import errno
 from csv import writer
 
 
@@ -10,7 +11,11 @@ def dump_to_csv(filepath, data):
     :param data: Data to dump
     :return:
     """
-    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    try:
+        os.makedirs(os.path.dirname(filepath))
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
     with open(filepath, 'w') as f:
         w = writer(f)
         w.writerow(['temperature', 'value'])
