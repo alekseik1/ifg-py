@@ -78,7 +78,7 @@ def get_pressure(temperature, chemical_potential, gbar=2.,
 
 
 def get_energy(specific_volume, temperature, chemical_potential, gbar=2.,
-                 *args, **kwargs):
+               *args, **kwargs):
     # type: (np.ndarray, np.ndarray, np.ndarray, float, list, dict) -> np.ndarray
     """
     Get IFG energy E in atomic units
@@ -93,7 +93,7 @@ def get_energy(specific_volume, temperature, chemical_potential, gbar=2.,
     y = np.multiply(chemical_potential.T, 1 / temperature).T
     vv, tt = np.meshgrid(specific_volume, temperature)
     energy = gbar * vv / (np.sqrt(2) * np.pi**2) * \
-               tt ** (2.5) * _1d_call(_fdk, y, k=1.5)
+        tt ** 2.5 * _1d_call(_fdk, y, k=1.5)
     return energy
 
 

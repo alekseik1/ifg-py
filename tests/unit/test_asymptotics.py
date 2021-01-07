@@ -1,6 +1,5 @@
 from __future__ import division
-from hypothesis import given, settings
-from datetime import timedelta
+from hypothesis import given
 import numpy as np
 from tests.conftest import volumes_st, temperatures_st, temperatures_high, set_up
 
