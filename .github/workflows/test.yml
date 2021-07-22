@@ -39,6 +39,8 @@ jobs:
       # Additional setup for Windows
       # Does nothing on MacOS and Linux
       - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          toolset: 9.0
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
