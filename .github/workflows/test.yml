@@ -25,7 +25,7 @@ jobs:
           # On 2021-07-22 does not work without MS Visual C++ 9.0
           # which is not available
           - os: 'windows-latest'
-            python: '2.7'
+            python-version: '2.7'
 
     steps:
       - uses: actions/checkout@v2
