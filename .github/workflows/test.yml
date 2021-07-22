@@ -53,20 +53,20 @@ jobs:
         with:
           poetry-version: "1.1.7"
       - name: Export dependencies to `requirements.txt`
-        run: poetry export -f requirements.txt --output requirements.txt
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          # numpy should be installed in advance
-          pip install numpy
-          pip install -r requirements.txt
+        run: poetry install
+#        run: poetry export -f requirements.txt --output requirements.txt
+#      - name: Install dependencies
+#        run: |
+#          # numpy should be installed in advance
+#          pip install numpy
+#          pip install -r requirements.txt
       - name: Test with pytest
         run: |
-          pytest
+          poetry run pytest
       - name: Run examples
         run: |
-          python -m ifg.examples
+          poetry run python -m ifg.examples
       - name: Check style
         continue-on-error: false
         run: |
-          flake8
+          poetry run flake8
