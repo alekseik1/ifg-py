@@ -8,6 +8,9 @@ on:
     # docs are built externally by readthebdocs
     paths-ignore:
       - 'docs/**'
+  # schedule every day at midnight
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
   test:
