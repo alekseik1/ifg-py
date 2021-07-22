@@ -21,6 +21,11 @@ jobs:
         # run pipeline on all supported python versions
         python-version: ['2.7', '3.5', '3.6', '3.7']
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        exclude:
+          # On 2021-07-22 does not work without MS Visual C++ 9.0
+          # which is not available
+          - os: 'windows-latest'
+            python: '2.7'
 
     steps:
       - uses: actions/checkout@v2
@@ -38,7 +43,8 @@ jobs:
             ${{ runner.os }}-pip-
       # Additional setup for Windows
       # Does nothing on MacOS and Linux
-      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Install Visual C++
+        uses: ilammy/msvc-dev-cmd@v1
         with:
           toolset: 14.0
       - name: Install dependencies
