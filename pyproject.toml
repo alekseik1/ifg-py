@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "ifg"
+version = "1.2.0"
+description = "Calculator of Ideal Fermi gas properties"
+license = "MIT"
+authors = [
+    "Aleksei Kozharin <1alekseik1@gmail.com>",
+    "Pavel Levashov <pasha@jiht.ru>"
+]
+maintainers = ["Aleksei Kozharin <1alekseik1@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/alekseik1/ifg-py"
+documentation = "https://ifg-py.readthedocs.io/en/latest/"
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License"
+]
+
+[tool.poetry.dependencies]
+python = "^2.7 || ^3.5 || ^3.6 || ^3.7 || ^3.8 || ^3.9"
+
+[tool.poetry.dev-dependencies]
+pytest = [
+    # pytest 5.0 dropped support for python < 3.5
+    {version = "^4", python = "<3.5"},
+    {version = "^5.2", python = ">=3.5"}
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.semantic_release]
+version_variable = [
+    "ifg/metadata.py:__version__"
+]
+version_toml = "pyproject.toml:tool.poetry.version"
+build_command = "python setup.py bdist_wheel"
