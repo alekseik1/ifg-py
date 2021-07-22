@@ -36,6 +36,9 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
+      # Additional setup for Windows
+      # Does nothing on MacOS and Linux
+      - uses: ilammy/msvc-dev-cmd@v1
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
