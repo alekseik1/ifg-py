@@ -18,57 +18,16 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^2.7 || ^3.5.2 || ^3.6 || ^3.7 || ^3.8 || ^3.9"
-numpy = [
-    {version = "^1.16.6", python = "^2.7"},
-    {version = "^1.18.5", python = "^3.5.2"},
-    {version = "^1.19.5", python = "^3.6"},
-    {version = "^1.20.3", python = "^3.7"},
-    {version = "^1.20.3", python = "^3.8"},
-    {version = "^1.20.3", python = "^3.9"},
-]
-scipy = [
-    {version = "^1.2", python = "^2.7"},
-    {version = "^1.4", python = "^3.5.2"},
-    {version = "^1.5", python = "^3.6"},
-    {version = "^1.6", python = "^3.7"},
-    {version = "^1.6", python = "^3.8"},
-    {version = "^1.6", python = "^3.9"},
-]
-fdint = "^2.0"
+numpy = "*"
+scipy = "*"
+fdint = "*"
 
 [tool.poetry.dev-dependencies]
 # Used only for example plots
-matplotlib = [
-    {version = "^2.2", python = "^2.7"},
-    {version = "^3.0", python = "^3.5.2"},
-    {version = "^3.3", python = "^3.6"},
-    {version = "^3.4", python = "^3.7"},
-    {version = "^3.4", python = "^3.8"},
-    {version = "^3.4", python = "^3.9"},
-]
-pytest = [
-    {version = "^4.6.11", python = "^2.7"},
-    {version = "^6.1.2", python = "^3.5.2"},
-    {version = "^6.2.4", python = "^3.6"},
-    {version = "^6.2.4", python = "^3.7"},
-    {version = "^6.2.4", python = "^3.8"},
-    {version = "^6.2.4", python = "^3.9"},
-    # pytest 5.0 dropped support for python < 3.5
-#    {version = "^4", python = "<3.5"},
-#    {version = ">=5.2", python = ">=3.5"}
-]
-flake8 = "<=3.9.2"
-hypothesis = [
-    {version = "^4.6.1", python = "^2.7"},
-    {version = "^5.33.2", python = "^3.5.2"},
-    {version = "^6.14.3", python = "^3.6"},
-    {version = "^6.14.3", python = "^3.7"},
-    {version = "^6.14.3", python = "^3.8"},
-    {version = "^6.14.3", python = "^3.9"},
-    # hypothesis 5.0 dropped support for python 2.7
-#    {version = "<5", python = "<3.5.2"},
-#    {version = ">=5, <6.15", python = ">=3.5.2"}
-]
+matplotlib = "*"
+pytest = "*"
+flake8 = "*"
+hypothesis = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
