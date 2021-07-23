@@ -52,7 +52,14 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: "1.1.7"
-      - name: Export dependencies to `requirements.txt`
+      - name: Lock dependencies
+        run: poetry lock
+      - name: Archive poetry.lock
+        uses: actions/upload-artifact@v2
+        with:
+          name: poetry.lock
+          path: poetry.lock
+      - name: Install dependencies
         run: poetry install
 #        run: poetry export -f requirements.txt --output requirements.txt
 #      - name: Install dependencies
