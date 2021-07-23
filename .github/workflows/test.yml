@@ -26,6 +26,9 @@ jobs:
           # which is not available
           - os: 'windows-latest'
             python-version: '2.7'
+          # Fails with 'lapack' error
+          - os: 'windows-latest'
+            python-version: '3.8'
 
     steps:
       - uses: actions/checkout@v2
