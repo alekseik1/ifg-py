@@ -40,9 +40,9 @@ jobs:
         with:
           toolset: 14.0
       - name: Prepare Poetry
-        uses: snok/install-poetry@v1
+        uses: abatilo/actions-poetry@v2.0.0
         with:
-          version: "1.1.7"
+          poetry-version: "1.1.7"
           virtualenvs-create: true
           virtualenvs-in-project: true
       # Restore pip cache to speed up the pipeline
