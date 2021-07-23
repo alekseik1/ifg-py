@@ -1,4 +1,4 @@
-name: test and run examples
+name: tests
 
 on:
   push:
@@ -14,7 +14,7 @@ on:
 
 jobs:
   test:
-    name: "pytest + examples"
+    name: "pytest"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -33,33 +33,26 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      # Restore pip cache to speed up the pipeline
-      - name: Restore pip cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
       # Additional setup for Windows
       # Does nothing on MacOS and Linux
       - name: Install Visual C++
         uses: ilammy/msvc-dev-cmd@v1
         with:
           toolset: 14.0
-      # Export poetry.lock to classical requirements.txt
       - name: Prepare Poetry
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: "1.1.7"
-      - name: Lock dependencies
-        run: poetry lock
-      - name: Archive poetry.lock
-        uses: actions/upload-artifact@v2
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+      # Restore pip cache to speed up the pipeline
+      - name: Restore pip cache
+        uses: actions/cache@v2
         with:
-          name: poetry.lock
-          path: poetry.lock
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
       - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install
 #        run: poetry export -f requirements.txt --output requirements.txt
 #      - name: Install dependencies
@@ -70,9 +63,6 @@ jobs:
       - name: Test with pytest
         run: |
           poetry run pytest
-      - name: Run examples
-        run: |
-          poetry run python -m ifg.examples
       - name: Check style
         continue-on-error: false
         run: |
