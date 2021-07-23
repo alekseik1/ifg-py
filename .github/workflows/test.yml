@@ -37,8 +37,6 @@ jobs:
       # Does nothing on MacOS and Linux
       - name: Install Visual C++
         uses: ilammy/msvc-dev-cmd@v1
-        with:
-          toolset: 14.0
       - name: Prepare Poetry
         uses: abatilo/actions-poetry@v2.0.0
         with:
