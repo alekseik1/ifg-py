@@ -30,9 +30,9 @@ scipy = [
 ]
 fdint = "^2.0"
 matplotlib = [
-    # matplotlib 2.2.5 is the last release to support 2.7
-    {version = "^2.2.5", python = "<3.5"},
-    {version = ">=2.2.5, <=3.4.2", python = ">=3.5"}
+    # matplotlib 3.0 dropped support for 2.7
+    {version = "^2.2", python = "<3.5"},
+    {version = ">=3, <=3.4.2", python = ">=3.5"}
 ]
 
 [tool.poetry.dev-dependencies]
