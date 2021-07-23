@@ -46,24 +46,23 @@ jobs:
           # virtualenvs-create: true
           # virtualenvs-in-project: true
       # Restore pip cache to speed up the pipeline
-      - name: Restore pip cache
-        uses: actions/cache@v2
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-      - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install
-#        run: poetry export -f requirements.txt --output requirements.txt
-#      - name: Install dependencies
-#        run: |
-#          # numpy should be installed in advance
-#          pip install numpy
-#          pip install -r requirements.txt
+      # - name: Restore pip cache
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: .venv
+      #     key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Export requirements
+        # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry export -f requirements.txt --output requirements.txt
+     - name: Install dependencies
+       run: |
+         # numpy should be installed in advance
+         # pip install numpy
+         pip install -r requirements.txt
       - name: Test with pytest
         run: |
-          poetry run pytest
+          pytest
       - name: Check style
         continue-on-error: false
         run: |
-          poetry run flake8
+          flake8
