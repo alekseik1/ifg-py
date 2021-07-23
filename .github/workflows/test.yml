@@ -32,6 +32,9 @@ jobs:
       # Does nothing on MacOS and Linux
       - name: Install Visual C++
         uses: ilammy/msvc-dev-cmd@v1
+      - name: Install Fortran compiler (MacOS only)
+        run: brew install gfortran
+        if: runner.os == 'macOS'
       - name: Prepare Poetry
         uses: abatilo/actions-poetry@v2.0.0
         with:
