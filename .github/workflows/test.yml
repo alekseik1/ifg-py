@@ -54,15 +54,13 @@ jobs:
       - name: Export requirements
         # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry export -f requirements.txt --output requirements.txt
-     - name: Install dependencies
-       run: |
+      - name: Install dependencies
+        run: |
          # numpy should be installed in advance
          # pip install numpy
          pip install -r requirements.txt
       - name: Test with pytest
-        run: |
-          pytest
+        run: pytest
       - name: Check style
         continue-on-error: false
-        run: |
-          flake8
+        run: flake8
