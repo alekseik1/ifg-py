@@ -21,7 +21,7 @@ jobs:
         # run pipeline on all supported python versions
         python-version: ['2.7', '3.6', '3.7', '3.8', '3.9']
         # Windows and macOS are not tested due to environment setup problems
-        os: ['ubuntu-latest']
+        os: ['ubuntu-latest', 'macos-latest']
 
     steps:
       - uses: actions/checkout@v2
