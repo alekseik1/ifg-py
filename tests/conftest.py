@@ -43,6 +43,4 @@ temperatures_high = st_numpy.arrays(np.float, st.tuples(st.integers(0, 100)),
 # TODO: tests for various values of g
 @contextmanager
 def set_up(temps, vols):
-    yield (IfgCalculator(
-        temperatures=temps, specific_volumes=vols,
-        input_in_si=False, output_in_si=False, g=2.), np.meshgrid(vols, temps))
+    yield (IfgCalculator().with_temperatures(temps, in_si=False).with_volumes(vols, in_si=False).with_degeneracy(2.), np.meshgrid(vols, temps))

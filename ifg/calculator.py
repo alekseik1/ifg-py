@@ -1,4 +1,5 @@
 from __future__ import division
+from typing import Iterable
 from ifg.utils import dump_to_csv
 import os
 from fdint import fdk, ifd1h
@@ -261,29 +262,53 @@ def get_all_properties(specific_volume, temperature_range, gbar=2., csv_dir=None
 
 
 class IfgCalculator:
+    """Implementation uses atomic units"""
 
-    def __init__(self, specific_volumes, temperatures,
-                 input_in_si, output_in_si, g=2., mr=1.):
-        # type: (np.ndarray, np.ndarray, bool, bool, float, float) -> None
-        """
-        Main class for IFG calculations
+    temperatures = None
+    volumes = None
+    gbar = None
+    output_in_si = False
 
-        :param specific_volumes: Array of specific volumes of a gas
-        :param temperatures: Array of temperatures of a gas
-        :param input_in_si: Whether values are in SI or in atomic units
-        :param g: degeneracy of spin states, g = 2s + 1, s - spin
-        :param mr: mass of particles with respect to electron mass
-        """
-        self.input_in_si = input_in_si
-        self.output_in_si = output_in_si
-        self.gbar = g * mr**1.5
+    def __init__(self):
+        """Main class for IFG calculations"""
+        self.relative_mass = 1.0
+        self.g = 2
+        self._update_gbar()
         self.converter = SiAtomicConverter(from_si=True)
         self.reverse_converter = SiAtomicConverter(from_si=False)
-        specific_volumes, temperatures = map(np.array, [specific_volumes, temperatures])
-        self.volumes = self.converter.convert_volume(specific_volumes) \
-            if input_in_si else specific_volumes
-        self.temperatures = self.converter.convert_temperature(temperatures) \
-            if input_in_si else temperatures
+
+    # TODO: docs
+    def with_temperatures(self, temperatures, in_si=False):
+        # type: (Iterable, bool) -> IfgCalculator
+        temperatures = np.array(temperatures)
+        self.temperatures = self.converter.convert_temperature(temperatures) if in_si else temperatures
+        return self
+
+    def with_volumes(self, volumes, in_si=False):
+        # type: (Iterable, bool) -> IfgCalculator
+        volumes = np.array(volumes)
+        self.volumes = self.converter.convert_volume(volumes) if in_si else volumes
+        return self
+
+    def _update_gbar(self):
+        self.gbar = self.g * self.relative_mass ** 1.5
+
+    def with_degeneracy(self, g):
+        # type: (float) -> IfgCalculator
+        self.g = g
+        self._update_gbar()
+        return self
+
+    def with_relative_mass(self, relative_mass):
+        # type: (float) -> IfgCalculator
+        self.relative_mass = relative_mass
+        self._update_gbar()
+        return self
+
+    def with_output_in_si(self, output_in_si=True):
+        # type: (bool) -> IfgCalculator
+        self.output_in_si = output_in_si
+        return self
 
     def generic_getter(self, calc_function, attribute_name, convert_function):
         cache = '__{}_cached__'.format(attribute_name)
