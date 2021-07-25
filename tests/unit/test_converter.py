@@ -1,37 +1,36 @@
-from hypothesis import strategies as st, given
+from hypothesis import given, strategies as st
 from pytest import approx
 
-
-allowed_numbers = st.floats(min_value=1e-50, max_value=1e+50)
+allowed_numbers = st.floats(min_value=1e-50, max_value=1e50)
 # One in atomic is `atomic_to_si[quantity]` in SI
 atomic_to_si = {
-    'pressure': 29421015696686.086,
+    "pressure": 29421015696686.086,
     # NOTE: energy is relative to volume, i.e. J / m^3
-    'energy': 4.3597447222071E-18 / (5.29177210903*10**-11)**3,
-    'temperature': 315775.02480232634,
-    'volume': 1.481847114721628e-31,
+    "energy": 4.3597447222071e-18 / (5.29177210903 * 10 ** -11) ** 3,
+    "temperature": 315775.02480232634,
+    "volume": 1.481847114721628e-31,
     # NOTE: energy is relative to volume, i.e. J / m^3
-    'entropy': 1.380649E-23 / (5.29177210903*10**-11)**3,
+    "entropy": 1.380649e-23 / (5.29177210903 * 10 ** -11) ** 3,
     # NOTE: energy is relative to volume, i.e. J / m^3
-    'heat_capacity': 1.380649E-23 / (5.29177210903*10**-11)**3,
-    'sound_speed': 2187691.2636411325,
+    "heat_capacity": 1.380649e-23 / (5.29177210903 * 10 ** -11) ** 3,
+    "sound_speed": 2187691.2636411325,
 }
 
 
 @given(allowed_numbers)
 def test_to_and_back_are_equal(quantity, from_si_converter, to_si_converter, value):
-    converted = getattr(from_si_converter, 'convert_{}'.format(quantity))(value)
-    original = getattr(to_si_converter, 'convert_{}'.format(quantity))(converted)
+    converted = getattr(from_si_converter, "convert_{}".format(quantity))(value)
+    original = getattr(to_si_converter, "convert_{}".format(quantity))(converted)
     assert value == approx(original)
 
 
 @given(allowed_numbers)
 def test_correct_from_atomic(quantity, to_si_converter, value):
-    converted = getattr(to_si_converter, 'convert_{}'.format(quantity))(value)
-    assert converted == approx(value*atomic_to_si[quantity])
+    converted = getattr(to_si_converter, "convert_{}".format(quantity))(value)
+    assert converted == approx(value * atomic_to_si[quantity])
 
 
 @given(allowed_numbers)
 def test_correct_from_si(quantity, from_si_converter, value):
-    converted = getattr(from_si_converter, 'convert_{}'.format(quantity))(value)
-    assert converted == approx(value/atomic_to_si[quantity])
+    converted = getattr(from_si_converter, "convert_{}".format(quantity))(value)
+    assert converted == approx(value / atomic_to_si[quantity])
