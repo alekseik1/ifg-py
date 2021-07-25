@@ -29,8 +29,11 @@ asymp_high = temps_high / vg + np.power(np.pi, 1.5) / 2.0 / np.sqrt(
     temps_high
 ) / g / np.square(vg)
 vols = [0.1, 1, 10]
-t = IfgCalculator(
-    specific_volumes=vols, temperatures=temps, input_in_si=False, output_in_si=False
+t = (
+    IfgCalculator()
+    .with_temperatures(temps, in_si=False)
+    .with_volumes(vols, in_si=False)
+    .with_output_in_si(False)
 )
 
 plt.plot(temps, t.p[:, 0], "k-", linewidth=2, label=r"$v = 0.1$")

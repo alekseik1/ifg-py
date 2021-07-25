@@ -18,8 +18,11 @@ temps = np.logspace(-2, 4, num=100)
 temps1 = np.logspace(-2, 4, num=100)
 vols = [0.1, 1, 10]
 
-t = IfgCalculator(
-    specific_volumes=vols, temperatures=temps, input_in_si=False, output_in_si=False
+t = (
+    IfgCalculator()
+    .with_temperatures(temps, in_si=False)
+    .with_volumes(vols, in_si=False)
+    .with_output_in_si(False)
 )
 vg = 10.0
 g = 2.0

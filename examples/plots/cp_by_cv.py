@@ -16,8 +16,11 @@ rc("text", usetex=True)
 
 temps = np.logspace(-2, 4, num=100)
 vols = [0.1, 1, 10]
-t = IfgCalculator(
-    temperatures=temps, specific_volumes=vols, input_in_si=False, output_in_si=False
+t = (
+    IfgCalculator()
+    .with_temperatures(temps, in_si=False)
+    .with_volumes(vols, in_si=False)
+    .with_output_in_si(False)
 )
 asymp = np.zeros(len(temps))
 asymp.fill(5.0 / 3.0)
