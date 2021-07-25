@@ -1,4 +1,4 @@
-name: run examples
+name: examples
 
 on:
   push:
@@ -14,7 +14,7 @@ on:
 
 jobs:
   test:
-    name: "run examples"
+    name: "plots"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
