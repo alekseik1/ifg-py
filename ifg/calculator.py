@@ -6,7 +6,7 @@ from typing import Iterable
 import numpy as np
 from fdint import fdk, ifd1h
 
-from ifg.units_converter import SiAtomicConverter
+from ifg.units_converter import SiAtomicConverter, convert_r_s_to_specific_volume
 from ifg.utils import dump_to_csv
 
 THRESHOLD = 1e10
@@ -321,6 +321,15 @@ class IfgCalculator:
         volumes = np.array(volumes)
         self.volumes = self.converter.convert_volume(volumes) if in_si else volumes
 
+        return self
+
+    def with_r_s(self, r_s, in_si=False):
+        # type: (Iterable, bool) -> IfgCalculator
+        volumes = convert_r_s_to_specific_volume(r_s)
+        if in_si:
+            self.volumes = self.converter.convert_volume(volumes)
+        else:
+            self.volumes = volumes
         return self
 
     def _update_gbar(self):

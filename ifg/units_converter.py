@@ -1,3 +1,6 @@
+from typing import Iterable
+
+import numpy as np
 import scipy.constants as const
 from scipy.constants import physical_constants
 
@@ -137,3 +140,15 @@ def get_metal_specific_volume(density_sgs, molar_mass_sgs, num_electrons):
     v = convert_density(density_sgs=density_sgs, molar_mass_sgs=molar_mass_sgs)
     v /= num_electrons
     return v
+
+
+def convert_r_s_to_specific_volume(r_s):
+    # type: (Iterable) -> np.array
+    """Given formula
+    4/3 pi (r_s)^3 = 1/n,
+    convert r_s to specific volume.
+
+    :param r_s:
+    :return:
+    """
+    return 4 / 3 * np.pi * np.array(r_s) ** 3
