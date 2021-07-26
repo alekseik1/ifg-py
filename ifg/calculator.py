@@ -293,6 +293,7 @@ def get_all_properties(specific_volume, temperature_range, gbar=2.0, csv_dir=Non
 class IfgCalculator:
     """Implementation uses atomic units."""
 
+    _required_input = ["temperatures", "volumes"]
     temperatures = None
     volumes = None
     gbar = None
@@ -343,6 +344,10 @@ class IfgCalculator:
         return self
 
     def generic_getter(self, calc_function, attribute_name, convert_function):
+        # Check for required arguments
+        for name in self._required_input:
+            if getattr(self, name) is None:
+                raise ValueError("{} is not set".format(name))
         cache = "__{}_cached__".format(attribute_name)
         if hasattr(self, cache):
             # return cached value if possible
