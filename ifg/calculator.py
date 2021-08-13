@@ -296,14 +296,12 @@ class IfgCalculator:
     _required_input = ["temperatures", "volumes"]
     temperatures = None
     volumes = None
-    gbar = None
     output_in_si = False
 
     def __init__(self):
         """Main class for IFG calculations."""
         self.relative_mass = 1.0
         self.g = 2
-        self._update_gbar()
         self.converter = SiAtomicConverter(from_si=True)
         self.reverse_converter = SiAtomicConverter(from_si=False)
 
@@ -332,19 +330,18 @@ class IfgCalculator:
             self.volumes = volumes
         return self
 
-    def _update_gbar(self):
-        self.gbar = self.g * self.relative_mass ** 1.5
+    @property
+    def gbar(self):
+        return self.g * self.relative_mass ** 1.5
 
     def with_degeneracy(self, g):
         # type: (float) -> IfgCalculator
         self.g = g
-        self._update_gbar()
         return self
 
     def with_relative_mass(self, relative_mass):
         # type: (float) -> IfgCalculator
         self.relative_mass = relative_mass
-        self._update_gbar()
         return self
 
     def with_output_in_si(self, output_in_si=True):
