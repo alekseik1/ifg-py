@@ -91,4 +91,4 @@ version_variable = [
     "ifg/metadata.py:__version__"
 ]
 version_toml = "pyproject.toml:tool.poetry.version"
-build_command = "poetry build"
+build_command = "pip install poetry==1.1.7 && poetry build"
