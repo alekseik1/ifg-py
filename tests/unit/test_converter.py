@@ -1,3 +1,5 @@
+import numpy as np
+import pytest
 from hypothesis import given, strategies as st
 from pytest import approx
 
@@ -34,3 +36,19 @@ def test_correct_from_atomic(quantity, to_si_converter, value):
 def test_correct_from_si(quantity, from_si_converter, value):
     converted = getattr(from_si_converter, "convert_{}".format(quantity))(value)
     assert converted == approx(value / atomic_to_si[quantity])
+
+
+@pytest.mark.parametrize(
+    "r_s, v",
+    [
+        ([1.0], [4 / 3 * np.pi]),
+        ([2.0, 3.0], 4 / 3 * np.pi * np.array([2.0, 3.0]) ** 3),
+    ],
+)
+def test_correct_from_r_s_to_specific_volume(r_s, v):
+    from ifg.units_converter import convert_r_s_to_specific_volume
+
+    # GIVEN: sample r_s value (unit system does not matter)
+    # WHEN: r_s value is converted to specific volume
+    # THEN: the result equals to the expected one
+    assert convert_r_s_to_specific_volume(r_s) == approx(v)
