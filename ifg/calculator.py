@@ -291,7 +291,28 @@ def get_all_properties(specific_volume, temperature_range, gbar=2.0, csv_dir=Non
 
 
 class IfgCalculator:
-    """Implementation uses atomic units."""
+    """Main class for IFG calculations. Implementation uses atomic units.
+
+    All gas parameters are set by `with_<parameter>` functions, e.g.
+
+    >>> IfgCalculator().with_temperatures([1., 2.])
+
+    Temeperature is set as an array (pythonic or NumPy) of floats,
+    supports both SI and atomic systems.
+
+    Volume is set as an array (pythonic or NumPy) of flaots,
+    supports both SI and atomic systems. It can also be expressed in terms of r_s value:
+
+    4/3 pi r_s^3 = 1/n,
+
+    where n denotes concentration.
+
+    Required paramters are temperature and volume. Minimal working example:
+
+    >>> calculator = IfgCalculator().with_temperatures([1., 2.]).with_volumes([0.1, 0.2])
+    >>> calculator.C_P  # calculate heat isobaric heat capacity
+    >>> calculator.mu  # get chemical potential
+    """
 
     _required_input = ["temperatures", "volumes"]
     temperatures = None
@@ -299,13 +320,11 @@ class IfgCalculator:
     output_in_si = False
 
     def __init__(self):
-        """Main class for IFG calculations."""
         self.relative_mass = 1.0
         self.g = 2
         self.converter = SiAtomicConverter(from_si=True)
         self.reverse_converter = SiAtomicConverter(from_si=False)
 
-    # TODO: docs
     def with_temperatures(self, temperatures, in_si=False):
         # type: (Iterable, bool) -> IfgCalculator
         temperatures = np.array(temperatures)
