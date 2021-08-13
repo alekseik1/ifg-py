@@ -2,6 +2,27 @@
 
 <!--next-version-placeholder-->
 
+## v2.0.0 (2021-08-13)
+### Feature
+* **calculator:** Support for r_s (WIP) ([`7322936`](https://github.com/alekseik1/ifg-py/commit/73229363713f1603f6821217ef46207567e2c170))
+* **calculator:** Builder interface for calculator ([`95e96c6`](https://github.com/alekseik1/ifg-py/commit/95e96c64f733316e576322f63193306ad5c85105))
+
+### Fix
+* Use gbar as property ([`94dac3a`](https://github.com/alekseik1/ifg-py/commit/94dac3ae6157cb5faaab11dc5a727010efdd6b77))
+* **calculator:** Tests for required parameters ([`7a059d7`](https://github.com/alekseik1/ifg-py/commit/7a059d73d3281b305abf0e9b99e9045c00471dbd))
+* **examples:** Correct calculator creation ([`723fdf0`](https://github.com/alekseik1/ifg-py/commit/723fdf0272e6e800e08d264bf3358482a691ef47))
+
+### Breaking
+* breaks previous input interface  ([`95e96c6`](https://github.com/alekseik1/ifg-py/commit/95e96c64f733316e576322f63193306ad5c85105))
+
+### Documentation
+* **calculator:** Comment with r_s formula ([`80ef695`](https://github.com/alekseik1/ifg-py/commit/80ef695f025dd08d0a0f70fe19d83188f80668ef))
+* **calculator:** IfgCalculation class documentation ([`d1271a2`](https://github.com/alekseik1/ifg-py/commit/d1271a27d85da4027ac5ec3108b51f51e955b778))
+* **readme:** Correct badges ([`7286fd5`](https://github.com/alekseik1/ifg-py/commit/7286fd54bf58038cc58d577f7a771774339f72b0))
+* **readme.md:** Add codecov status ([`ca42075`](https://github.com/alekseik1/ifg-py/commit/ca4207501669e63ae824010007229371213240f7))
+* **ci:** Comments for stages ([`8e826a3`](https://github.com/alekseik1/ifg-py/commit/8e826a357208a6921c425b2b132ee4366c34d616))
+* Merge pull request #24 from alekseik1/comment ([`c009389`](https://github.com/alekseik1/ifg-py/commit/c00938994daa747a80f2a85d135a5621f6758558))
+
 ## v1.2.0 (2021-01-07)
 ### Feature
 * Correct get_all_properties ([`2c65491`](https://github.com/alekseik1/ifg-py/commit/2c6549118dc4c30536764af527e6eb3bef058e4e))
