@@ -342,6 +342,7 @@ class IfgCalculator:
 
     def with_r_s(self, r_s, in_si=False):
         # type: (Iterable, bool) -> IfgCalculator
+        # 4/3 pi r_s ^ 3 = specific_volume
         volumes = convert_r_s_to_specific_volume(r_s)
         if in_si:
             self.volumes = self.converter.convert_volume(volumes)
