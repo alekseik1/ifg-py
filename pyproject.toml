@@ -91,4 +91,4 @@ version_variable = [
     "ifg/metadata.py:__version__"
 ]
 version_toml = "pyproject.toml:tool.poetry.version"
-build_command = "python setup.py bdist_wheel"
+build_command = "poetry build"
