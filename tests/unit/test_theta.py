@@ -80,7 +80,7 @@ def test_cannot_input_theta_before_volume():
     # WHEN: `with_theta` is called before volume input
     # THEN: exception is raised
     with pytest.raises(ValueError) as e:
-        calc = IfgCalculator().with_theta([1.0, 2.0])
+        IfgCalculator().with_theta([1.0, 2.0])
         assert e.match(
             "specific volume should be defined before using theta for temperature input"
         )
