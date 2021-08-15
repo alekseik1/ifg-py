@@ -1,8 +1,0 @@
-scipy
-numpy
-fdint
-flake8
-tox
-hypothesis
-pytest
-matplotlib
