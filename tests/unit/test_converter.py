@@ -1,13 +1,9 @@
 import numpy as np
-import numpy.testing as npt
 import pytest
 from hypothesis import given, strategies as st
 from pytest import approx
 
-from ifg.units_converter import (
-    convert_r_s_to_specific_volume,
-    convert_theta_to_temperature,
-)
+from ifg.units_converter import convert_r_s_to_specific_volume
 
 allowed_numbers = st.floats(min_value=1e-50, max_value=1e50)
 # One in atomic is `atomic_to_si[quantity]` in SI
@@ -56,20 +52,3 @@ def test_correct_from_r_s_to_specific_volume(r_s, v):
     # WHEN: r_s value is converted to specific volume
     # THEN: the result equals to the expected one
     assert convert_r_s_to_specific_volume(r_s) == approx(v)
-
-
-class TestConverterFromThetaToTemperature:
-    @pytest.mark.parametrize(
-        "theta, volume, temperature",
-        [
-            ([1.0], 2.0, [[3.014607]]),
-            ([3.0], 5.0, [[4.909741]]),
-            ([3.0, 5.0], 5.0, [[4.909741, 8.182902]]),
-            ([3.0, 5.0], [5.0, 10.0], [[4.909741, 8.182902], [3.092943, 5.154905]]),
-        ],
-    )
-    def test_correct_conversion(self, theta, volume, temperature):
-        # GIVEN: theta and specific volume (atomic)
-        # WHEN: conversion to temperature occurs
-        # THEN: the result equals to the expected one
-        npt.assert_allclose(convert_theta_to_temperature(theta, volume), temperature)
