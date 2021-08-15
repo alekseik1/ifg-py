@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.0 (2021-08-15)
+### Feature
+* **calculator:** Support for theta under vectorized volume ([`b94c591`](https://github.com/alekseik1/ifg-py/commit/b94c5912c66f5eb0423f70fc92a4a6a65635771a))
+* **converter:** Support array volumes in theta ([`1029f72`](https://github.com/alekseik1/ifg-py/commit/1029f72876d57fea7ce2e94f1e643112ef2da7a8))
+* **calculator:** Support for theta input ([`2de80dd`](https://github.com/alekseik1/ifg-py/commit/2de80dda9a7c6d23c8a7594c0bf7fe7aeb1575e5))
+* **converter:** Converter from theta to temperatures ([`80531f5`](https://github.com/alekseik1/ifg-py/commit/80531f5dd18f36dc16e618280371cb88a7c747eb))
+
+### Fix
+* **calculator:** Match theta mesh dimensions with volume ones ([`94fa7e1`](https://github.com/alekseik1/ifg-py/commit/94fa7e1105b1a9cbc2956cc9587547029f616b71))
+* **converter:** Make sure `volume` is not an array ([`5eabaa5`](https://github.com/alekseik1/ifg-py/commit/5eabaa5ab249a5ee1dae820999f3d1e56f4b0914))
+
 ## v2.0.0 (2021-08-13)
 ### Feature
 * **calculator:** Support for r_s (WIP) ([`7322936`](https://github.com/alekseik1/ifg-py/commit/73229363713f1603f6821217ef46207567e2c170))
