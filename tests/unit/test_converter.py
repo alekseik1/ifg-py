@@ -57,16 +57,24 @@ def test_correct_from_r_s_to_specific_volume(r_s, v):
     assert convert_r_s_to_specific_volume(r_s) == approx(v)
 
 
-@pytest.mark.parametrize(
-    "theta, volume, temperature",
-    [
-        ([1.0], 2.0, [3.014607]),
-        ([3.0], 5.0, [4.909741]),
-        ([3.0, 5.0], 5.0, [4.909741, 8.182902]),
-    ],
-)
-def test_correct_conversion_from_theta_to_temperature(theta, volume, temperature):
-    # GIVEN: theta and specific volume (atomic)
-    # WHEN: conversion to temperature occurs
-    # THEN: the result equals to the expected one
-    assert convert_theta_to_temperature(theta, volume) == approx(temperature)
+class TestConverterFromThetaToTemperature:
+    @pytest.mark.parametrize(
+        "theta, volume, temperature",
+        [
+            ([1.0], 2.0, [3.014607]),
+            ([3.0], 5.0, [4.909741]),
+            ([3.0, 5.0], 5.0, [4.909741, 8.182902]),
+        ],
+    )
+    def test_correct_conversion(self, theta, volume, temperature):
+        # GIVEN: theta and specific volume (atomic)
+        # WHEN: conversion to temperature occurs
+        # THEN: the result equals to the expected one
+        assert convert_theta_to_temperature(theta, volume) == approx(temperature)
+
+    def test_raises_error_on_volume_array(self):
+        # GIVEN: convert function
+        # WHEN: function is called with an array for `volume`
+        # THEN: exception is raised
+        with pytest.raises(ValueError):
+            convert_theta_to_temperature(1.0, [1.0, 2.0])  # type: ignore

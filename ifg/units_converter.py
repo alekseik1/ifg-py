@@ -162,4 +162,6 @@ def convert_theta_to_temperature(theta, volume):
 
     where k = (3 pi^2 * 1/v)^(1/3) is a Fermi wavevector
     """
+    if isinstance(volume, Iterable):
+        raise ValueError("volume should be a scalar, not an array")
     return np.array(theta) / 2 * (3 * np.pi ** 2 / volume) ** (2 / 3)
