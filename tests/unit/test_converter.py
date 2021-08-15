@@ -3,6 +3,8 @@ import pytest
 from hypothesis import given, strategies as st
 from pytest import approx
 
+from ifg.units_converter import convert_r_s_to_specific_volume
+
 allowed_numbers = st.floats(min_value=1e-50, max_value=1e50)
 # One in atomic is `atomic_to_si[quantity]` in SI
 atomic_to_si = {
@@ -46,8 +48,6 @@ def test_correct_from_si(quantity, from_si_converter, value):
     ],
 )
 def test_correct_from_r_s_to_specific_volume(r_s, v):
-    from ifg.units_converter import convert_r_s_to_specific_volume
-
     # GIVEN: sample r_s value (unit system does not matter)
     # WHEN: r_s value is converted to specific volume
     # THEN: the result equals to the expected one

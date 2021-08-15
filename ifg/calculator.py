@@ -1,12 +1,16 @@
 from __future__ import division
 
 import os
-from typing import Iterable
+from typing import Iterable, Union
 
 import numpy as np
 from fdint import fdk, ifd1h
 
-from ifg.units_converter import SiAtomicConverter, convert_r_s_to_specific_volume
+from ifg.units_converter import (
+    SiAtomicConverter,
+    convert_r_s_to_specific_volume,
+    convert_theta_to_temperature,
+)
 from ifg.utils import dump_to_csv
 
 THRESHOLD = 1e10
@@ -20,6 +24,26 @@ def _fdk(array, k):
     return fdk(k, array)
 
 
+def _make_mesh(volumes, temperatures):
+    # type: (Union[Iterable, float], Union[Iterable, float]) -> (np.ndarray, np.ndarray)
+    temperatures = np.array(temperatures)
+
+    def are_from_theta(temperatures):
+        return len(temperatures.shape) != 1
+
+    if are_from_theta(np.array(temperatures)):
+        # take unique temperatures from existing mesh grid,
+        # then construct mesh grid for volumes
+        # NOTE: when coming from theta, temperatures are already in a mesh grid
+        # NOTE: it is only dimension that is taken from temperatures[0, :]
+        vv, _ = np.meshgrid(volumes, temperatures[0, :])
+        tt = temperatures.T
+    else:
+        # both are vectors - simply create from built-in command
+        vv, tt = np.meshgrid(volumes, temperatures)
+    return vv, tt
+
+
 def get_chemical_potential(specific_volume, temperature, gbar=2.0, *args, **kwargs):
     # type: (np.ndarray, np.ndarray, float, list, dict) -> np.ndarray
     """Get IFG chemical potential mu in atomic units.
@@ -30,7 +54,7 @@ def get_chemical_potential(specific_volume, temperature, gbar=2.0, *args, **kwar
     :return: `mu[i][j]` - chemical potential in atomic units.
     *i*-th index is for temperature, *j*-th one is for volume
     """
-    vv, tt = np.meshgrid(specific_volume, temperature)
+    vv, tt = _make_mesh(specific_volume, temperature)
     to_inverse = np.sqrt(2) * np.pi ** 2 / (gbar * tt ** (1.5) * vv)
     mu_div_temperature = _1d_call(ifd1h, to_inverse)
     mu = np.multiply(temperature, mu_div_temperature.T).T
@@ -52,7 +76,7 @@ def get_F_potential(
     """
     # y = chemical_potential/temperature
     y = np.multiply(chemical_potential.T, 1 / temperature).T
-    vv, tt = np.meshgrid(specific_volume, temperature)
+    vv, tt = _make_mesh(specific_volume, temperature)
     F = gbar / np.sqrt(2.0) / np.pi ** 2 * tt ** (2.5) * vv
     F *= y * _1d_call(_fdk, y, k=0.5) - 2.0 / 3.0 * _1d_call(_fdk, y, k=1.5)
     return F
@@ -70,7 +94,7 @@ def get_pressure(temperature, chemical_potential, gbar=2.0, *args, **kwargs):
     """
     specific_volume = np.empty(1)
     y = np.multiply(chemical_potential.T, 1 / temperature).T
-    vv, tt = np.meshgrid(specific_volume, temperature)
+    vv, tt = _make_mesh(specific_volume, temperature)
     pressure = (
         gbar * np.sqrt(2) / (3 * np.pi ** 2) * tt ** (2.5) * _1d_call(_fdk, y, k=1.5)
     )
@@ -91,7 +115,7 @@ def get_energy(
     *i*-th index is for temperature, *j*-th one is for volume
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
-    vv, tt = np.meshgrid(specific_volume, temperature)
+    vv, tt = _make_mesh(specific_volume, temperature)
     energy = (
         gbar * vv / (np.sqrt(2) * np.pi ** 2) * tt ** 2.5 * _1d_call(_fdk, y, k=1.5)
     )
@@ -112,7 +136,7 @@ def get_entropy(
     *i*-th index is for temperature, *j*-th one is for volume
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
-    vv, tt = np.meshgrid(specific_volume, temperature)
+    vv, tt = _make_mesh(specific_volume, temperature)
     # There is a precision problem with "-" (minus) operator
     # We'll use asymptotic formula for low temperatures to avoid that problem
     y_low = y[y < THRESHOLD]
@@ -149,7 +173,7 @@ def get_heat_capacity_volume(
     *i*-th index is for temperature, *j*-th one is for volume
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
-    vv, tt = np.meshgrid(specific_volume, temperature)
+    vv, tt = _make_mesh(specific_volume, temperature)
     # There is a precision problem with "-" (minus) operator
     # We'll use asymptotic formula for high temperatures to avoid that problem
     y_low = y[y < THRESHOLD]
@@ -179,7 +203,7 @@ def get_heat_capacity_pressure(
     *i*-th index is for temperature, *j*-th one is for volume
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
-    vv, tt = np.meshgrid(specific_volume, temperature)
+    vv, tt = _make_mesh(specific_volume, temperature)
     # There is a precision problem with "-" (minus) operator
     # We'll use asymptotic formula for high temperatures to avoid that problem
     y_low = y[y < THRESHOLD]
@@ -211,7 +235,7 @@ def get_sound_speed_temperature(
     *i*-th index is for temperature, *j*-th one is for volume
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
-    vv, tt = np.meshgrid(specific_volume, temperature)
+    vv, tt = _make_mesh(specific_volume, temperature)
     C_T = (
         2 ** (1 / 4)
         * np.sqrt(gbar)
@@ -238,7 +262,7 @@ def get_sound_speed_entropy(
     *i*-th index is for temperature, *j*-th one is for volume
     """
     y = np.multiply(chemical_potential.T, 1 / temperature).T
-    vv, tt = np.meshgrid(specific_volume, temperature)
+    vv, tt = _make_mesh(specific_volume, temperature)
     C_S = (
         np.sqrt(5)
         * np.sqrt(gbar)
@@ -317,6 +341,8 @@ class IfgCalculator:
     _required_input = ["temperatures", "volumes"]
     temperatures = None
     volumes = None
+    _volumes_in_si = False
+    _temperatures_in_si = False
     output_in_si = False
 
     def __init__(self):
@@ -337,6 +363,7 @@ class IfgCalculator:
         # type: (Iterable, bool) -> IfgCalculator
         volumes = np.array(volumes)
         self.volumes = self.converter.convert_volume(volumes) if in_si else volumes
+        self._volumes_in_si = in_si
 
         return self
 
@@ -367,6 +394,27 @@ class IfgCalculator:
     def with_output_in_si(self, output_in_si=True):
         # type: (bool) -> IfgCalculator
         self.output_in_si = output_in_si
+        return self
+
+    def with_theta(self, theta):
+        # type: (Union[Iterable, float]) -> IfgCalculator
+        """Array of theta parameters.
+
+        Each of them is converted
+        """
+        if self.volumes is None:
+            raise ValueError(
+                "specific volume should be defined before using theta for temperature input"
+            )
+        # Make sure volumes are in atomic
+        volumes = (
+            self.converter.convert_volume(self.volumes)
+            if self._volumes_in_si
+            else self.volumes
+        )
+        # temperatures will be a 2-d array by that time
+        self.temperatures = convert_theta_to_temperature(theta, volumes)
+        self._temperatures_in_si = False
         return self
 
     def generic_getter(self, calc_function, attribute_name, convert_function):
