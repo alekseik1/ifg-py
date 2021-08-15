@@ -1,4 +1,5 @@
 import numpy as np
+import numpy.testing as npt
 import pytest
 from hypothesis import given, strategies as st
 from pytest import approx
@@ -61,20 +62,14 @@ class TestConverterFromThetaToTemperature:
     @pytest.mark.parametrize(
         "theta, volume, temperature",
         [
-            ([1.0], 2.0, [3.014607]),
-            ([3.0], 5.0, [4.909741]),
-            ([3.0, 5.0], 5.0, [4.909741, 8.182902]),
+            ([1.0], 2.0, [[3.014607]]),
+            ([3.0], 5.0, [[4.909741]]),
+            ([3.0, 5.0], 5.0, [[4.909741, 8.182902]]),
+            ([3.0, 5.0], [5.0, 10.0], [[4.909741, 8.182902], [3.092943, 5.154905]]),
         ],
     )
     def test_correct_conversion(self, theta, volume, temperature):
         # GIVEN: theta and specific volume (atomic)
         # WHEN: conversion to temperature occurs
         # THEN: the result equals to the expected one
-        assert convert_theta_to_temperature(theta, volume) == approx(temperature)
-
-    def test_raises_error_on_volume_array(self):
-        # GIVEN: convert function
-        # WHEN: function is called with an array for `volume`
-        # THEN: exception is raised
-        with pytest.raises(ValueError):
-            convert_theta_to_temperature(1.0, [1.0, 2.0])  # type: ignore
+        npt.assert_allclose(convert_theta_to_temperature(theta, volume), temperature)

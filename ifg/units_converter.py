@@ -154,8 +154,8 @@ def convert_r_s_to_specific_volume(r_s):
     return 4 / 3 * np.pi * np.array(r_s) ** 3
 
 
-def convert_theta_to_temperature(theta, volume):
-    # type: (Union[Iterable, float], float) -> np.ndarray
+def convert_theta_to_temperature(theta, volumes):
+    # type: (Union[Iterable, float], Union[Iterable, float]) -> np.ndarray
     """Convert theta to temperature in atomic units using formula:
 
     T = theta/2 * (3 pi^2 * 1/v)^(2/3)
@@ -164,6 +164,6 @@ def convert_theta_to_temperature(theta, volume):
 
     The volume should be in atomic units
     """
-    if isinstance(volume, Iterable) and np.array(volume).size > 1:  # type: ignore
-        raise ValueError("volume should be a scalar, not an array")
-    return np.array(theta) / 2 * (3 * np.pi ** 2 / volume) ** (2 / 3)
+    tt, vv = np.meshgrid(theta, volumes)
+    # 2-d array
+    return tt / 2 * (3 * np.pi ** 2 / vv) ** (2 / 3)
