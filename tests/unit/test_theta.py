@@ -40,9 +40,13 @@ class TestConverterFromThetaToTemperature:
 
 
 def test_correct_mesh_creation():
+    # GIVEN: theta array, volume array and corresponding temperatures
     theta, volume, temperature = COMPLICATED_MESH
+    # WHEN: mesh is created upon these volumes and temperatures
     vv, tt = _make_mesh(volume, temperature)
+    # THEN: volume grid is created as if w/o theta
     npt.assert_allclose(vv, [[5.0, 10.0, 15.0], [5.0, 10.0, 15.0]])
+    # THEN: temperature grid is created with respect to both volumes and thetas
     npt.assert_allclose(
         tt,
         np.array(
@@ -53,3 +57,14 @@ def test_correct_mesh_creation():
             ]
         ),
     )
+
+
+def test_correct_simple_mesh_creation():
+    # GIVEN: simple (non-theta) volumes and temperatures
+    volumes = [1.0, 2.0]
+    temperatures = [10.0, 20.0, 30.0]
+    # WHEN: mesh grid is created
+    vv, tt = _make_mesh(volumes, temperatures)
+    # THEN: correct simple mesh is created
+    npt.assert_allclose(vv, [[1.0, 2.0], [1.0, 2.0], [1.0, 2.0]])
+    npt.assert_allclose(tt, [[10.0, 10.0], [20.0, 20.0], [30.0, 30.0]])
