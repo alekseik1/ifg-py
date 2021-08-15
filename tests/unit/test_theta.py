@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from numpy import testing as npt
 
-from ifg.calculator import _make_mesh
+from ifg.calculator import IfgCalculator, _make_mesh
 from ifg.units_converter import convert_theta_to_temperature
 
 COMPLICATED_MESH = (
@@ -73,3 +73,14 @@ def test_correct_simple_mesh_creation():
     # THEN: correct simple mesh is created
     npt.assert_allclose(vv, [[1.0, 2.0], [1.0, 2.0], [1.0, 2.0]])
     npt.assert_allclose(tt, [[10.0, 10.0], [20.0, 20.0], [30.0, 30.0]])
+
+
+def test_cannot_input_theta_before_volume():
+    # GIVEN: freshly created IfgCalculator()
+    # WHEN: `with_theta` is called before volume input
+    # THEN: exception is raised
+    with pytest.raises(ValueError) as e:
+        calc = IfgCalculator().with_theta([1.0, 2.0])
+        assert e.match(
+            "specific volume should be defined before using theta for temperature input"
+        )

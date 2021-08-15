@@ -402,7 +402,6 @@ class IfgCalculator:
 
         Each of them is converted
         """
-        # TODO: tests
         if self.volumes is None:
             raise ValueError(
                 "specific volume should be defined before using theta for temperature input"
