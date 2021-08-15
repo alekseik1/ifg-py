@@ -45,15 +45,20 @@ def test_correct_mesh_creation():
     # WHEN: mesh is created upon these volumes and temperatures
     vv, tt = _make_mesh(volume, temperature)
     # THEN: volume grid is created as if w/o theta
-    npt.assert_allclose(vv, [[5.0, 10.0, 15.0], [5.0, 10.0, 15.0]])
+    npt.assert_allclose(
+        vv,
+        [
+            [5.0, 10.0, 15.0],
+            [5.0, 10.0, 15.0],
+        ],
+    )
     # THEN: temperature grid is created with respect to both volumes and thetas
     npt.assert_allclose(
         tt,
         np.array(
             [
-                [4.909741, 8.182902],  # for volume=5.0
-                [3.092943, 5.154905],  # for volume=10.0
-                [2.36035732, 3.9339289],  # for volume=15.0
+                [4.909741, 3.092943, 2.36035732],
+                [8.182902, 5.154905, 3.9339289],
             ]
         ),
     )

@@ -26,6 +26,8 @@ def _fdk(array, k):
 
 def _make_mesh(volumes, temperatures):
     # type: (Union[Iterable, float], Union[Iterable, float]) -> (np.ndarray, np.ndarray)
+    temperatures = np.array(temperatures)
+
     def are_from_theta(temperatures):
         return len(temperatures.shape) != 1
 
@@ -35,7 +37,7 @@ def _make_mesh(volumes, temperatures):
         # NOTE: when coming from theta, temperatures are already in a mesh grid
         # NOTE: it is only dimension that is taken from temperatures[0, :]
         vv, _ = np.meshgrid(volumes, temperatures[0, :])
-        tt = temperatures
+        tt = temperatures.T
     else:
         # both are vectors - simply create from built-in command
         vv, tt = np.meshgrid(volumes, temperatures)
