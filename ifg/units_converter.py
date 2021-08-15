@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterable, Union
 
 import numpy as np
 import scipy.constants as const
@@ -152,3 +152,14 @@ def convert_r_s_to_specific_volume(r_s):
     :return:
     """
     return 4 / 3 * np.pi * np.array(r_s) ** 3
+
+
+def convert_theta_to_temperature(theta, volume):
+    # type: (Union[Iterable, float], float) -> np.ndarray
+    """Convert theta to temperature in atomic units using formula:
+
+    T = theta/2 * (3 pi^2 * 1/v)^(2/3)
+
+    where k = (3 pi^2 * 1/v)^(1/3) is a Fermi wavevector
+    """
+    return np.array(theta) / 2 * (3 * np.pi ** 2 / volume) ** (2 / 3)
