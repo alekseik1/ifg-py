@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 from numpy import testing as npt
 
+from ifg.calculator import _make_mesh
 from ifg.units_converter import convert_theta_to_temperature
 
 COMPLICATED_MESH = (
@@ -36,3 +37,19 @@ class TestConverterFromThetaToTemperature:
         # WHEN: conversion to temperature occurs
         # THEN: the result equals to the expected one
         npt.assert_allclose(convert_theta_to_temperature(theta, volume), temperature)
+
+
+def test_correct_mesh_creation():
+    theta, volume, temperature = COMPLICATED_MESH
+    vv, tt = _make_mesh(volume, temperature)
+    npt.assert_allclose(vv, [[5.0, 10.0, 15.0], [5.0, 10.0, 15.0]])
+    npt.assert_allclose(
+        tt,
+        np.array(
+            [
+                [4.909741, 8.182902],  # for volume=5.0
+                [3.092943, 5.154905],  # for volume=10.0
+                [2.36035732, 3.9339289],  # for volume=15.0
+            ]
+        ),
+    )
