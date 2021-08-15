@@ -160,7 +160,9 @@ def convert_theta_to_temperature(theta, volume):
 
     T = theta/2 * (3 pi^2 * 1/v)^(2/3)
 
-    where k = (3 pi^2 * 1/v)^(1/3) is a Fermi wavevector
+    where k = (3 pi^2 * 1/v)^(1/3) is a Fermi wavevector.
+
+    The volume should be in atomic units
     """
     if isinstance(volume, Iterable):
         raise ValueError("volume should be a scalar, not an array")
