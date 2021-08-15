@@ -164,6 +164,6 @@ def convert_theta_to_temperature(theta, volume):
 
     The volume should be in atomic units
     """
-    if isinstance(volume, Iterable):
+    if isinstance(volume, Iterable) and np.array(volume).size > 1:  # type: ignore
         raise ValueError("volume should be a scalar, not an array")
     return np.array(theta) / 2 * (3 * np.pi ** 2 / volume) ** (2 / 3)

@@ -1,12 +1,16 @@
 from __future__ import division
 
 import os
-from typing import Iterable
+from typing import Iterable, Union
 
 import numpy as np
 from fdint import fdk, ifd1h
 
-from ifg.units_converter import SiAtomicConverter, convert_r_s_to_specific_volume
+from ifg.units_converter import (
+    SiAtomicConverter,
+    convert_r_s_to_specific_volume,
+    convert_theta_to_temperature,
+)
 from ifg.utils import dump_to_csv
 
 THRESHOLD = 1e10
@@ -317,6 +321,8 @@ class IfgCalculator:
     _required_input = ["temperatures", "volumes"]
     temperatures = None
     volumes = None
+    _volumes_in_si = False
+    _temperatures_in_si = False
     output_in_si = False
 
     def __init__(self):
@@ -337,6 +343,7 @@ class IfgCalculator:
         # type: (Iterable, bool) -> IfgCalculator
         volumes = np.array(volumes)
         self.volumes = self.converter.convert_volume(volumes) if in_si else volumes
+        self._volumes_in_si = in_si
 
         return self
 
@@ -367,6 +374,27 @@ class IfgCalculator:
     def with_output_in_si(self, output_in_si=True):
         # type: (bool) -> IfgCalculator
         self.output_in_si = output_in_si
+        return self
+
+    def with_theta(self, theta):
+        # type: (Union[Iterable, float]) -> IfgCalculator
+        """Array of theta parameters.
+
+        Each of them is converted
+        """
+        # TODO: tests
+        if self.volumes is None:
+            raise ValueError(
+                "specific volume should be defined before using theta for temperature input"
+            )
+        # Make sure volumes are in atomic
+        volumes = (
+            self.converter.convert_volume(self.volumes)
+            if self._volumes_in_si
+            else self.volumes
+        )
+        self.temperatures = convert_theta_to_temperature(theta, volumes)
+        self._temperatures_in_si = False
         return self
 
     def generic_getter(self, calc_function, attribute_name, convert_function):
