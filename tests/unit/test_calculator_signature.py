@@ -19,7 +19,7 @@ def test_cannot_skip_temperature_definition(attribute):
     with pytest.raises(ValueError) as e:
         calculator = IfgCalculator(volumes=[10.0])
         _ = getattr(calculator, attribute)
-        # assert e.value == "temperatures is not set"
+        assert e.value
 
 
 def test_cannot_skip_volume_definition(attribute):
@@ -29,4 +29,4 @@ def test_cannot_skip_volume_definition(attribute):
     with pytest.raises(ValueError) as e:
         calculator = IfgCalculator(temperatures=[10.0])
         _ = getattr(calculator, attribute)
-        # assert e.value == "volumes is not set"
+        assert e.value

@@ -41,6 +41,8 @@ class TestConverterFromThetaToTemperature:
 
 @pytest.mark.skip("broken after input methods refactoring")
 def test_correct_mesh_creation():
+    from ifg.calculator import _make_mesh
+
     # GIVEN: theta array, volume array and corresponding temperatures
     theta, volume, temperature = COMPLICATED_MESH
     # WHEN: mesh is created upon these volumes and temperatures
