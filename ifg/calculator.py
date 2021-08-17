@@ -1,10 +1,12 @@
 from __future__ import division
-from ifg.utils import dump_to_csv
-import os
-from fdint import fdk, ifd1h
-import numpy as np
-from ifg.units_converter import SiAtomicConverter
 
+import os
+
+import numpy as np
+from fdint import fdk, ifd1h
+
+from ifg.units_converter import SiAtomicConverter
+from ifg.utils import dump_to_csv
 
 THRESHOLD = 1e10
 
@@ -263,7 +265,18 @@ def get_all_properties(specific_volume, temperature_range, gbar=2.0, csv_dir=Non
 
 
 class IfgCalculator:
-    def __init__(self, **kwargs):
+    def __init__(
+        self,
+        temperatures=None,
+        volumes=None,
+        thetas=None,
+        densities=None,
+        rs=None,
+        input_in_si=None,
+        output_in_si=None,
+        g=None,
+        mr=None,
+    ):
         #    def __init__(self, specific_volumes, temperatures,
         #                 input_in_si, output_in_si, g=2., mr=1.):
         # type: (np.ndarray, np.ndarray, bool, bool, float, float) -> None
@@ -286,58 +299,46 @@ class IfgCalculator:
         mr_default = 1.0
 
         # Checking if temperatures or thetas argument is given
-        if kwargs.get("temperatures") is None and kwargs.get("thetas") is None:
-            raise RuntimeError("temperatures or thetas parameter is obligatory\n")
-
-        # Checking if volumes or densities of rs argument is given
-        if (
-            kwargs.get("volumes") is None
-            and kwargs.get("densities") is None
-            and kwargs.get("rs") is None
-        ):
-            raise RuntimeError("volumes or densities or rs parameter is obligatory\n")
-
+        if temperatures is None and thetas is None:
+            raise ValueError("temperatures or thetas parameter is obligatory")
         # Checking if both temperatures and thetas arguments are given
-        if kwargs.get("temperatures") is not None and kwargs.get("thetas") is not None:
-            raise RuntimeError(
-                "Only one named parameter must be used for temperature: temperatures or thetas\n"
-            )
-        # Checking if both volumes and rs arguments are given
-        if kwargs.get("volumes") is not None and kwargs.get("rs") is not None:
-            raise RuntimeError(
-                "Only one named parameter must be used for volume: volumes or densities or rs\n"
-            )
-        # Checking if both rs and densities arguments are given
-        if kwargs.get("rs") is not None and kwargs.get("densities") is not None:
-            raise RuntimeError(
-                "Only one named parameter must be used for volume: volumes or densities or rs\n"
-            )
-        # Checking if both volumes and densities arguments are given
-        if kwargs.get("volumes") is not None and kwargs.get("densities") is not None:
-            raise RuntimeError(
-                "Only one named parameter must be used for volume: volumes or densities or rs\n"
+        if temperatures is not None and thetas is not None:
+            raise ValueError(
+                "Only one named parameter must be used for temperature: temperatures or thetas"
             )
 
-        # If volumes argument is given do nothing
-        if kwargs.get("volumes") is not None:
-            volumes = np.array(kwargs.get("volumes"))
+        # Checking if any of volumes or densities of rs argument is given
+        if volumes is None and densities is None and rs is None:
+            raise ValueError(
+                "One of volumes or densities or rs parameter is obligatory"
+            )
 
-        # If densities argument is given calculate volumes
-        if kwargs.get("densities") is not None:
-            volumes = 1.0 / np.array(kwargs.get("densities"))
+        # Cannot have more than one argument
+        if sum([x is not None for x in (volumes, densities, rs)]) > 1:
+            raise ValueError(
+                "Only one named parameter must be used for volume: volumes or densities or rs"
+            )
 
-        # If rs argument is given calculate volumes
-        if kwargs.get("rs") is not None:
-            volumes = 4.0 * np.pi * np.array(kwargs.get("rs")) ** 3 / 3.0
+        # If volumes argument is given, simply convert to np.ndarray
+        if volumes is not None:
+            volumes = np.array(volumes)
 
-        # If temperatures argument is given do nothing
-        if kwargs.get("temperatures") is not None:
-            temperatures = np.array(kwargs.get("temperatures"))
+        # If densities argument is given, calculate volumes
+        if densities is not None:
+            volumes = 1.0 / np.array(densities)
+
+        # If rs argument is given, calculate volumes
+        if rs is not None:
+            volumes = 4.0 * np.pi * np.array(rs) ** 3 / 3.0
+
+        # If temperatures argument is given, simply convert to np.ndarray
+        if temperatures is not None:
+            temperatures = np.array(temperatures)
 
         # thetas argument is a special case: theta depends both on temperature and volume
         # Calculate vv and tt matrices, for thetas using cycle, otherwise using np.meshgrid
-        if kwargs.get("thetas") is not None:
-            thetas = np.array(kwargs.get("thetas"))
+        if thetas is not None:
+            thetas = np.array(thetas)
             tt = np.zeros((len(thetas), len(volumes)))
             vv = np.zeros((len(thetas), len(volumes)))
             i = 0
@@ -351,25 +352,18 @@ class IfgCalculator:
         else:
             vv, tt = np.meshgrid(volumes, temperatures)
 
-        if kwargs.get("input_in_si") is not None:
-            self.input_in_si = kwargs.get("input_in_si")
+        if input_in_si is not None:
+            self.input_in_si = input_in_si
         else:
             self.input_in_si = input_in_si_default
 
-        if kwargs.get("output_in_si") is not None:
-            self.output_in_si = kwargs.get("output_in_si")
+        if output_in_si is not None:
+            self.output_in_si = output_in_si
         else:
             self.output_in_si = output_in_si_default
 
-        if kwargs.get("g") is not None:
-            self.g = kwargs.get("g")
-        else:
-            self.g = g_default
-
-        if kwargs.get("mr") is not None:
-            self.mr = kwargs.get("mr")
-        else:
-            self.mr = mr_default
+        self.g = g if g is not None else g_default
+        self.mr = mr if mr is not None else mr_default
 
         self.gbar = self.g * self.mr ** 1.5
         self.converter = SiAtomicConverter(from_si=True)
