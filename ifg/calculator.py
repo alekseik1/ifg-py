@@ -495,13 +495,13 @@ class IfgCalculator:
         }
         if csv_dir is not None:
             for key, value in properties.items():
-                for i, volume in enumerate(self.volumes):
+                for i, volume in enumerate(self.vv[0, :]):
                     dump_to_csv(
                         os.path.join(
                             os.getcwd(),
                             csv_dir,
                             "{}_v={}_atomic_units.csv".format(key, volume),
                         ),
-                        np.array([self.temperatures, value[:, i]]).T,
+                        np.array([self.tt[0, :], value[:, i]]).T,
                     )
         return properties
