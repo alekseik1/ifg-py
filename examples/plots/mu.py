@@ -40,7 +40,13 @@ vols = [
     8.0,
     10.0,
 ]
-# t = IfgCalculator(volumes=vols, densities = [1., 2., 3.], temperatures=temps, input_in_si=False, output_in_si=False)
+# t = IfgCalculator(
+#     volumes=vols,
+#     densities=[1.0, 2.0, 3.0],
+#     temperatures=temps,
+#     input_in_si=False,
+#     output_in_si=False,
+# )
 t = IfgCalculator(rs=vols, thetas=thetas)
 
 vg = 10.0

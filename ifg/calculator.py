@@ -227,12 +227,14 @@ def get_sound_speed_entropy(vv, tt, chemical_potential, gbar=2.0, *args, **kwarg
     return C_S
 
 
-def get_all_properties(specific_volume, temperature_range, gbar=2.0, csv_dir=None):
+def get_all_properties(vv, tt, gbar=2.0, csv_dir=None):
     # type: (np.ndarray, np.ndarray, float, str) -> dict
     """Calculate all properties and save them to csv file.
 
-    :param specific_volume: Specific volume in atomic units
-    :param temperature_range: Temperature in atomic units
+    :param vv: Matrix of specific volumes in atomic units.
+    :param tt: Matrix of temperatures in atomic units.
+    :param vv: Specific volume in atomic units
+    :param tt: Temperature in atomic units
     :param gbar: degeneracy factor, for IFG g = 2s + 1
     :param csv_dir: Directory to save csv files to
     :return: dict {'property_name': ndarray}
@@ -252,14 +254,14 @@ def get_all_properties(specific_volume, temperature_range, gbar=2.0, csv_dir=Non
             vv=vv, tt=tt, gbar=gbar, chemical_potential=properties["mu"]
         )
         if csv_dir:
-            for i, volume in enumerate(specific_volume):
+            for i, volume in enumerate(vv[0, :]):
                 dump_to_csv(
                     os.path.join(
                         os.getcwd(),
                         csv_dir,
                         "{}_v={}_atomic_units.csv".format(key, volume),
                     ),
-                    np.array([temperature_range, properties[key][:, i]]).T,
+                    np.array([tt[0, :], properties[key][:, i]]).T,
                 )
     return properties
 
