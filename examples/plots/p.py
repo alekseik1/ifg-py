@@ -1,11 +1,9 @@
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-
-# from ifg import IfgCalculator
-sys.path.append("/home/pasha/pasha/programs/ifg/work/ifg-py/ifg")
-from calculator import IfgCalculator
 from matplotlib import rc
+
+from ifg import IfgCalculator
 
 matplotlib.rcParams["text.usetex"] = True
 params = {
