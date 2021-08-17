@@ -138,7 +138,7 @@ class TestHighTemperaturesLimits:
 def test_smoke_run_with_theta(vols):
     from ifg import IfgCalculator
 
-    calc = IfgCalculator().with_volumes(vols).with_theta([0.5, 1.1])
+    calc = IfgCalculator(volumes=vols, thetas=[0.5, 1.1])
     assert calc.C_S is not None
     assert calc.C_T is not None
     assert calc.C_P is not None
