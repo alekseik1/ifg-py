@@ -1,4 +1,4 @@
-"""Thermodynamic properties of ideal Fermi-gas
+"""Thermodynamic properties of ideal Fermi-gas.
 
 The module calculate all thermodynamic properties of ideal Fermi-gas,
 including second derivatives of thermodynamic potential. The module
@@ -21,11 +21,12 @@ t.E[1, 0]
 """
 
 from ifg.calculator import IfgCalculator
+from ifg.metadata import __version__
 from ifg.units_converter import SiAtomicConverter, get_metal_specific_volume
 
-from ifg.metadata import __version__
-
 __all__ = [
-    'IfgCalculator', 'SiAtomicConverter',
-    'get_metal_specific_volume', '__version__'
+    "IfgCalculator",
+    "SiAtomicConverter",
+    "get_metal_specific_volume",
+    "__version__",
 ]
