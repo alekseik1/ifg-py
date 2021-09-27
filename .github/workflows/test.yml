@@ -48,7 +48,7 @@ jobs:
         run: poetry install
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       - name: Test with pytest
-        run: poetry run pytest --cov=ifg --cov-report=xml tests/
+        run: poetry run python -m pytest --cov=ifg --cov-report=xml tests/
       - uses: codecov/codecov-action@v2
         with:
           fail_ci_if_error: true
