@@ -46,5 +46,5 @@ jobs:
         with:
           fail_ci_if_error: true
       - name: Check style
-        continue-on-error: false
+        continue-on-error: true
         run: poetry run python -m flake8
