@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.1 (2021-09-27)
+### Fix
+* **calculator:** Examples ([`b5a71ab`](https://github.com/alekseik1/ifg-py/commit/b5a71abb78d41cd8fe9a05460481107dcada3a9c))
+* Flake errors ([`405eacf`](https://github.com/alekseik1/ifg-py/commit/405eacf3eab85bb5cf3f1be16b1c71e7203b2d19))
+
+### Documentation
+* **examples:** Fix examples ([`69edc7a`](https://github.com/alekseik1/ifg-py/commit/69edc7a00c5de3aee0cddc03dcaebe02d2a8d1be))
+* **examples:** Add example for theta usage ([`fb8f094`](https://github.com/alekseik1/ifg-py/commit/fb8f094b504470f1fcf5c46a611e9556c5dda393))
+
 ## v2.1.0 (2021-08-15)
 ### Feature
 * **calculator:** Support for theta under vectorized volume ([`b94c591`](https://github.com/alekseik1/ifg-py/commit/b94c5912c66f5eb0423f70fc92a4a6a65635771a))
