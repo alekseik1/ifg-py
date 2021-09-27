@@ -40,11 +40,8 @@ asymp_cp_high = (
 
 
 vols = [0.1, 1, 10]
-t = (
-    IfgCalculator()
-    .with_temperatures(temps, in_si=False)
-    .with_volumes(vols, in_si=False)
-    .with_output_in_si(False)
+t = IfgCalculator(
+    volumes=vols, temperatures=temps, input_in_si=False, output_in_si=False
 )
 
 plt.plot(temps, t.C_V[:, 0], "k-", linewidth=2, label=r"{$C_V$: $v = 0.1$}")

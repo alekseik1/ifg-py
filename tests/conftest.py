@@ -57,9 +57,6 @@ temperatures_high = st_numpy.arrays(
 @contextmanager
 def set_up(temps, vols):
     yield (
-        IfgCalculator()
-        .with_temperatures(temps, in_si=False)
-        .with_volumes(vols, in_si=False)
-        .with_degeneracy(2.0),
+        IfgCalculator(temperatures=temps, volumes=vols, g=2.0, input_in_si=False),
         np.meshgrid(vols, temps),
     )

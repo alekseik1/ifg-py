@@ -8,7 +8,9 @@ import ifg
 vols = [1./1.e29]      # Array of volumes (in SI units, m^3)
 temps = [1.e3, 1.e4]   # Array of temperatures (in SI units, K)
 # Initialization, input and output in SI (False means atomic units)
-t = ifg.IfgCalculator(vols, temps, input_in_si=True, output_in_si=True)
+t = ifg.IfgCalculator(volumes=vols, temperatures=temps, input_in_si=True, output_in_si=True)
+# Calculate all available properties; if only one property is required
+# it can be called directly, for example, t.P returns pressures
 t.get_all_properties()
 # Output: E - energy (J/m^3), S - entropy (J/K/m^3),
 # P - pressure (Pa), C_V - isochoric heat capacity (J/K/m^3),

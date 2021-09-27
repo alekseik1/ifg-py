@@ -24,11 +24,8 @@ if __name__ == "__main__":
             np.arange(10 ** 4, 10 ** 8, 1000),
         )
     )
-    calculator = (
-        IfgCalculator()
-        .with_volumes(v_array, in_si=True)
-        .with_temperatures(T_range, in_si=True)
-        .with_output_in_si()
+    calculator = IfgCalculator(
+        volumes=v_array, temperatures=T_range, input_in_si=True, output_in_si=True
     )
     calculator.get_all_properties("data/all_temperatures")
     calculator.get_all_properties()

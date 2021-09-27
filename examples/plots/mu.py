@@ -14,37 +14,58 @@ params = {
 plt.rcParams.update(params)
 
 g = 2
-temps = np.logspace(-2, 4, num=100)
-temps10_high = np.logspace(-2, 2, num=100)
-temps10_low = np.logspace(-2, 0.7)
+# temps = np.logspace(-2, 4, num=100)
+thetas = [0.5, 1.0, 2.0]
+# temps10_high = np.logspace(-2, 2, num=100)
+# temps10_low = np.logspace(-2, 0.7)
 
-vols = [0.1, 1, 10]
-t = (
-    IfgCalculator()
-    .with_temperatures(temps, in_si=False)
-    .with_volumes(vols, in_si=False)
-    .with_output_in_si(False)
-)
+# vols = [0.1, 1., 10.]
+vols = [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0,
+    1.5,
+    2.0,
+    3.0,
+    4.0,
+    5.0,
+    6.0,
+    8.0,
+    10.0,
+]
+# t = IfgCalculator(
+#     volumes=vols,
+#     densities=[1.0, 2.0, 3.0],
+#     temperatures=temps,
+#     input_in_si=False,
+#     output_in_si=False,
+# )
+t = IfgCalculator(rs=vols, thetas=thetas)
 
 vg = 10.0
 e_fermi = np.power(3.0 * np.square(np.pi) / np.sqrt(2.0) / g / vg, 2.0 / 3.0)
-asymp1_low = e_fermi * (1.0 - np.pi * np.pi / 12.0 * np.square(temps10_low / e_fermi))
-mu_b = temps10_high * np.log(1.0 / g / vg * np.power(2.0 * np.pi / temps10_high, 1.5))
-asymp1_high = mu_b + temps10_high * np.power(np.pi, 1.5) / g / vg / np.power(
-    temps10_high, 1.5
-)
+# asymp1_low = e_fermi * (1. - np.pi * np.pi / 12. * np.square(temps10_low / e_fermi))
+# mu_b = temps10_high * np.log(1. / g / vg * np.power(2. * np.pi / temps10_high, 1.5))
+# asymp1_high = mu_b + temps10_high * np.power(np.pi, 1.5) / g / vg / np.power(temps10_high, 1.5)
 
-plt.plot(temps, t.mu[:, 0], "k-", label=r"{$v = 0.1$}", linewidth=2)
-plt.plot(temps, t.mu[:, 1], "k--", label=r"{$v = 1$}", linewidth=2)
-plt.plot(temps, t.mu[:, 2], "k-.", label=r"{$v = 10$}", linewidth=2)
-plt.plot(temps10_low, asymp1_low, "b-", linewidth=1, label=r"low-$T$ asymp.")
-plt.plot(temps10_high, asymp1_high, "r-", linewidth=1, label=r"high-$T$ asymp.")
+plt.plot(vols, t.E[0, :], "k-", label=r"{$\theta = 0.5$}", linewidth=2)
+plt.plot(vols, t.mu[1, :], "k--", label=r"{$v = 1$}", linewidth=2)
+plt.plot(vols, t.mu[2, :], "k-.", label=r"{$v = 2$}", linewidth=2)
+# plt.plot(temps10_low, asymp1_low, 'b-', linewidth=1, label=r'low-$T$ asymp.')
+# plt.plot(temps10_high, asymp1_high, 'r-', linewidth=1, label=r'high-$T$ asymp.')
 
-plt.xscale("log")
-plt.xlabel(r"{\LARGE $T$, Ha}")
+# plt.yscale('log')
+plt.xlabel(r"{\LARGE $r_s$}")
 plt.ylabel(r"{\LARGE $\mu$")
-plt.xlim(1e-2, 1e2)
-plt.ylim(-30, 30)
+# plt.xlim(0, 10)
+plt.ylim(-10, 25)
 plt.legend(loc="lower left")
 plt.savefig("mu.pdf", bbox_inches="tight")
 plt.show()

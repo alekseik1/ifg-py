@@ -13,20 +13,20 @@ def test_has_attribute(attribute):
 
 
 def test_cannot_skip_temperature_definition(attribute):
-    # GIVEN: calculator without .with_temperatures() called
-    calculator = IfgCalculator().with_volumes([10.0])
+    # GIVEN: calculator without temperatures set
     # WHEN: any attribute of IFG is accessed
     # THEN: ValueError with proper text is called
     with pytest.raises(ValueError) as e:
+        calculator = IfgCalculator(volumes=[10.0])
         _ = getattr(calculator, attribute)
-        assert e.value == "temperatures is not set"
+        assert e.value
 
 
 def test_cannot_skip_volume_definition(attribute):
-    # GIVEN: calculator without .with_volumes() called
-    calculator = IfgCalculator().with_temperatures([10.0])
+    # GIVEN: calculator without volumes set
     # WHEN: any attribute of IFG is accessed
     # THEN: ValueError with proper text is called
     with pytest.raises(ValueError) as e:
+        calculator = IfgCalculator(temperatures=[10.0])
         _ = getattr(calculator, attribute)
-        assert e.value == "volumes is not set"
+        assert e.value

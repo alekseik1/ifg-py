@@ -6,12 +6,7 @@ from ifg import IfgCalculator
 # temps = np.logspace(-2, 4, num=100)
 thetas = np.linspace(0.5, 10.0, 1000)
 vols = [0.1, 1, 100]
-t = (
-    IfgCalculator()
-    .with_volumes(vols, in_si=False)
-    .with_theta(thetas)
-    .with_output_in_si(False)
-)
+t = IfgCalculator(volumes=vols, thetas=thetas, output_in_si=False)
 asymp = np.ones_like(thetas) * 5 / 3
 
 plt.plot(thetas, t.C_P[:, 0] / t.C_V[:, 0], "k-", label=r"$v = 0.1$")
