@@ -6,12 +6,12 @@ from ifg.calculator import THRESHOLD
 from tests.conftest import set_up, volumes_st
 
 temps_left_st = st_numpy.arrays(
-    np.float,
+    np.float64,
     (100,),
     elements=st.floats(THRESHOLD * (1 - 1e-7), THRESHOLD, exclude_max=True),
 )
 temps_right_st = st_numpy.arrays(
-    np.float,
+    np.float64,
     (100,),
     elements=st.floats(THRESHOLD, THRESHOLD * (1 + 1e-7), exclude_min=True),
 )

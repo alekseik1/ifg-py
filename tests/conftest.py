@@ -41,15 +41,15 @@ def to_si_converter():
 LEFT_LIMIT = 1e-30
 RIGHT_LIMIT = 1e20
 volumes_st = st_numpy.arrays(
-    np.float,
+    np.float64,
     st.tuples(st.integers(1, 100)),
     elements=st.floats(LEFT_LIMIT, RIGHT_LIMIT),
 )
 temperatures_st = st_numpy.arrays(
-    np.float, st.tuples(st.integers(0, 100)), elements=st.floats(1e-49, 1e-30)
+    np.float64, st.tuples(st.integers(0, 100)), elements=st.floats(1e-49, 1e-30)
 )
 temperatures_high = st_numpy.arrays(
-    np.float, st.tuples(st.integers(0, 100)), elements=st.floats(1.0e40, 1.0e49)
+    np.float64, st.tuples(st.integers(0, 100)), elements=st.floats(1.0e40, 1.0e49)
 )
 
 
