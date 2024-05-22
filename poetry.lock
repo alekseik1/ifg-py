@@ -387,7 +387,7 @@ develop = false
 type = "git"
 url = "https://github.com/alekseik1/fdint.git"
 reference = "HEAD"
-resolved_reference = "c0a2fe60796be4c5e50b4a775792e352eb7488ea"
+resolved_reference = "a9b920ec1b844f71a240e5da50f2cda02ce5fd96"
 
 [[package]]
 name = "flake8"
