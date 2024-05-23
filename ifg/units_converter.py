@@ -1,8 +1,13 @@
-from typing import Iterable, Union
-
 import numpy as np
-import scipy.constants as const
-from scipy.constants import physical_constants
+
+PI = 3.141592653589793
+BOHR_RADIUS = 5.29177210903e-11
+ELEMENTARY_CHARGE = 1.602176634e-19
+BOLTZMANN_CONSTANT = 1.380649e-23
+ELECTRIC_CONSTANT = 8.8541878128e-12
+ATOMIC_UNIT_OF_LENGTH = 5.29177210903e-11
+ATOMIC_UNIT_OF_TIME = 2.4188843265857e-17
+AVOGADRO_CONSTANT = 6.02214076e+23
 
 
 class SiAtomicConverter:
@@ -13,17 +18,17 @@ class SiAtomicConverter:
         """
         self.from_si = from_si
         # self.ab - Bohr radius
-        self.ab = physical_constants["Bohr radius"][0]
+        self.ab = BOHR_RADIUS
         # self.ab3 - Bohr radius to the 3rd power
         self.ab3 = self.ab * self.ab * self.ab
         # self.ec = elementary charge
-        self.ec = physical_constants["elementary charge"][0]
+        self.ec = ELEMENTARY_CHARGE
         # self.kb - Boltzmann constant
-        self.kb = physical_constants["Boltzmann constant"][0]
+        self.kb = BOLTZMANN_CONSTANT
         # self.e0 - Vacuum permeatbility
-        self.e0 = physical_constants["electric constant"][0]
+        self.e0 = ELECTRIC_CONSTANT
         # self.ha - Hartree energy in Joules
-        self.ha = 0.25 * self.ec * self.ec / const.pi / self.e0 / self.ab
+        self.ha = 0.25 * self.ec * self.ec / PI / self.e0 / self.ab
 
     def convert_energy(self, energy):
         """Converts energy.
@@ -97,17 +102,9 @@ class SiAtomicConverter:
         :return: Converted sound speed
         """
         if self.from_si:
-            return (
-                sound_speed
-                / physical_constants["atomic unit of length"][0]
-                * physical_constants["atomic unit of time"][0]
-            )
+            return sound_speed / ATOMIC_UNIT_OF_LENGTH * ATOMIC_UNIT_OF_TIME
         else:
-            return (
-                sound_speed
-                * physical_constants["atomic unit of length"][0]
-                / physical_constants["atomic unit of time"][0]
-            )
+            return sound_speed * ATOMIC_UNIT_OF_LENGTH / ATOMIC_UNIT_OF_TIME
 
     # TODO: ignores `from_si` parameter
 
@@ -122,9 +119,9 @@ def convert_density(density_sgs, molar_mass_sgs):
     :return: specific volume in SI, m^3
     """
     # Per one mol
-    v_si = molar_mass_sgs / density_sgs / 10 ** 6
+    v_si = molar_mass_sgs / density_sgs / 10**6
     # Per one particle
-    v_si /= physical_constants["Avogadro constant"][0]
+    v_si /= AVOGADRO_CONSTANT
     return v_si
 
 
@@ -166,4 +163,4 @@ def convert_theta_to_temperature(theta, volumes):
     """
     tt, vv = np.meshgrid(theta, volumes)
     # 2-d array
-    return tt / 2 * (3 * np.pi ** 2 / vv) ** (2 / 3)
+    return tt / 2 * (3 * np.pi**2 / vv) ** (2 / 3)
