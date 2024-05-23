@@ -16,6 +16,7 @@ jobs:
         token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
 
     - name: Python Semantic Release
+      id: release
       uses: relekang/python-semantic-release@v9.7.3
       with:
         github_token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
