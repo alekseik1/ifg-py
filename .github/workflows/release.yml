@@ -1,0 +1,26 @@
+name: build and release
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
+
+    - name: Python Semantic Release
+      uses: relekang/python-semantic-release@v9.7.3
+      with:
+        github_token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      # NOTE: DO NOT wrap the conditional in ${{ }} as it will always evaluate to true.
+      # See https://github.com/actions/runner/issues/1173
+      if: steps.release.outputs.released == 'true'
