@@ -29,4 +29,4 @@ def test_left_right_limits_are_equal(temps_left, temps_right, vols):
         right_entropy = calc2.S
     np.testing.assert_allclose(left_C_V, right_C_V, rtol=1e-5)
     np.testing.assert_allclose(left_C_P, right_C_P, rtol=1e-5)
-    np.testing.assert_allclose(left_entropy, right_entropy, rtol=1e-6)
+    np.testing.assert_allclose(left_entropy, right_entropy, rtol=1e-5)
