@@ -26,14 +26,6 @@ numpy = [
     {version = ">=1.17.3,<1.24.0", python = "~3.8"},
     {version = ">=1.22.4,<2.0.0", python = "^3.9"},
 ]
-scipy = [
-    {version = "~1.2", python = ">=2.7, <3.5"},
-    {version = "~1.4", python = "~3.5"},
-    {version = "~1.5", python = "~3.6"},
-    {version = "~1.6", python = "~3.7"},
-    {version = "~1.8", python = "~3.8"},
-    {version = "~1.12", python = "^3.9"},
-]
 # fdint = "^2.0"
 fdint = [
     {version = "^2.0", python = "<3.11"},
@@ -43,43 +35,34 @@ fdint = [
 
 [tool.poetry.dev-dependencies]
 # Used only for example plots
-matplotlib = [
-    {version = "^2.2", markers = "python_version ~= '2.7'"},
-    {version = "^3.0", markers = "python_version ~= '3.5.2'"},
-    {version = "^3.3", markers = "python_version ~= '3.6'"},
-    {version = "^3.4", markers = "python_version ~= '3.7'"},
-    {version = "^3.4", markers = "python_version ~= '3.8'"},
-    {version = "^3.4", markers = "python_version ~= '3.9'"},
-]
+# matplotlib = "2.2.5"
+# matplotlib = [
+#     {version = "2.2.5", python = "~2.7"},
+#     {version = "3.0.3", python = "~3.5.2"},
+#     {version = "3.3.4", python = "~3.6"},
+#     {version = "3.5.3", python = "~3.7"},
+#     {version = "3.7.5", python = "~3.8"},
+#     {version = "3.9.0", python = "^3.9"},
+# ]
 pytest = [
     # TODO
     {version = "4.6.11", python = "~2.7"},
-    {version = "5.33.2", python = "~3.5"},
+    {version = "6.1.2", python = "~3.5"},
     {version = "7.0.1", python = "~3.6"},
     {version = "7.4.4", python = "~3.7"},
     {version = "8.2.1", python = "^3.8"},
-
-    # {version = "^4.6.11", markers = "python_version ~= '2.7'"},
-    # {version = "^6.1.2", markers = "python_version ~= '3.5.2'"},
-    # {version = "^6.2.4", markers = "python_version ~= '3.6'"},
-    # {version = "^6.2.4", markers = "python_version ~= '3.7'"},
-    # {version = "^6.2.4", markers = "python_version ~= '3.8'"},
-    # {version = "^6.2.4", markers = "python_version ~= '3.9'"},
-    # pytest 5.0 dropped support for python < 3.5
-#    {version = "^4", python = "<3.5"},
-#    {version = ">=5.2", python = ">=3.5"}
 ]
 hypothesis = [
     {version = "4.57.1", python = "~2.7"},
     {version = "5.33.2", python = "~3.5"},
     {version = "6.31.6", python = "~3.6"},
     {version = "6.79.4", python = "~3.7"},
-    {version = "^6.102.5", python = "^3.8"},
+    {version = "6.102.5", python = "^3.8"},
 ]
-typed-ast = [
-    {version = "^1.4.3", python = "<3.6"},
-    {version = "^1.5.5", python = ">=3.6"},
-]
+# typed-ast = [
+#     {version = "^1.4.3", python = "<3.6"},
+#     {version = "^1.5.5", python = ">=3.6"},
+# ]
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "numpy", "cython"]
@@ -90,4 +73,4 @@ version_variable = [
     "ifg/metadata.py:__version__"
 ]
 version_toml = "pyproject.toml:tool.poetry.version"
-build_command = "pip install poetry==1.1.7 && poetry build"
+build_command = "pip install poetry && poetry build"
