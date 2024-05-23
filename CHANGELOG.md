@@ -2,6 +2,13 @@
 
 
 
+## v2.2.2 (2024-05-23)
+
+### Fix
+
+* fix: permissions ([`6d2531a`](https://github.com/alekseik1/ifg-py/commit/6d2531afe7aed04be1ff192bb69a02a7df6be0e2))
+
+
 ## v2.2.1 (2024-05-23)
 
 ### Fix
