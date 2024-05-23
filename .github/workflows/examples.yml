@@ -44,8 +44,14 @@ jobs:
       - name: Install poetry
         run: pip install poetry==${{ matrix.poetry-version }}
       - name: Disable new installer for 2.7
-        run: python -m poetry config experimental.new-installer false
-        if: ${{ matrix.poetry-version }} == '2.7'
+        run: |
+          if echo ${{ matrix.poetry-version }} | grep -c '2.7'
+          then
+            python -m poetry config experimental.new-installer false
+          else
+            echo 'no need to disable this feature'
+          fi
+        shell: bash
       - name: Install dependencies
         run: python -m poetry install
       - name: Install matplotlib
