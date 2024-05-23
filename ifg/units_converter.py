@@ -163,4 +163,4 @@ def convert_theta_to_temperature(theta, volumes):
     """
     tt, vv = np.meshgrid(theta, volumes)
     # 2-d array
-    return tt / 2 * (3 * np.pi**2 / vv) ** (2 / 3)
+    return tt / 2. * (3 * np.pi**2 / vv) ** (2. / 3)
