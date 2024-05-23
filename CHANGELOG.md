@@ -2,6 +2,13 @@
 
 
 
+## v2.2.1 (2024-05-23)
+
+### Fix
+
+* fix: release id ([`b8591c3`](https://github.com/alekseik1/ifg-py/commit/b8591c30e499e5ebb6f57893ca01a1649b4017f5))
+
+
 ## v2.2.0 (2024-05-23)
 
 ### Build
