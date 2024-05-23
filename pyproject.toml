@@ -16,36 +16,27 @@ classifiers = [
     "License :: OSI Approved :: MIT License"
 ]
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-# Inherited from black
-line_length = 88
-combine_as_imports = true
-
 [tool.poetry.dependencies]
-python = "^2.7 || ^3.6 || ^3.7 || ^3.8 || ^3.9"
+python = "~2.7 || ^3.5"
 numpy = [
-    {version = "^1.16.6", markers = "python_version ~= '2.7'"},
-    {version = "^1.18.5", markers = "python_version ~= '3.5.2'"},
-    {version = "^1.19.5", markers = "python_version ~= '3.6'"},
-    {version = "^1.20.3", markers = "python_version ~= '3.7'"},
-    {version = "^1.20.3", markers = "python_version ~= '3.8'"},
-    {version = "^1.20.3", markers = "python_version ~= '3.9'"},
-    {version = "^1.22.4,<2.0.0", markers = "python_version > '3.9' and python_version < '3.13'"}
+    {version = ">=1.8.2,<=1.16", python = ">=2.7, <3.5"},
+    {version = ">=1.13.3,<=1.17.3", python = "~3.5"},
+    {version = ">=1.14.5,<=1.19.3", python = "~3.6"},
+    {version = ">=1.16.5,<=1.20", python = "~3.7"},
+    {version = ">=1.17.3,<1.24.0", python = "~3.8"},
+    {version = ">=1.22.4,<2.0.0", python = "^3.9"},
 ]
 scipy = [
-    {version = "^1.2", markers = "python_version ~= '2.7'"},
-    {version = "^1.4", markers = "python_version ~= '3.5.2'"},
-    {version = "^1.5", markers = "python_version ~= '3.6'"},
-    {version = "^1.6", markers = "python_version ~= '3.7'"},
-    {version = "^1.6", markers = "python_version ~= '3.8'"},
-    {version = "^1.6", markers = "python_version ~= '3.9'"},
-    {version = "^1.12", markers = "python_version > '3.9' and python_version < '3.13'"}
+    {version = "~1.2", python = ">=2.7, <3.5"},
+    {version = "~1.4", python = "~3.5"},
+    {version = "~1.5", python = "~3.6"},
+    {version = "~1.6", python = "~3.7"},
+    {version = "~1.8", python = "~3.8"},
+    {version = "~1.12", python = "^3.9"},
 ]
 # fdint = "^2.0"
 fdint = [
-    {version = "^2.0", markers = "python_version < '3.11'"},
+    {version = "^2.0", python = "<3.11"},
     {git = "https://github.com/alekseik1/fdint.git", python = ">=3.11"},
     # {path = "../fdint", python = ">=3.11"},
 ]
@@ -71,7 +62,6 @@ pytest = [
 #    {version = "^4", python = "<3.5"},
 #    {version = ">=5.2", python = ">=3.5"}
 ]
-flake8 = "<=3.9.2"
 hypothesis = [
     {version = "^4.6.1", markers = "python_version ~= '2.7'"},
     {version = "^5.33.2", markers = "python_version ~= '3.5.2'"},
@@ -83,14 +73,10 @@ hypothesis = [
 #    {version = "<5", python = "<3.5.2"},
 #    {version = ">=5, <6.15", python = ">=3.5.2"}
 ]
-black = {extras = ["python2"], version = "^21.7b0", python = ">=3.8"}
-isort = {version = "^5.9.2", python = ">=3.8"}
-docformatter = {version = "^1.4", python = ">=3.8"}
 typed-ast = [
     {version = "^1.4.3", python = "<3.6"},
     {version = "^1.5.5", python = ">=3.6"},
 ]
-pytest-cov = "^2.12"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "numpy", "cython"]
