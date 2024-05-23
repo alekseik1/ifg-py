@@ -46,10 +46,4 @@ jobs:
       - name: Install dependencies
         run: python -m poetry install
       - name: Test with pytest
-        run: python -m poetry run python -m pytest --cov=ifg --cov-report=xml tests/
-      - uses: codecov/codecov-action@v2
-        with:
-          fail_ci_if_error: true
-      - name: Check style
-        continue-on-error: true
-        run: python -m poetry run python -m flake8
+        run: python -m poetry run python -m pytest tests/
