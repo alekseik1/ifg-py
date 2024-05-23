@@ -28,8 +28,8 @@ numpy = [
 ]
 # fdint = "^2.0"
 fdint = [
-    {version = "^2.0", python = "<3.11"},
-    {git = "https://github.com/alekseik1/fdint.git", python = ">=3.11"},
+    # {version = "^2.0", python = "<3.11"},
+    {git = "https://github.com/alekseik1/fdint.git"},
     # {path = "../fdint", python = ">=3.11"},
 ]
 
