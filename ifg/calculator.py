@@ -55,7 +55,7 @@ def get_F_potential(vv, tt, chemical_potential, gbar=2.0, *args, **kwargs):
 
 
 def get_pressure(vv, tt, chemical_potential, gbar=2.0, *args, **kwargs):
-    # type: (np.ndarray, np.ndarray, float, list, dict) -> np.ndarray
+    # type: (np.ndarray, np.ndarray, float, list, tuple, dict) -> np.ndarray
     """Get IFG pressure P in atomic units.
 
     :param vv: Matrix of specific volumes in atomic units.
