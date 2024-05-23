@@ -502,6 +502,6 @@ class IfgCalculator:
                             csv_dir,
                             "{}_v={}_atomic_units.csv".format(key, volume),
                         ),
-                        np.array([self.tt[0, :], value[:, i]]).T,
+                        np.array([self.tt[:, 0], value[:, i]]).T,
                     )
         return properties
