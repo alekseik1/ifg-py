@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ifg"
-version = "2.2.2"
+version = "2.2.3"
 description = "Calculator of Ideal Fermi gas properties"
 license = "MIT"
 authors = [

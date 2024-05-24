@@ -2,6 +2,13 @@
 
 
 
+## v2.2.3 (2024-05-24)
+
+### Fix
+
+* fix: correct fdint package ([`496932b`](https://github.com/alekseik1/ifg-py/commit/496932b2628a040c56df904d8fdcf9857609f25f))
+
+
 ## v2.2.2 (2024-05-23)
 
 ### Fix
