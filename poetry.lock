@@ -137,19 +137,12 @@ python-versions = ">=3.7"
 test = ["pytest (>=6)"]
 
 [[package]]
-name = "fdint"
+name = "fdint-py3"
 version = "2.0.2"
-description = "Poetry port for fdint library, for py 3.7+ only"
+description = "A free, open-source python package for quickly and precisely approximating Fermi-Dirac integrals."
 category = "main"
 optional = false
 python-versions = ">=2.7"
-develop = false
-
-[package.source]
-type = "git"
-url = "https://github.com/alekseik1/fdint.git"
-reference = "master"
-resolved_reference = "703c7319c40793046114a5a74e92c2c455c01b32"
 
 [[package]]
 name = "funcsigs"
@@ -786,7 +779,7 @@ testing = ["big-o", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "1.1"
 python-versions = "~2.7 || ^3.5.2"
-content-hash = "2a1b6b0892161fcb751e43a2f3d11dabb0ebc65a492dda261214412108da42a2"
+content-hash = "c9301420b6208e0759daef57d13df90c5614c5de8e0485380cbf9dbfbbeca21c"
 
 [metadata.files]
 atomicwrites = [
@@ -829,7 +822,9 @@ exceptiongroup = [
     {file = "exceptiongroup-1.2.1-py3-none-any.whl", hash = "sha256:5258b9ed329c5bbdd31a309f53cbfb0b155341807f6ff7606a1e801a891b29ad"},
     {file = "exceptiongroup-1.2.1.tar.gz", hash = "sha256:a4785e48b045528f5bfe627b6ad554ff32def154f42372786903b7abcfe1aa16"},
 ]
-fdint = []
+fdint-py3 = [
+    {file = "fdint_py3-2.0.2.tar.gz", hash = "sha256:1bfa1a08b32f31b5d629b86de01c911d1d22760323f527a702b39fae6e7b2024"},
+]
 funcsigs = [
     {file = "funcsigs-1.0.2-py2.py3-none-any.whl", hash = "sha256:330cc27ccbf7f1e992e69fef78261dc7c6569012cf397db8d3de0234e6c937ca"},
     {file = "funcsigs-1.0.2.tar.gz", hash = "sha256:a7bb0f2cf3a3fd1ab2732cb49eba4252c2af4240442415b4abce3b87022a8f50"},

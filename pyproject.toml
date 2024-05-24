@@ -26,12 +26,7 @@ numpy = [
     {version = ">=1.17.3,<1.24.0", python = "~3.8"},
     {version = ">=1.22.4,<2.0.0", python = "^3.9"},
 ]
-# fdint = "^2.0"
-fdint = [
-    # {version = "^2.0", python = "<3.11"},
-    {git = "https://github.com/alekseik1/fdint.git"},
-    # {path = "../fdint", python = ">=3.11"},
-]
+fdint_py3 = "^2.0.2"
 
 [tool.poetry.dev-dependencies]
 # Used only for example plots
