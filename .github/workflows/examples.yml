@@ -9,8 +9,8 @@ on:
     paths-ignore:
       - 'docs/**'
   # schedule every day at midnight
-  schedule:
-    - cron: '0 0 * * *'
+  # schedule:
+  #   - cron: '0 0 * * *'
 
 jobs:
   test:
