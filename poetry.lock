@@ -127,7 +127,7 @@ python-versions = "*"
 
 [[package]]
 name = "exceptiongroup"
-version = "1.2.1"
+version = "1.2.2"
 description = "Backport of PEP 654 (exception groups)"
 category = "dev"
 optional = false
@@ -135,6 +135,17 @@ python-versions = ">=3.7"
 
 [package.extras]
 test = ["pytest (>=6)"]
+
+[[package]]
+name = "fdint"
+version = "2.0.2"
+description = "A free, open-source python package for quickly and precisely approximating Fermi-Dirac integrals."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+numpy = "*"
 
 [[package]]
 name = "fdint-py3"
@@ -444,6 +455,14 @@ description = "Core utilities for Python packages"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "packaging"
+version = "24.1"
+description = "Core utilities for Python packages"
+category = "dev"
+optional = false
+python-versions = ">=3.8"
 
 [[package]]
 name = "pathlib2"
@@ -779,7 +798,7 @@ testing = ["big-o", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "1.1"
 python-versions = "~2.7 || ^3.5.2"
-content-hash = "c9301420b6208e0759daef57d13df90c5614c5de8e0485380cbf9dbfbbeca21c"
+content-hash = "dcf70ba8e715bfdaaf2599787a4890eed055ec22a51240e8afe4ead92a3d7570"
 
 [metadata.files]
 atomicwrites = [
@@ -819,8 +838,13 @@ enum34 = [
     {file = "enum34-1.1.10.tar.gz", hash = "sha256:cce6a7477ed816bd2542d03d53db9f0db935dd013b70f336a95c73979289f248"},
 ]
 exceptiongroup = [
-    {file = "exceptiongroup-1.2.1-py3-none-any.whl", hash = "sha256:5258b9ed329c5bbdd31a309f53cbfb0b155341807f6ff7606a1e801a891b29ad"},
-    {file = "exceptiongroup-1.2.1.tar.gz", hash = "sha256:a4785e48b045528f5bfe627b6ad554ff32def154f42372786903b7abcfe1aa16"},
+    {file = "exceptiongroup-1.2.2-py3-none-any.whl", hash = "sha256:3111b9d131c238bec2f8f516e123e14ba243563fb135d3fe885990585aa7795b"},
+    {file = "exceptiongroup-1.2.2.tar.gz", hash = "sha256:47c2edf7c6738fafb49fd34290706d1a1a2f4d1c6df275526b62cbb4aa5393cc"},
+]
+fdint = [
+    {file = "fdint-2.0.2-cp36-cp36m-win_amd64.whl", hash = "sha256:dfb6ec5eaa55d6dee5ac6b179741ebc6f32cb9c50473b5c13761fe473d9d66a7"},
+    {file = "fdint-2.0.2-cp38-cp38-win_amd64.whl", hash = "sha256:5275ba6643c9755ff83b22957d512e4b0bce6ec2b4fb0078d3f7155c439e29b8"},
+    {file = "fdint-2.0.2.tar.gz", hash = "sha256:30db139684d362652670e2cd3206b5dd7b3b93b86c3aff37f4b4fd4a3f98aead"},
 ]
 fdint-py3 = [
     {file = "fdint_py3-2.0.2.tar.gz", hash = "sha256:1bfa1a08b32f31b5d629b86de01c911d1d22760323f527a702b39fae6e7b2024"},
@@ -1035,6 +1059,8 @@ packaging = [
     {file = "packaging-21.3.tar.gz", hash = "sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"},
     {file = "packaging-24.0-py3-none-any.whl", hash = "sha256:2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5"},
     {file = "packaging-24.0.tar.gz", hash = "sha256:eb82c5e3e56209074766e6885bb04b8c38a0c015d0a30036ebe7ece34c9989e9"},
+    {file = "packaging-24.1-py3-none-any.whl", hash = "sha256:5b8f2217dbdbd2f7f384c41c628544e6d52f2d0f53c6d0c3ea61aa5d1d7ff124"},
+    {file = "packaging-24.1.tar.gz", hash = "sha256:026ed72c8ed3fcce5bf8950572258698927fd1dbda10a5e981cdf0ac37f4f002"},
 ]
 pathlib2 = [
     {file = "pathlib2-2.3.7.post1-py2.py3-none-any.whl", hash = "sha256:5266a0fd000452f1b3467d782f079a4343c63aaa119221fbdc4e39577489ca5b"},
